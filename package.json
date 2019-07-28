@@ -1,5 +1,5 @@
 {
-  "name": "ad-notations",
+  "name": "@animatter-dimensions/notations",
   "version": "1.0.0",
   "description": "Notations used in Antimatter Dimensions",
   "scripts": {
@@ -7,10 +7,28 @@
   },
   "main": "dist/ad-notations.umd.js",
   "module": "dist/ad-notations.esm.js",
-  "unpkg": "dist/ad-notations.min.js",
-  "keywords": [],
-  "author": "Antimatter Dimensions",
+  "unpkg": "dist/ad-notations.umd.js",
+  "jsdelivr": "dist/ad-notations.umd.js",
+  "keywords": [
+    "notations",
+    "numbers"
+  ],
   "license": "MIT",
+  "files": [
+    "dist",
+    "docs",
+    "package.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/antimatter-dimensions/notations.git"
+  },
+  "bugs": {
+    "url": "https://github.com/antimatter-dimensions/notations/issues"
+  },
+  "homepage": "https://github.com/antimatter-dimensions/notations",
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.13.0",

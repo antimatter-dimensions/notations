@@ -8,11 +8,11 @@ See it in action [here](https://antimatter-dimensions.github.io/notations/)
 
 #### CDN
 
-The simplest way to use ad-notations is to include these scripts in your HTML page:
+The simplest way to use this package is to include these scripts in your HTML page:
 
 ```html
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/break_infinity.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/ad-notations"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@animatter-dimensions/notations"></script>
 ```
 
 You can also grab specific versions here:
@@ -23,13 +23,13 @@ You can also grab specific versions here:
 ### npm
 
 ```
-npm install ad-notations
+npm install @animatter-dimensions/notations
 ```
 
 There is no default export. The correct way to import notations is:
 
 ```js
-import * as ADNotations from "ad-notations";
+import * as ADNotations from "@animatter-dimensions/notations";
 ```
 
 ## Use
