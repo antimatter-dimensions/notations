@@ -1,4 +1,4 @@
-# Antimatter Dimensions notations
+# Antimatter Dimensions Notations
 All the notations that are included in current version of Antimatter Dimensions
 and the upcoming Reality Update.
 
