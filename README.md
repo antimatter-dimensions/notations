@@ -31,25 +31,25 @@ npm run build
 
 Special thanks to the authors of notations:
 
-- Scientific: @iblobtouch
-- Engineering: @iblobtouch
-- Letters: @iblobtouch
-- Standard: @1234abcdcba4321
+- Scientific: https://github.com/iblobtouch
+- Engineering: https://github.com/iblobtouch
+- Letters: https://github.com/iblobtouch
+- Standard: https://github.com/1234abcdcba4321
 - Cancer: haha hevi screw u 😂😂😂
-- Mixed Scientific: @IvarK
-- Mixed Engineering: @IvarK
-- Logarithm: @IvarK
-- Brackets: @JCBoorgo
-- Infinity: @omsi6
-- Roman: @Razenpok
-- Dots: @garnet420
-- Zalgo: @cyip92
-- Hex: @dan-simon
-- Imperial: @garnet420, @realrapidjazz
-- Clock: @Razenpok, @garnet420
-- Prime: @Ikerstreamer
-- Bar: @earthernsence
-- Shi: @dan-simon
-- Blind: @earthernsence
+- Mixed Scientific: https://github.com/IvarK
+- Mixed Engineering: https://github.com/IvarK
+- Logarithm: https://github.com/IvarK
+- Brackets: https://github.com/JCBoorgo
+- Infinity: https://github.com/omsi6
+- Roman: https://github.com/Razenpok
+- Dots: https://github.com/garnet420
+- Zalgo: https://github.com/cyip92
+- Hex: https://github.com/dan-simon
+- Imperial: https://github.com/garnet420, https://github.com/realrapidjazz
+- Clock: https://github.com/Razenpok, https://github.com/garnet420
+- Prime: https://github.com/Ikerstreamer
+- Bar: https://github.com/earthernsence
+- Shi: https://github.com/dan-simon
+- Blind: https://github.com/earthernsence
 
-Additional thanks to @omsi6 for the scaffolding of docs page.
+Additional thanks to https://github.com/omsi6 for the scaffolding of docs page.
