@@ -2,6 +2,8 @@
 All the notations that are included in current version of Antimatter Dimensions
 and the upcoming Reality Update.
 
+See it in action [here](https://antimatter-dimensions.github.io/notations/)
+
 ## Setup
 
 #### CDN
