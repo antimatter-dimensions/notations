@@ -1299,6 +1299,10 @@ var BlindNotation = function (_super) {
     enumerable: true,
     configurable: true
   });
+  
+  BlindNotation.prototype.formatInfinite = function () {
+    return " ";
+  };
 
   BlindNotation.prototype.formatUnder1000 = function () {
     return " ";
