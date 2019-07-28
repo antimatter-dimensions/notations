@@ -1,0 +1,26 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>Notations</title>
+  <link rel="stylesheet" href="index.css" />
+  <script src="break_infinity.min.js"></script>
+  <script src="ad-notations.min.js"></script>
+</head>
+
+<body>
+  <p class="content-text">
+    Type a number in this box to see what it looks like in all sorts of different notations.
+  </p>
+  <div id="inputContainer" class="input-container">
+    <input id="number" class="number-input" value="1" oninput="updateValues()">
+    commas:
+    <input id="commas" type="checkbox" onchange="updateValues()" />
+  </div>
+
+  <footer class="footer">
+    <a class="source-link" href="https://github.com/antimatter-dimensions/notations">Source</a>
+  </footer>
+
+  <script src="index.js"></script>
+</body>
+</html>

@@ -51,3 +51,5 @@ Special thanks to the authors of notations:
 - Bar: @earthernsence
 - Shi: @dan-simon
 - Blind: @earthernsence
+
+Additional thanks to @omsi6 for the scaffolding of docs page.

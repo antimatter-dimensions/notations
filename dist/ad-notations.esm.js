@@ -79,7 +79,7 @@ var Notation = function () {
   };
 
   Notation.prototype.showCommas = function (exponent) {
-    return  exponent < Settings.exponentCommas.max;
+    return Settings.exponentCommas.show && exponent < Settings.exponentCommas.max;
   };
 
   return Notation;
@@ -203,6 +203,13 @@ var CancerNotation = function (_super) {
     return _super !== null && _super.apply(this, arguments) || this;
   }
 
+  Object.defineProperty(CancerNotation.prototype, "name", {
+    get: function get() {
+      return "Cancer";
+    },
+    enumerable: true,
+    configurable: true
+  });
   Object.defineProperty(CancerNotation.prototype, "letters", {
     get: function get() {
       return CANCER;
@@ -417,7 +424,7 @@ var InfinityNotation = function (_super) {
     var infPlaces = infinities < 1000 ? 4 : 3;
     var formatted = infinities.toFixed(Math.max(infPlaces, places));
 
-    {
+    if (Settings.exponentCommas.show) {
       var parts = formatted.split(".");
       return formatWithCommas(parts[0]) + "." + parts[1] + "\u221E";
     }
@@ -1278,14 +1285,14 @@ var ShiNotation = function (_super) {
   return ShiNotation;
 }(Notation);
 
-var EmptyNotation = function (_super) {
-  __extends(EmptyNotation, _super);
+var BlindNotation = function (_super) {
+  __extends(BlindNotation, _super);
 
-  function EmptyNotation() {
+  function BlindNotation() {
     return _super !== null && _super.apply(this, arguments) || this;
   }
 
-  Object.defineProperty(EmptyNotation.prototype, "name", {
+  Object.defineProperty(BlindNotation.prototype, "name", {
     get: function get() {
       return "Blind";
     },
@@ -1293,15 +1300,15 @@ var EmptyNotation = function (_super) {
     configurable: true
   });
 
-  EmptyNotation.prototype.formatUnder1000 = function () {
+  BlindNotation.prototype.formatUnder1000 = function () {
     return " ";
   };
 
-  EmptyNotation.prototype.formatDecimal = function () {
+  BlindNotation.prototype.formatDecimal = function () {
     return " ";
   };
 
-  return EmptyNotation;
+  return BlindNotation;
 }(Notation);
 
-export { BarNotation, BracketsNotation, CancerNotation, ClockNotation, DotsNotation, EmptyNotation, EngineeringNotation, HexNotation, ImperialNotation, InfinityNotation, LettersNotation, LogarithmNotation, MixedEngineeringNotation, MixedScientificNotation, Notation, PrimeNotation, RomanNotation, ScientificNotation, ShiNotation, StandardNotation, ZalgoNotation };
+export { BarNotation, BlindNotation, BracketsNotation, CancerNotation, ClockNotation, DotsNotation, EngineeringNotation, HexNotation, ImperialNotation, InfinityNotation, LettersNotation, LogarithmNotation, MixedEngineeringNotation, MixedScientificNotation, Notation, PrimeNotation, RomanNotation, ScientificNotation, Settings, ShiNotation, StandardNotation, ZalgoNotation };

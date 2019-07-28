@@ -1,6 +1,6 @@
 import { Notation } from "./notation";
 
-export class EmptyNotation extends Notation {
+export class BlindNotation extends Notation {
   public get name(): string {
     return "Blind";
   }

@@ -1,0 +1,50 @@
+@font-face {
+  font-family: Typewriter;
+  src: url('MonospaceTypewriter.ttf');
+}
+html {
+  font-size: 62.5%;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: Typewriter, serif;
+  background-color: #fff;
+  color: #4f5957;
+  font-size: 1.4rem;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.number-input {
+  margin-right: .5rem;
+  margin-bottom: 1.5rem;
+}
+
+.footer {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  align-self: flex-end;
+}
+
+.source-link {
+  color: #a8a7a8;
+  text-decoration: none;
+}
+
+.source-link:hover, .source-link:active {
+  text-decoration: underline;
+}
+
+.content-text {
+  max-width: 70%;
+  text-align: center;
+}
