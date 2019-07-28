@@ -12,7 +12,7 @@ The simplest way to use this package is to include these scripts in your HTML pa
 
 ```html
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/break_infinity.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@animatter-dimensions/notations"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@antimatter-dimensions/notations"></script>
 ```
 
 You can also grab specific versions here:
@@ -23,13 +23,13 @@ You can also grab specific versions here:
 ### npm
 
 ```
-npm install @animatter-dimensions/notations
+npm install @antimatter-dimensions/notations
 ```
 
 There is no default export. The correct way to import notations is:
 
 ```js
-import * as ADNotations from "@animatter-dimensions/notations";
+import * as ADNotations from "@antimatter-dimensions/notations";
 ```
 
 ## Use
