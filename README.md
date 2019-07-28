@@ -50,9 +50,9 @@ const scientific = new ADNotations.ScientificNotation();
 
 // Outputs "1000.00"
 console.log(scientific.format(1000, 2, 2));
-// Outputs "1.00e100,000"
+// Outputs "1.00e100"
 console.log(scientific.format("1e100", 2, 0));
-// Outputs "1e100,000"
+// Outputs "1e100"
 console.log(scientific.format(new Decimal(1e100), 0, 0));
 ```
 
