@@ -1,3 +1,4 @@
 *.js     eol=crlf
 *.ts     eol=crlf
 *.md     eol=crlf
+*.json     eol=crlf
