@@ -125,6 +125,9 @@ And then run build command which will build all targets to the dist directory.
 ```
 npm run build
 ```
+## Contributing
+1. Be reasonable when commiting something.
+2. Be original when making a new notation.
 
 ## Acknowledgements
 
