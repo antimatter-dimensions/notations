@@ -1,6 +1,6 @@
 # Antimatter Dimensions Notations
 All the notations that are included in current version of Antimatter Dimensions
-and the upcoming Reality Update.
+and in the upcoming Reality Update.
 
 See it in action [here](https://antimatter-dimensions.github.io/notations/).
 
@@ -20,7 +20,7 @@ You can also grab specific versions here:
 - https://github.com/Patashu/break_infinity.js/releases
 - https://github.com/antimatter-dimensions/notations/releases
 
-### npm
+#### npm
 
 ```
 npm install @antimatter-dimensions/notations
