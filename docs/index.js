@@ -1,7 +1,7 @@
 const inputContainer = document.getElementById("inputContainer");
 
 const parseWithoutE = function (value) {
-  if (!value.match(/^\-?[,.0-9]*$/)) {
+  if (!value.match(/^[-+]?[,.0-9]*$/)) {
     return null;
   }
   if (value === '') {
