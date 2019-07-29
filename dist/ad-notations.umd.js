@@ -643,6 +643,10 @@
     };
 
     ZalgoNotation.prototype.heComes = function (value) {
+      if (value.lt(0)) {
+        return "-" + this.heComes(value.negate());
+      }
+
       var scaled = value.plus(1).log10() / 66666 * 1000;
       var displayPart = Number(scaled.toFixed(2));
       var zalgoPart = Math.floor(Math.abs(Math.pow(2, 30) * (scaled - displayPart)));
@@ -1101,6 +1105,10 @@
     };
 
     PrimeNotation.prototype.primify = function (value) {
+      if (value.lt(0)) {
+        return "-" + this.primify(value.negate());
+      }
+
       if (value.lte(MAX_INT_DECIMAL)) {
         var floored = Math.floor(value.toNumber());
 
@@ -1306,6 +1314,10 @@
     };
 
     ShiNotation.prototype.shi = function (value) {
+      if (value.lt(0)) {
+        return "-" + this.shi(value.negate());
+      }
+
       var scaled = Math.pow(value.plus(1).log10() * 1000, 0.08);
       var shi = "";
 

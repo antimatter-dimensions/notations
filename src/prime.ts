@@ -53,7 +53,9 @@ export class PrimeNotation extends Notation {
   }
 
   private primify(value: Decimal): string {
-    // We take the number and do 1 of 3 things depending on how big it is.
+    // We take the number and do 1 of 4 things depending on how big it is.
+    // If the number is less than 0, we primify its negation and add a minus sign
+    // to the start.
     // If the number is smaller than maxInt, 10006, then we just find the primes and
     // format them.
     // If not we need a way of representing the number, using only primes of course.
@@ -62,6 +64,9 @@ export class PrimeNotation extends Notation {
     // If the number is greater than 1e10006, we need to again format it differently.
     // So we increase our stack size to three, and repeat the process above from
     // top down.
+    if (value.lt(0)) {
+      return `-${this.primify(value.negate())}`;
+    }
     if (value.lte(MAX_INT_DECIMAL)) {
       const floored = Math.floor(value.toNumber());
       if (floored === 0) {
