@@ -1,12 +1,20 @@
 const inputContainer = document.getElementById("inputContainer");
 
+const isParsableAsDecimal = function(value) {
+  try {
+    return !Number.isNaN(Decimal.fromString(value).mantissa);
+  } catch (e) {
+    return false;
+  }
+}
+
 const NotationDisplay = function NotationDisplay(notationClass) {
   const notation = new notationClass();
   const span = document.createElement("span");
   inputContainer.after(span);
   return {
     update(value) {
-      const formatted = value === "" ? "???" : notation.format(Decimal.fromString(value), 2, 0);
+      const formatted = isParsableAsDecimal(value) ? notation.format(Decimal.fromString(value), 2, 0) : "???";
       span.textContent = notation.name + ": " + formatted;
     }
   };
