@@ -1,11 +1,31 @@
 const inputContainer = document.getElementById("inputContainer");
 
-const isParsableAsDecimal = function(value) {
-  try {
-    return !Number.isNaN(Decimal.fromString(value).mantissa);
-  } catch (e) {
-    return false;
+const parseWithoutE = function (value) {
+  if (!value.match(/^\-?[,.0-9]*$/)) {
+    return null;
   }
+  if (value === '') {
+    return new Decimal(1);
+  }
+  if (value === '-') {
+    return new Decimal(-1);
+  }
+  if (!value.match(/\d/)) {
+    return null;
+  }
+  return new Decimal(value.replace(/,/g, ''));
+}
+
+const parse = function(value) {
+  let stringParts = value.split('e');
+  if (!stringParts[stringParts.length - 1].match(/\d/)) {
+    return null;
+  }
+  let numberParts = stringParts.map(parseWithoutE);
+  if (numberParts.includes(null)) {
+    return null;
+  }
+  return numberParts.reduceRight((a, b) => Decimal.pow(10, a.toNumber()).times(b));
 }
 
 const NotationDisplay = function NotationDisplay(notationClass) {
@@ -14,7 +34,8 @@ const NotationDisplay = function NotationDisplay(notationClass) {
   inputContainer.after(span);
   return {
     update(value) {
-      const formatted = isParsableAsDecimal(value) ? notation.format(Decimal.fromString(value), 2, 0) : "???";
+      const decimalValue = parse(value);
+      const formatted = (decimalValue === null) ? "???" : notation.format(decimalValue, 2, 0);
       span.textContent = notation.name + ": " + formatted;
     }
   };
