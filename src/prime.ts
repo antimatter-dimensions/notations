@@ -64,9 +64,6 @@ export class PrimeNotation extends Notation {
     // If the number is greater than 1e10006, we need to again format it differently.
     // So we increase our stack size to three, and repeat the process above from
     // top down.
-    if (value.lt(0)) {
-      return `-${this.primify(value.negate())}`;
-    }
     if (value.lte(MAX_INT_DECIMAL)) {
       const floored = Math.floor(value.toNumber());
       if (floored === 0) {

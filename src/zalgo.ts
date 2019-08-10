@@ -33,9 +33,6 @@ export class ZalgoNotation extends Notation {
   }
 
   private heComes(value: Decimal): string {
-    if (value.lt(0)) {
-      return `-${this.heComes(value.negate())}`;
-    }
     // Eternity seems to happen around e66666 antimatter, who would've thought? Scaled down to 1000.
     const scaled = value.plus(1).log10() / 66666 * 1000;
     const displayPart = Number(scaled.toFixed(2));

@@ -1,32 +1,32 @@
 const inputContainer = document.getElementById("inputContainer");
 
-const parseWithoutE = function (value) {
+const parseWithoutE = function(value) {
   if (!value.match(/^[-+]?[,.0-9]*$/)) {
     return null;
   }
-  if (value === '') {
+  if (value === "") {
     return new Decimal(1);
   }
-  if (value === '-') {
+  if (value === "-") {
     return new Decimal(-1);
   }
   if (!value.match(/\d/)) {
     return null;
   }
-  return new Decimal(value.replace(/,/g, ''));
-}
+  return new Decimal(value.replace(/,/g, ""));
+};
 
 const parse = function(value) {
-  let stringParts = value.split('e');
+  const stringParts = value.split("e");
   if (!stringParts[stringParts.length - 1].match(/\d/)) {
     return null;
   }
-  let numberParts = stringParts.map(parseWithoutE);
+  const numberParts = stringParts.map(parseWithoutE);
   if (numberParts.includes(null)) {
     return null;
   }
   return numberParts.reduceRight((a, b) => Decimal.pow(10, a.toNumber()).times(b));
-}
+};
 
 const NotationDisplay = function NotationDisplay(notationClass) {
   const notation = new notationClass();
@@ -35,8 +35,8 @@ const NotationDisplay = function NotationDisplay(notationClass) {
   return {
     update(value) {
       const decimalValue = parse(value);
-      const formatted = (decimalValue === null) ? "???" : notation.format(decimalValue, 2, 0);
-      span.textContent = notation.name + ": " + formatted;
+      const formatted = decimalValue === null ? "???" : notation.format(decimalValue, 2, 0);
+      span.textContent = `${notation.name}: ${formatted}`;
     }
   };
 };
@@ -65,7 +65,7 @@ const displays = (function() {
     N.ShiNotation,
     N.BlindNotation
   ];
-  return notations.reverse().map(n => new NotationDisplay(n));
+  return notations.reverse().map((n) => new NotationDisplay(n));
 }());
 
 function updateValues() {

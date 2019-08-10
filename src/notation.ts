@@ -13,22 +13,35 @@ export abstract class Notation {
     const decimal = Decimal.fromValue_noAlloc(value);
 
     if (decimal.exponent < 3) {
-      return this.formatUnder1000(decimal.toNumber(), placesUnder1000);
+      const number = decimal.toNumber();
+      return number < 0
+        ? this.formatNegativeUnder1000(Math.abs(number), placesUnder1000)
+        : this.formatUnder1000(number, placesUnder1000);
     }
 
     if (Settings.isInfinite(decimal)) {
       return this.infinite;
     }
 
-    return this.formatDecimal(decimal, places);
+    return decimal.sign() < 0
+      ? this.formatNegativeDecimal(decimal.abs(), places)
+      : this.formatDecimal(decimal, places);
+  }
+
+  public get infinite(): string {
+    return "Infinite";
+  }
+
+  public formatNegativeUnder1000(value: number, places: number): string {
+    return `-${this.formatUnder1000(value, places)}`;
   }
 
   public formatUnder1000(value: number, places: number): string {
     return value.toFixed(places);
   }
 
-  public get infinite(): string {
-    return "Infinite";
+  public formatNegativeDecimal(value: Decimal, places: number): string {
+    return `-${this.formatDecimal(value, places)}`;
   }
 
   abstract formatDecimal(value: Decimal, places: number): string;

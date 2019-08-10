@@ -49,18 +49,15 @@
       var decimal = Decimal.fromValue_noAlloc(value);
 
       if (decimal.exponent < 3) {
-        return this.formatUnder1000(decimal.toNumber(), placesUnder1000);
+        var number = decimal.toNumber();
+        return number < 0 ? this.formatNegativeUnder1000(Math.abs(number), placesUnder1000) : this.formatUnder1000(number, placesUnder1000);
       }
 
       if (Settings.isInfinite(decimal)) {
         return this.infinite;
       }
 
-      return this.formatDecimal(decimal, places);
-    };
-
-    Notation.prototype.formatUnder1000 = function (value, places) {
-      return value.toFixed(places);
+      return decimal.sign() < 0 ? this.formatNegativeDecimal(decimal.abs(), places) : this.formatDecimal(decimal, places);
     };
 
     Object.defineProperty(Notation.prototype, "infinite", {
@@ -70,6 +67,18 @@
       enumerable: true,
       configurable: true
     });
+
+    Notation.prototype.formatNegativeUnder1000 = function (value, places) {
+      return "-" + this.formatUnder1000(value, places);
+    };
+
+    Notation.prototype.formatUnder1000 = function (value, places) {
+      return value.toFixed(places);
+    };
+
+    Notation.prototype.formatNegativeDecimal = function (value, places) {
+      return "-" + this.formatDecimal(value, places);
+    };
 
     Notation.prototype.formatExponent = function (exponent) {
       if (exponent < Settings.exponentCommas.min) {
@@ -643,10 +652,6 @@
     };
 
     ZalgoNotation.prototype.heComes = function (value) {
-      if (value.lt(0)) {
-        return "-" + this.heComes(value.negate());
-      }
-
       var scaled = value.plus(1).log10() / 66666 * 1000;
       var displayPart = Number(scaled.toFixed(2));
       var zalgoPart = Math.floor(Math.abs(Math.pow(2, 30) * (scaled - displayPart)));
@@ -1105,10 +1110,6 @@
     };
 
     PrimeNotation.prototype.primify = function (value) {
-      if (value.lt(0)) {
-        return "-" + this.primify(value.negate());
-      }
-
       if (value.lte(MAX_INT_DECIMAL)) {
         var floored = Math.floor(value.toNumber());
 
@@ -1314,10 +1315,6 @@
     };
 
     ShiNotation.prototype.shi = function (value) {
-      if (value.lt(0)) {
-        return "-" + this.shi(value.negate());
-      }
-
       var scaled = Math.pow(value.plus(1).log10() * 1000, 0.08);
       var shi = "";
 
@@ -1345,8 +1342,23 @@
       enumerable: true,
       configurable: true
     });
+    Object.defineProperty(BlindNotation.prototype, "infinite", {
+      get: function get() {
+        return " ";
+      },
+      enumerable: true,
+      configurable: true
+    });
+
+    BlindNotation.prototype.formatNegativeUnder1000 = function () {
+      return " ";
+    };
 
     BlindNotation.prototype.formatUnder1000 = function () {
+      return " ";
+    };
+
+    BlindNotation.prototype.formatNegativeDecimal = function () {
       return " ";
     };
 
