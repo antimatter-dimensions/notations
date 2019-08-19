@@ -15,6 +15,14 @@ export class HexNotation extends Notation {
     return "FFFFFFFF";
   }
 
+  public formatNegativeUnder1000(value: number): string {
+    return this.formatDecimal(new Decimal(-value));
+  };
+
+  public formatNegativeDecimal(value: Decimal): string {
+    return this.formatDecimal(value.negate());
+  };
+
   public formatUnder1000(value: number): string {
     return this.formatDecimal(new Decimal(value));
   }
