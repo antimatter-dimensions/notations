@@ -663,6 +663,14 @@ var HexNotation = function (_super) {
     configurable: true
   });
 
+  HexNotation.prototype.formatNegativeUnder1000 = function (value) {
+    return this.formatDecimal(new Decimal(-value));
+  };
+
+  HexNotation.prototype.formatNegativeDecimal = function (value) {
+    return this.formatDecimal(value.negate());
+  };
+
   HexNotation.prototype.formatUnder1000 = function (value) {
     return this.formatDecimal(new Decimal(value));
   };
