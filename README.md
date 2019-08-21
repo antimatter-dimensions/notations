@@ -1,4 +1,7 @@
 # Antimatter Dimensions Notations
+
+[![NPM](https://img.shields.io/npm/v/@antimatter-dimensions/notations.svg)](https://www.npmjs.com/package/@antimatter-dimensions/notations)
+
 All the notations that are included in the current version of Antimatter Dimensions, and the upcoming Reality Update.
 
 See them in action [here](https://antimatter-dimensions.github.io/notations/).
