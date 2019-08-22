@@ -37,8 +37,8 @@ export abstract class Notation {
     return "Infinite";
   }
 
-  public formatNegativeDecimalUnderMinNumber(_value: Decimal, places: number): string {
-    return this.formatUnder1000(0, places);
+  public formatNegativeDecimalUnderMinNumber(value: Decimal, places: number): string {
+    return `-${this.formatDecimalUnderMinNumber(value, places)}`;
   }
 
   public formatDecimalUnderMinNumber(_value: Decimal, places: number): string {

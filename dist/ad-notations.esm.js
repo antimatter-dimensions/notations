@@ -68,8 +68,8 @@ var Notation = function () {
     configurable: true
   });
 
-  Notation.prototype.formatNegativeDecimalUnderMinNumber = function (_value, places) {
-    return this.formatUnder1000(0, places);
+  Notation.prototype.formatNegativeDecimalUnderMinNumber = function (value, places) {
+    return "-" + this.formatDecimalUnderMinNumber(value, places);
   };
 
   Notation.prototype.formatDecimalUnderMinNumber = function (_value, places) {
