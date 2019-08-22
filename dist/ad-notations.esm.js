@@ -45,6 +45,11 @@ var Notation = function () {
 
     if (decimal.exponent < 3) {
       var number = decimal.toNumber();
+
+      if (number === 0) {
+        return decimal.sign() < 0 ? this.formatNegativeDecimalUnderMinNumber(decimal.abs(), placesUnder1000) : this.formatDecimalUnderMinNumber(decimal, placesUnder1000);
+      }
+
       return number < 0 ? this.formatNegativeUnder1000(Math.abs(number), placesUnder1000) : this.formatUnder1000(number, placesUnder1000);
     }
 
@@ -62,6 +67,14 @@ var Notation = function () {
     enumerable: true,
     configurable: true
   });
+
+  Notation.prototype.formatNegativeDecimalUnderMinNumber = function (_value, places) {
+    return this.formatUnder1000(0, places);
+  };
+
+  Notation.prototype.formatDecimalUnderMinNumber = function (_value, places) {
+    return this.formatUnder1000(0, places);
+  };
 
   Notation.prototype.formatNegativeUnder1000 = function (value, places) {
     return "-" + this.formatUnder1000(value, places);
@@ -663,16 +676,24 @@ var HexNotation = function (_super) {
     configurable: true
   });
 
+  HexNotation.prototype.formatNegativeDecimalUnderMinNumber = function (value) {
+    return this.formatDecimal(value.negate());
+  };
+
+  HexNotation.prototype.formatDecimalUnderMinNumber = function (value) {
+    return this.formatDecimal(value);
+  };
+
   HexNotation.prototype.formatNegativeUnder1000 = function (value) {
     return this.formatDecimal(new Decimal(-value));
   };
 
-  HexNotation.prototype.formatNegativeDecimal = function (value) {
-    return this.formatDecimal(value.negate());
-  };
-
   HexNotation.prototype.formatUnder1000 = function (value) {
     return this.formatDecimal(new Decimal(value));
+  };
+
+  HexNotation.prototype.formatNegativeDecimal = function (value) {
+    return this.formatDecimal(value.negate());
   };
 
   HexNotation.prototype.formatDecimal = function (value) {

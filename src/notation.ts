@@ -14,6 +14,11 @@ export abstract class Notation {
 
     if (decimal.exponent < 3) {
       const number = decimal.toNumber();
+      if (number === 0) {
+        return decimal.sign() < 0
+          ? this.formatNegativeDecimalUnderMinNumber(decimal.abs(), placesUnder1000)
+          : this.formatDecimalUnderMinNumber(decimal, placesUnder1000);
+      }
       return number < 0
         ? this.formatNegativeUnder1000(Math.abs(number), placesUnder1000)
         : this.formatUnder1000(number, placesUnder1000);
@@ -30,6 +35,14 @@ export abstract class Notation {
 
   public get infinite(): string {
     return "Infinite";
+  }
+
+  public formatNegativeDecimalUnderMinNumber(_value: Decimal, places: number): string {
+    return this.formatUnder1000(0, places);
+  }
+
+  public formatDecimalUnderMinNumber(_value: Decimal, places: number): string {
+    return this.formatUnder1000(0, places);
   }
 
   public formatNegativeUnder1000(value: number, places: number): string {
