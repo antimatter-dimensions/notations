@@ -1,37 +1,17 @@
 import { Notation } from "./notation";
 import Decimal from "break_infinity.js/break_infinity";
 
-// The maximum number we can reliably find all prime factors for.
-const MAX_INT = 10006;
+// The maximum number we can reliably find prime factors for.
+const MAX_INT = Number.MAX_SAFE_INTEGER;
 const MAX_INT_DECIMAL = new Decimal(MAX_INT);
 const MAX_INT_LOG_10 = Math.log10(MAX_INT);
+// The maximum factor we consider.
+const MAX_FACTOR = 10000;
 
-// List of primes from 2-9973, because that's how many we check for.
-const PRIMES: number[] = [];
-const visitedMarks: boolean[] = new Array(MAX_INT).fill(false);
-const sieveLimit = Math.ceil(Math.sqrt(MAX_INT));
-for (let number = 2; number < sieveLimit; number++) {
-  if (visitedMarks[number]) {
-    continue;
-  }
-  PRIMES.push(number);
-  for (let mark = number; mark <= MAX_INT; mark += number) {
-    visitedMarks[mark] = true;
-  }
-}
-for (let number = sieveLimit; number < MAX_INT; number++) {
-  if (!visitedMarks[number]) {
-    PRIMES.push(number);
-  }
-}
-
-const LAST_PRIME_INDEX = PRIMES.length - 1;
-const MAX_PRIME = PRIMES[LAST_PRIME_INDEX];
 // Unicode characters for exponents ranging 0 - 13.
 const EXPONENT_CHARACTERS = [
   "\u2070", "\u00B9", "\u00B2", "\u00B3", "\u2074",
-  "\u2075", "\u2076", "\u2077", "\u2078", "\u2079",
-  "\u00B9\u2070", "\u00B9\u00B9", "\u00B9\u00B2", "\u00B9\u00B3"
+  "\u2075", "\u2076", "\u2077", "\u2078", "\u2079"
 ];
 
 export class PrimeNotation extends Notation {
@@ -77,103 +57,97 @@ export class PrimeNotation extends Notation {
     let exp = value.log10() / MAX_INT_LOG_10;
     let base = Math.pow(MAX_INT, exp / Math.ceil(exp));
     if (exp <= MAX_INT) {
-      return this.formatBaseExp(base, exp);
+      return this.formatPowerTower([Math.round(base), Math.ceil(exp)]);
     }
     const exp2 = Math.log10(exp) / Math.log10(MAX_INT);
     const exp2Ceil = Math.ceil(exp2);
     exp = Math.pow(MAX_INT, exp2 / exp2Ceil);
     base = Math.pow(MAX_INT, exp / Math.ceil(exp));
-    const exp2List = this.primesFromInt(exp2Ceil);
-    const formatedExp2 = exp2List.length === 1
-      ? EXPONENT_CHARACTERS[exp2List[0]]
-      : `^(${this.formatFromList(exp2List)})`;
-    return this.formatBaseExp(base, exp) + formatedExp2;
+    return this.formatPowerTower([Math.round(base), Math.ceil(exp), exp2Ceil]);
   }
 
-  private formatBaseExp(base: number, exp: number): string {
-    const formatedBase = this.formatFromList(this.primesFromInt(Math.floor(base)));
-    const formatedExp = this.formatFromList(this.primesFromInt(Math.ceil(exp)));
-    return `(${formatedBase})^(${formatedExp})`;
+  private maybeParenthesize(x: string, b: boolean): string {
+    return b ? `(${x})` : x;
   }
 
-  private formatFromList(list: number[]): string {
+  private formatPowerTower(exps: number[]): string {
+    const factorizations = exps.map(x => this.primesFromInt(x));
+    const superscriptLastExponent = factorizations[exps.length - 1].length === 1;
+    const parenthesize = factorizations.map(
+      (x, i) => x[0] !== x[x.length - 1]
+        || (i === exps.length - 2 && x.length > 1 && superscriptLastExponent)
+    )
+    const formattedExps = factorizations.map(
+      (x, i) => this.maybeParenthesize(
+        (i === exps.length - 1 && superscriptLastExponent)
+          ? this.convertToExponent(x[0]) : this.formatFromList(x),
+        parenthesize[i]
+      )
+    )
+    if (superscriptLastExponent) {
+      let superscript = formattedExps.pop();
+      formattedExps[exps.length - 2] += superscript;
+    }
+    return formattedExps.join('^');
+  }
+
+  private convertToExponent(exp: number): string {
+    const s = [];
+    for (; exp > 0; exp = Math.floor(exp / 10)) {
+      s.push(EXPONENT_CHARACTERS[exp % 10]);
+    }
+    return s.reverse().join("");
+  }
+
+  private formatFromList(factors: number[]): string {
     // Formats an array of prime numbers such that all like pairs are combined,
     // they are then raised to an exponent signifying how many times the value apears.
     // Finally multiplication signs are put between all values.
     const out = [];
     let last = 0;
     let count = 0;
-    for (let i = 0; i < list.length; i++) {
-      if (list[i] === last) {
+    for (let i of factors) {
+      if (i === last) {
         count++;
       } else {
         if (last > 0) {
           if (count > 1) {
-            out.push(`${last}${EXPONENT_CHARACTERS[count]}`);
+            out.push(`${last}${this.convertToExponent(count)}`);
           } else {
             out.push(last);
           }
         }
-        last = list[i];
+        last = i;
         count = 1;
       }
-      if (i === list.length - 1) {
-        if (count > 1) {
-          out.push(`${list[i]}${EXPONENT_CHARACTERS[count]}`);
-        } else {
-          out.push(list[i]);
-        }
-      }
+    }
+    if (count > 1) {
+      out.push(`${last}${this.convertToExponent(count)}`);
+    } else {
+      out.push(last);
     }
     return out.join("\u00D7");
   }
 
-  private findGreatestLtePrimeIndex(value: number): number {
-    // Lte stands for "less than or equal"
-    if (value >= MAX_PRIME) {
-      return LAST_PRIME_INDEX;
-    }
-    let min = 0;
-    let max = LAST_PRIME_INDEX;
-    while (max !== min + 1) {
-      const middle = Math.floor((max + min) / 2);
-      const prime = PRIMES[middle];
-      if (prime === value) {
-        return middle;
-      }
-      if (value < prime) {
-        max = middle;
-      } else {
-        min = middle;
+  private primesFromInt(n: number): number[] {
+    const l = [];
+    for (let k of [2, 3]) {
+      for (; n % k == 0; n /= k) {
+        l.push(k);
       }
     }
-    return min;
-  }
 
-  private primesFromInt(value: number): number[] {
-    const factors = [];
-    let factoringValue = value;
-    while (factoringValue !== 1) {
-      const ltePrimeIndex = this.findGreatestLtePrimeIndex(factoringValue);
-      const ltePrime = PRIMES[ltePrimeIndex];
-      if (ltePrime === factoringValue) {
-        factors.push(factoringValue);
-        break;
+    const lim = Math.min(MAX_FACTOR, Math.floor(Math.sqrt(n)));
+
+    // All primes > 3 are of the form 6+-1
+    for (let [a,b] = [5,4]; a <= lim && a < n; [a,b] = [b + 3, a + 3]) {
+      for (; n % a == 0; n /= a) { // Compilers are generally better at optimizing nested for loops
+        l.push(a);
       }
-      // Search for greatest prime that is lesser than factored / 2, because
-      // all greater values won't be factors anyway
-      const halfFactoring = factoringValue / 2;
-      let primeIndex = this.findGreatestLtePrimeIndex(halfFactoring);
-      let factor;
-      while (factor === undefined) {
-        const prime = PRIMES[primeIndex--];
-        if (factoringValue % prime === 0) {
-          factor = prime;
-        }
-      }
-      factoringValue /= factor;
-      factors.push(factor);
     }
-    return factors.reverse();
+    if (n > 1) {
+      l.push(n);
+    }
+    return l;
   }
 }

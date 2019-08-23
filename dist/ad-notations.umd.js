@@ -1058,34 +1058,11 @@
     return ClockNotation;
   }(Notation);
 
-  var MAX_INT = 10006;
+  var MAX_INT = Number.MAX_SAFE_INTEGER;
   var MAX_INT_DECIMAL = new Decimal(MAX_INT);
   var MAX_INT_LOG_10 = Math.log10(MAX_INT);
-  var PRIMES = [];
-  var visitedMarks = new Array(MAX_INT).fill(false);
-  var sieveLimit = Math.ceil(Math.sqrt(MAX_INT));
-
-  for (var number = 2; number < sieveLimit; number++) {
-    if (visitedMarks[number]) {
-      continue;
-    }
-
-    PRIMES.push(number);
-
-    for (var mark = number; mark <= MAX_INT; mark += number) {
-      visitedMarks[mark] = true;
-    }
-  }
-
-  for (var number = sieveLimit; number < MAX_INT; number++) {
-    if (!visitedMarks[number]) {
-      PRIMES.push(number);
-    }
-  }
-
-  var LAST_PRIME_INDEX = PRIMES.length - 1;
-  var MAX_PRIME = PRIMES[LAST_PRIME_INDEX];
-  var EXPONENT_CHARACTERS = ["\u2070", "\xB9", "\xB2", "\xB3", "\u2074", "\u2075", "\u2076", "\u2077", "\u2078", "\u2079", "\xB9\u2070", "\xB9\xB9", "\xB9\xB2", "\xB9\xB3"];
+  var MAX_FACTOR = 10000;
+  var EXPONENT_CHARACTERS = ["\u2070", "\xB9", "\xB2", "\xB3", "\u2074", "\u2075", "\u2076", "\u2077", "\u2078", "\u2079"];
 
   var PrimeNotation = function (_super) {
     __extends(PrimeNotation, _super);
@@ -1136,113 +1113,111 @@
       var base = Math.pow(MAX_INT, exp / Math.ceil(exp));
 
       if (exp <= MAX_INT) {
-        return this.formatBaseExp(base, exp);
+        return this.formatPowerTower([Math.round(base), Math.ceil(exp)]);
       }
 
       var exp2 = Math.log10(exp) / Math.log10(MAX_INT);
       var exp2Ceil = Math.ceil(exp2);
       exp = Math.pow(MAX_INT, exp2 / exp2Ceil);
       base = Math.pow(MAX_INT, exp / Math.ceil(exp));
-      var exp2List = this.primesFromInt(exp2Ceil);
-      var formatedExp2 = exp2List.length === 1 ? EXPONENT_CHARACTERS[exp2List[0]] : "^(" + this.formatFromList(exp2List) + ")";
-      return this.formatBaseExp(base, exp) + formatedExp2;
+      return this.formatPowerTower([Math.round(base), Math.ceil(exp), exp2Ceil]);
     };
 
-    PrimeNotation.prototype.formatBaseExp = function (base, exp) {
-      var formatedBase = this.formatFromList(this.primesFromInt(Math.floor(base)));
-      var formatedExp = this.formatFromList(this.primesFromInt(Math.ceil(exp)));
-      return "(" + formatedBase + ")^(" + formatedExp + ")";
+    PrimeNotation.prototype.maybeParenthesize = function (x, b) {
+      return b ? "(" + x + ")" : x;
     };
 
-    PrimeNotation.prototype.formatFromList = function (list) {
+    PrimeNotation.prototype.formatPowerTower = function (exps) {
+      var _this = this;
+
+      var factorizations = exps.map(function (x) {
+        return _this.primesFromInt(x);
+      });
+      var superscriptLastExponent = factorizations[exps.length - 1].length === 1;
+      var parenthesize = factorizations.map(function (x, i) {
+        return x[0] !== x[x.length - 1] || i === exps.length - 2 && x.length > 1 && superscriptLastExponent;
+      });
+      var formattedExps = factorizations.map(function (x, i) {
+        return _this.maybeParenthesize(i === exps.length - 1 && superscriptLastExponent ? _this.convertToExponent(x[0]) : _this.formatFromList(x), parenthesize[i]);
+      });
+
+      if (superscriptLastExponent) {
+        var superscript = formattedExps.pop();
+        formattedExps[exps.length - 2] += superscript;
+      }
+
+      return formattedExps.join('^');
+    };
+
+    PrimeNotation.prototype.convertToExponent = function (exp) {
+      var s = [];
+
+      for (; exp > 0; exp = Math.floor(exp / 10)) {
+        s.push(EXPONENT_CHARACTERS[exp % 10]);
+      }
+
+      return s.reverse().join("");
+    };
+
+    PrimeNotation.prototype.formatFromList = function (factors) {
       var out = [];
       var last = 0;
       var count = 0;
 
-      for (var i = 0; i < list.length; i++) {
-        if (list[i] === last) {
+      for (var _i = 0, factors_1 = factors; _i < factors_1.length; _i++) {
+        var i = factors_1[_i];
+
+        if (i === last) {
           count++;
         } else {
           if (last > 0) {
             if (count > 1) {
-              out.push("" + last + EXPONENT_CHARACTERS[count]);
+              out.push("" + last + this.convertToExponent(count));
             } else {
               out.push(last);
             }
           }
 
-          last = list[i];
+          last = i;
           count = 1;
         }
+      }
 
-        if (i === list.length - 1) {
-          if (count > 1) {
-            out.push("" + list[i] + EXPONENT_CHARACTERS[count]);
-          } else {
-            out.push(list[i]);
-          }
-        }
+      if (count > 1) {
+        out.push("" + last + this.convertToExponent(count));
+      } else {
+        out.push(last);
       }
 
       return out.join("\xD7");
     };
 
-    PrimeNotation.prototype.findGreatestLtePrimeIndex = function (value) {
-      if (value >= MAX_PRIME) {
-        return LAST_PRIME_INDEX;
-      }
+    PrimeNotation.prototype.primesFromInt = function (n) {
+      var _a;
 
-      var min = 0;
-      var max = LAST_PRIME_INDEX;
+      var l = [];
 
-      while (max !== min + 1) {
-        var middle = Math.floor((max + min) / 2);
-        var prime = PRIMES[middle];
+      for (var _i = 0, _b = [2, 3]; _i < _b.length; _i++) {
+        var k = _b[_i];
 
-        if (prime === value) {
-          return middle;
-        }
-
-        if (value < prime) {
-          max = middle;
-        } else {
-          min = middle;
+        for (; n % k == 0; n /= k) {
+          l.push(k);
         }
       }
 
-      return min;
-    };
+      var lim = Math.min(MAX_FACTOR, Math.floor(Math.sqrt(n)));
 
-    PrimeNotation.prototype.primesFromInt = function (value) {
-      var factors = [];
-      var factoringValue = value;
-
-      while (factoringValue !== 1) {
-        var ltePrimeIndex = this.findGreatestLtePrimeIndex(factoringValue);
-        var ltePrime = PRIMES[ltePrimeIndex];
-
-        if (ltePrime === factoringValue) {
-          factors.push(factoringValue);
-          break;
+      for (var _c = [5, 4], a = _c[0], b = _c[1]; a <= lim && a < n; _a = [b + 3, a + 3], a = _a[0], b = _a[1], _a) {
+        for (; n % a == 0; n /= a) {
+          l.push(a);
         }
-
-        var halfFactoring = factoringValue / 2;
-        var primeIndex = this.findGreatestLtePrimeIndex(halfFactoring);
-        var factor = void 0;
-
-        while (factor === undefined) {
-          var prime = PRIMES[primeIndex--];
-
-          if (factoringValue % prime === 0) {
-            factor = prime;
-          }
-        }
-
-        factoringValue /= factor;
-        factors.push(factor);
       }
 
-      return factors.reverse();
+      if (n > 1) {
+        l.push(n);
+      }
+
+      return l;
     };
 
     return PrimeNotation;
