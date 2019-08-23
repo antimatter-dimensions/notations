@@ -1159,12 +1159,10 @@ var PrimeNotation = function (_super) {
   };
 
   PrimeNotation.prototype.primesFromInt = function (n) {
-    var _a;
-
     var l = [];
 
-    for (var _i = 0, _b = [2, 3]; _i < _b.length; _i++) {
-      var k = _b[_i];
+    for (var _i = 0, _a = [2, 3]; _i < _a.length; _i++) {
+      var k = _a[_i];
 
       for (; n % k == 0; n /= k) {
         l.push(k);
@@ -1173,10 +1171,18 @@ var PrimeNotation = function (_super) {
 
     var lim = Math.min(MAX_FACTOR, Math.floor(Math.sqrt(n)));
 
-    for (var _c = [5, 4], a = _c[0], b = _c[1]; a <= lim && a < n; _a = [b + 3, a + 3], a = _a[0], b = _a[1], _a) {
+    for (var a = 5; a <= lim && a < n;) {
       for (; n % a == 0; n /= a) {
         l.push(a);
       }
+
+      a += 2;
+
+      for (; n % a == 0; n /= a) {
+        l.push(a);
+      }
+
+      a += 4;
     }
 
     if (n > 1) {

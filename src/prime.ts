@@ -140,10 +140,15 @@ export class PrimeNotation extends Notation {
     const lim = Math.min(MAX_FACTOR, Math.floor(Math.sqrt(n)));
 
     // All primes > 3 are of the form 6+-1
-    for (let [a,b] = [5,4]; a <= lim && a < n; [a,b] = [b + 3, a + 3]) {
-      for (; n % a == 0; n /= a) { // Compilers are generally better at optimizing nested for loops
+    for (let a = 5; a <= lim && a < n;) {
+      for (; n % a == 0; n /= a) {
         l.push(a);
       }
+      a += 2;
+      for (; n % a == 0; n /= a) {
+        l.push(a);
+      }
+      a += 4;
     }
     if (n > 1) {
       l.push(n);
