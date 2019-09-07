@@ -1,7 +1,7 @@
 import Decimal from "break_infinity.js/break_infinity";
 import { Notation } from "./notation";
 
-class OmegaNotation extends Notation
+export class OmegaNotation extends Notation
 {
     public get name(): string
     {
@@ -15,6 +15,7 @@ class OmegaNotation extends Notation
 
     formatUnder1000(value: number): string
     {
+        if(value < 1) return "β";
         let step = Math.floor(Math.log2(value));
         let omegaAmount = Math.floor(step / this.greek.length);
         if(omegaAmount === 0)
