@@ -20,3 +20,5 @@ export * from "./prime";
 export * from "./bar";
 export * from "./shi";
 export * from "./blind";
+export * from "./greekletters";
+export * from "./omega";

@@ -1,7 +1,7 @@
 import Decimal from "break_infinity.js/break_infinity";
 import { Notation } from "./notation";
 
-class OmegaNotation extends Notation
+export class OmegaNotation extends Notation
 {
     public get name(): string
     {
