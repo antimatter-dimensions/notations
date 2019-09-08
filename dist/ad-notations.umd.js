@@ -1377,6 +1377,132 @@
     return BlindNotation;
   }(Notation);
 
+  var GreekLettersNotation = function (_super) {
+    __extends(GreekLettersNotation, _super);
+
+    function GreekLettersNotation() {
+      return _super !== null && _super.apply(this, arguments) || this;
+    }
+
+    Object.defineProperty(GreekLettersNotation.prototype, "name", {
+      get: function get() {
+        return "Greek Letters";
+      },
+      enumerable: true,
+      configurable: true
+    });
+    Object.defineProperty(GreekLettersNotation.prototype, "greek", {
+      get: function get() {
+        return "άαβγδεζηθικλμνξοπρστυφχψωΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ".split("");
+      },
+      enumerable: true,
+      configurable: true
+    });
+
+    GreekLettersNotation.prototype.formatDecimal = function (value, places) {
+      var exp = Math.floor(value.e / 3);
+      var step = Math.pow(this.greek.length, Math.floor(Math.log(exp) / Math.log(this.greek.length)));
+      var suffix = "";
+
+      while (step >= 1) {
+        var ordinal = Math.floor(exp / step);
+        suffix += this.greek[ordinal];
+        exp -= step * ordinal;
+        step /= this.greek.length;
+      }
+
+      var mantissa = Decimal.pow(10, Decimal.log10(value) % 3).toFixed(places);
+      return mantissa + " " + suffix;
+    };
+
+    return GreekLettersNotation;
+  }(Notation);
+
+  var OmegaNotation = function (_super) {
+    __extends(OmegaNotation, _super);
+
+    function OmegaNotation() {
+      return _super !== null && _super.apply(this, arguments) || this;
+    }
+
+    Object.defineProperty(OmegaNotation.prototype, "name", {
+      get: function get() {
+        return "Omega";
+      },
+      enumerable: true,
+      configurable: true
+    });
+    Object.defineProperty(OmegaNotation.prototype, "greek", {
+      get: function get() {
+        return "βζλψΣΘΨω";
+      },
+      enumerable: true,
+      configurable: true
+    });
+    Object.defineProperty(OmegaNotation.prototype, "subNums", {
+      get: function get() {
+        return "₀₁₂₃₄₅₆₇₈₉";
+      },
+      enumerable: true,
+      configurable: true
+    });
+    Object.defineProperty(OmegaNotation.prototype, "infinite", {
+      get: function get() {
+        return "Ω";
+      },
+      enumerable: true,
+      configurable: true
+    });
+
+    OmegaNotation.prototype.createSubNum = function (num) {
+      var str = num.toFixed(0);
+      var res = "";
+
+      for (var i = 0; i < str.length; i++) {
+        res += this.subNums[parseInt(str[i])];
+      }
+
+      return res;
+    };
+
+    OmegaNotation.prototype.formatUnder1000 = function (value) {
+      return this.formatDecimal(new Decimal(value));
+    };
+
+    OmegaNotation.prototype.formatDecimal = function (value) {
+      value = new Decimal(value);
+      var step = Decimal.floor(value.div(1000));
+      var omegaAmount = Decimal.floor(step.div(this.greek.length));
+      var lastLetter = this.greek[step.toNumber() % this.greek.length] + this.createSubNum(value.toNumber() % 1000);
+      if (this.greek[step.toNumber() % this.greek.length] === undefined || step.toNumber() > Number.MAX_SAFE_INTEGER) lastLetter = "ω";
+      var omegaOrder = Decimal.log(value, 8000);
+
+      if (omegaAmount.equals(0)) {
+        return lastLetter;
+      } else if (omegaAmount.gt(0) && omegaAmount.lte(3)) {
+        var omegas = [];
+
+        for (var i = 0; i < omegaAmount.toNumber(); i++) {
+          omegas.push("ω");
+        }
+
+        return omegas.join("^") + "^" + lastLetter;
+      } else if (omegaAmount.gt(3) && omegaAmount.lt(10)) {
+        return "ω(" + omegaAmount.toFixed(0) + ")^" + lastLetter;
+      } else if (omegaOrder < 3) {
+        return "ω(" + this.formatDecimal(omegaAmount) + ")^" + lastLetter;
+      } else if (omegaOrder < 6) {
+        return "ω(" + this.formatDecimal(omegaAmount) + ")";
+      } else {
+        var val = Decimal.pow(8000, omegaOrder % 1);
+        var orderStr = omegaOrder < 100 ? Math.floor(omegaOrder).toFixed(0) : this.formatDecimal(Decimal.floor(omegaOrder));
+        return "ω[" + orderStr + "](" + this.formatDecimal(val) + ")";
+      }
+    };
+
+    return OmegaNotation;
+  }(Notation);
+
   exports.BarNotation = BarNotation;
   exports.BlindNotation = BlindNotation;
   exports.BracketsNotation = BracketsNotation;
@@ -1384,6 +1510,7 @@
   exports.ClockNotation = ClockNotation;
   exports.DotsNotation = DotsNotation;
   exports.EngineeringNotation = EngineeringNotation;
+  exports.GreekLettersNotation = GreekLettersNotation;
   exports.HexNotation = HexNotation;
   exports.ImperialNotation = ImperialNotation;
   exports.InfinityNotation = InfinityNotation;
@@ -1392,6 +1519,7 @@
   exports.MixedEngineeringNotation = MixedEngineeringNotation;
   exports.MixedScientificNotation = MixedScientificNotation;
   exports.Notation = Notation;
+  exports.OmegaNotation = OmegaNotation;
   exports.PrimeNotation = PrimeNotation;
   exports.RomanNotation = RomanNotation;
   exports.ScientificNotation = ScientificNotation;

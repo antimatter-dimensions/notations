@@ -13,36 +13,43 @@ export class OmegaNotation extends Notation
         return "βζλψΣΘΨω";
     }
 
+    get subNums(): string
+    {
+        return "₀₁₂₃₄₅₆₇₈₉";
+    }
+
+    get infinite(): string
+    {
+        return "Ω";
+    }
+
+    createSubNum(num: number)
+    {
+        let str = num.toFixed(0);
+        let res = "";
+        for(let i = 0; i < str.length; i++)
+        {
+            res += this.subNums[parseInt(str[i])];
+        }
+        return res;
+    }
+
     formatUnder1000(value: number): string
     {
-        if(value < 1) return "β";
-        let step = Math.floor(Math.log2(value));
-        let omegaAmount = Math.floor(step / this.greek.length);
-        if(omegaAmount === 0)
-        {
-            return this.greek[step % this.greek.length];
-        }
-        let omegas = [];
-        for(let i = 0; i < omegaAmount; i++)
-        {
-            omegas.push("ω");
-        }
-        return omegas.join("^") + "^" + this.greek[step % this.greek.length];
+        return this.formatDecimal(new Decimal(value));
     }
 
     formatDecimal(value: Decimal): string
     {
-        let step = Decimal.floor(new Decimal(Decimal.log2(value)));
-        if(value.gte(1e6))
-        {
-            step = Decimal.floor(step.add(value.div(1000000).pow(0.01)));
-        }
+        value = new Decimal(value);
+        let step = Decimal.floor(value.div(1000));
         let omegaAmount = Decimal.floor(step.div(this.greek.length));
-        let lastLetter = this.greek[step.toNumber() % this.greek.length];
-        if(lastLetter === undefined || step.toNumber() > Number.MAX_SAFE_INTEGER) lastLetter = "ω";
+        let lastLetter = this.greek[step.toNumber() % this.greek.length] + this.createSubNum(value.toNumber() % 1000);
+        if(this.greek[step.toNumber() % this.greek.length] === undefined || step.toNumber() > Number.MAX_SAFE_INTEGER) lastLetter = "ω";
+        let omegaOrder = Decimal.log(value, 8000);
         if(omegaAmount.equals(0))
         {
-            return this.greek[step.toNumber() % this.greek.length];
+            return lastLetter;
         }
         else if(omegaAmount.gt(0) && omegaAmount.lte(3))
         {
@@ -57,9 +64,19 @@ export class OmegaNotation extends Notation
         {
             return "ω(" + omegaAmount.toFixed(0) + ")^" + lastLetter;
         }
-        else
+        else if(omegaOrder < 3)
         {
             return "ω(" + this.formatDecimal(omegaAmount) + ")^" + lastLetter;
+        }
+        else if(omegaOrder < 6)
+        {
+            return "ω(" + this.formatDecimal(omegaAmount) + ")";
+        }
+        else
+        {
+            let val = Decimal.pow(8000, omegaOrder % 1);
+            let orderStr = omegaOrder < 100 ? Math.floor(omegaOrder).toFixed(0) : this.formatDecimal(Decimal.floor(omegaOrder));
+            return "ω[" + orderStr + "](" + this.formatDecimal(val) + ")";
         }
     }
 }
