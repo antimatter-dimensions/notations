@@ -156,5 +156,7 @@ Special thanks to the authors of notations:
 - Bar: https://github.com/earthernsence
 - Shi: https://github.com/dan-simon
 - Blind: https://github.com/earthernsence
+- Greek Letters: https://github.com/cook1ee
+- Omega: https://github.com/cook1ee
 
 Additional thanks to https://github.com/omsi6 for the scaffolding of docs page.
