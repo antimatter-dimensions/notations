@@ -1,10 +1,7 @@
 import { Notation } from "./notation";
 import Decimal from "break_infinity.js/break_infinity";
-import { ScientificNotation } from "./scientific";
 
-// https://en.wikipedia.org/wiki/Lion-Eating_Poet_in_the_Stone_Den
 const JPNNOT_SUFFIXES = ['', '万', '億', '兆', '京', '垓', '秭', '穣', '溝', '澗', '正', '載', '極', '恒河沙', '阿僧祇', '那由他', '不可思議', '無量大数'];
-const scientific = new ScientificNotation();
 
 export class JapaneseNotation extends Notation {
 public get name(): string {
@@ -24,12 +21,8 @@ public get name(): string {
       return this.jpnNotation(value);
     }
 
-    else if (value.exponent < 1e72) {
-      return value.mantissa.toFixed(3) + '×10の' + this.jpnNotation(new Decimal(value.exponent)) + '乗';
-    }
-
     else {
-      return scientific.formatDecimal(value, places);
+      return value.mantissa.toFixed(places) + '×10の' + this.jpnNotation(new Decimal(value.exponent)) + '乗';
     }
   }
 
