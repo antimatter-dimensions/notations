@@ -22,3 +22,4 @@ export * from "./shi";
 export * from "./blind";
 export * from "./greekletters";
 export * from "./omega";
+export * from "./omegashort";

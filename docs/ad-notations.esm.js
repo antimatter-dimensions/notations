@@ -1515,3 +1515,4 @@ var OmegaNotationShort = function (_super) {
 }(OmegaNotation);
 
 export { BarNotation, BlindNotation, BracketsNotation, CancerNotation, ClockNotation, DotsNotation, EngineeringNotation, GreekLettersNotation, HexNotation, ImperialNotation, InfinityNotation, LettersNotation, LogarithmNotation, MixedEngineeringNotation, MixedScientificNotation, Notation, OmegaNotation, OmegaNotationShort, PrimeNotation, RomanNotation, ScientificNotation, Settings, ShiNotation, StandardNotation, ZalgoNotation };
+

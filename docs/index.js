@@ -65,7 +65,8 @@ const displays = (function() {
     N.ShiNotation,
     N.BlindNotation,
     N.GreekLettersNotation,
-    N.OmegaNotation
+    N.OmegaNotation,
+    N.OmegaNotationShort
   ];
   return notations.reverse().map((n) => new NotationDisplay(n));
 }());
