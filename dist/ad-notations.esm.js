@@ -1361,7 +1361,7 @@ var JapaneseNotation = function (_super) {
   });
   Object.defineProperty(JapaneseNotation.prototype, "infinite", {
     get: function get() {
-      return "無限大";
+      return "無限";
     },
     enumerable: true,
     configurable: true

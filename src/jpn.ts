@@ -9,7 +9,7 @@ public get name(): string {
   }
 
   public get infinite(): string {
-    return "無限大";
+    return "無限";
   }
 
   public formatUnder1000(value: number): string {
