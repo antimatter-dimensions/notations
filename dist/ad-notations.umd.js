@@ -1377,6 +1377,66 @@
     return BlindNotation;
   }(Notation);
 
+  var JPNNOT_SUFFIXES = ['', '万', '億', '兆', '京', '垓', '秭', '穣', '溝', '澗', '正', '載', '極', '恒河沙', '阿僧祇', '那由他', '不可思議', '無量大数'];
+  var scientific$1 = new ScientificNotation();
+
+  var JapaneseNotation = function (_super) {
+    __extends(JapaneseNotation, _super);
+
+    function JapaneseNotation() {
+      return _super !== null && _super.apply(this, arguments) || this;
+    }
+
+    Object.defineProperty(JapaneseNotation.prototype, "name", {
+      get: function get() {
+        return "Japanese";
+      },
+      enumerable: true,
+      configurable: true
+    });
+    Object.defineProperty(JapaneseNotation.prototype, "infinite", {
+      get: function get() {
+        return "無限大";
+      },
+      enumerable: true,
+      configurable: true
+    });
+
+    JapaneseNotation.prototype.formatUnder1000 = function (value) {
+      return this.jpnNotation(new Decimal(value));
+    };
+
+    JapaneseNotation.prototype.formatDecimal = function (value, places) {
+      if (value.exponent < 72) {
+        return this.jpnNotation(value);
+      } else if (value.exponent < 1e72) {
+        return value.mantissa.toFixed(3) + '×10の' + this.jpnNotation(new Decimal(value.exponent)) + '乗';
+      } else {
+        return scientific$1.formatDecimal(value, places);
+      }
+    };
+
+    JapaneseNotation.prototype.getSuffix = function (x) {
+      return JPNNOT_SUFFIXES[x];
+    };
+
+    JapaneseNotation.prototype.jpnNotation = function (value) {
+      var exponentLast = Math.floor(value.exponent / 4);
+      var mantissa = Decimal.times(Decimal.pow(10, value.exponent % 4), value.mantissa).toFixed(4);
+      var integerPart = Decimal.floor(mantissa);
+      var subExponent = Decimal.times(Decimal.minus(mantissa, integerPart), 10000);
+      var money_str = "" + integerPart + this.getSuffix(exponentLast);
+
+      if (exponentLast >= 1 && subExponent.neq(0)) {
+        money_str += subExponent + this.getSuffix(exponentLast - 1);
+      }
+
+      return money_str;
+    };
+
+    return JapaneseNotation;
+  }(Notation);
+
   exports.BarNotation = BarNotation;
   exports.BlindNotation = BlindNotation;
   exports.BracketsNotation = BracketsNotation;
@@ -1387,6 +1447,7 @@
   exports.HexNotation = HexNotation;
   exports.ImperialNotation = ImperialNotation;
   exports.InfinityNotation = InfinityNotation;
+  exports.JapaneseNotation = JapaneseNotation;
   exports.LettersNotation = LettersNotation;
   exports.LogarithmNotation = LogarithmNotation;
   exports.MixedEngineeringNotation = MixedEngineeringNotation;

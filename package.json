@@ -33,7 +33,7 @@
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.13.0",
     "bili": "^4.8.1",
-    "eslint": "^6.1.0",
+    "eslint": "^5.0.0",
     "rollup-plugin-typescript2": "^0.24.0",
     "typescript": "^3.5.3"
   },
