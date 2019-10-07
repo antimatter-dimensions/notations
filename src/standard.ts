@@ -53,9 +53,7 @@ export class StandardNotation extends EngineeringNotation {
     while (index2 >= 0) {
       abbreviation += prefix[index2 * 3] + prefix[index2 * 3 + 1] + prefix[index2 * 3 + 2] + PREFIXES_2[index2--];
     }
-    if (abbreviation.endsWith("-")) {
-      abbreviation = abbreviation.slice(0, abbreviation.length - 1);
-    }
+    abbreviation.replace(/-$/, '');
     return abbreviation
       .replace("UM", "M")
       .replace("UNA", "NA")
