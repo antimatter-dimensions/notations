@@ -12,10 +12,6 @@ public get name(): string {
     return "無限";
   }
 
-  public formatUnder1000(value: number): string {
-    return this.jpnNotation(new Decimal(value));
-  }
-
   public formatDecimal(value: Decimal, places: number): string {
     if (value.exponent < 72){
       return this.jpnNotation(value);
@@ -31,8 +27,8 @@ public get name(): string {
   }
 
   private jpnNotation(value: Decimal): string {
-    let exponentLast = Math.floor(value.exponent / 4);
-    let mantissa = Decimal.times(Decimal.pow(10, value.exponent % 4), value.mantissa).toFixed(4);
+    let exponentLast = Math.max(0, Math.floor(value.exponent / 4));
+    let mantissa = Decimal.times(Decimal.pow(10, value.exponent - 4 * exponentLast), value.mantissa).toFixed(4);
     let integerPart = Decimal.floor(mantissa);
     let subExponent = Decimal.times(Decimal.minus(mantissa, integerPart), 10000);
 

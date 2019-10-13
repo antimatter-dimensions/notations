@@ -1401,10 +1401,6 @@
       configurable: true
     });
 
-    JapaneseNotation.prototype.formatUnder1000 = function (value) {
-      return this.jpnNotation(new Decimal(value));
-    };
-
     JapaneseNotation.prototype.formatDecimal = function (value, places) {
       if (value.exponent < 72) {
         return this.jpnNotation(value);
@@ -1418,8 +1414,8 @@
     };
 
     JapaneseNotation.prototype.jpnNotation = function (value) {
-      var exponentLast = Math.floor(value.exponent / 4);
-      var mantissa = Decimal.times(Decimal.pow(10, value.exponent % 4), value.mantissa).toFixed(4);
+      var exponentLast = Math.max(0, Math.floor(value.exponent / 4));
+      var mantissa = Decimal.times(Decimal.pow(10, value.exponent - 4 * exponentLast), value.mantissa).toFixed(4);
       var integerPart = Decimal.floor(mantissa);
       var subExponent = Decimal.times(Decimal.minus(mantissa, integerPart), 10000);
       var money_str = "" + integerPart + this.getSuffix(exponentLast);
