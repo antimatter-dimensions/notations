@@ -35,7 +35,7 @@ const NotationDisplay = function NotationDisplay(notationClass) {
   return {
     update(value) {
       const decimalValue = parse(value);
-      const formatted = decimalValue === null ? "???" : notation.format(decimalValue, 2, 0);
+      const formatted = decimalValue === null ? "???" : notation.format(decimalValue, 2, 1);
       span.textContent = `${notation.name}: ${formatted}`;
     }
   };
