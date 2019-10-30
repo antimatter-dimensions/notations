@@ -1377,6 +1377,66 @@
     return BlindNotation;
   }(Notation);
 
+  var scientific$1 = new ScientificNotation();
+
+  var MLogSciNotation = function (_super) {
+    __extends(MLogSciNotation, _super);
+
+    function MLogSciNotation() {
+      return _super !== null && _super.apply(this, arguments) || this;
+    }
+
+    Object.defineProperty(MLogSciNotation.prototype, "name", {
+      get: function get() {
+        return "Mixed Logarithm (Scientific Exponent)";
+      },
+      enumerable: true,
+      configurable: true
+    });
+
+    MLogSciNotation.prototype.formatDecimal = function (value, places) {
+      var l = new Decimal(value.log10());
+
+      if (l.exponent >= 5) {
+        return "e" + scientific$1.formatDecimal(l, places);
+      } else {
+        return "e" + l.toFixed(places);
+      }
+    };
+
+    return MLogSciNotation;
+  }(Notation);
+
+  var standard$2 = new StandardNotation();
+
+  var MLogStdNotation = function (_super) {
+    __extends(MLogStdNotation, _super);
+
+    function MLogStdNotation() {
+      return _super !== null && _super.apply(this, arguments) || this;
+    }
+
+    Object.defineProperty(MLogStdNotation.prototype, "name", {
+      get: function get() {
+        return "Mixed Logarithm (Standard notation Exponent)";
+      },
+      enumerable: true,
+      configurable: true
+    });
+
+    MLogStdNotation.prototype.formatDecimal = function (value, places) {
+      var l = new Decimal(value.log10());
+
+      if (l.exponent >= 5) {
+        return "e" + standard$2.formatDecimal(l, places);
+      } else {
+        return "e" + l.toFixed(places);
+      }
+    };
+
+    return MLogStdNotation;
+  }(Notation);
+
   exports.BarNotation = BarNotation;
   exports.BlindNotation = BlindNotation;
   exports.BracketsNotation = BracketsNotation;
@@ -1389,6 +1449,8 @@
   exports.InfinityNotation = InfinityNotation;
   exports.LettersNotation = LettersNotation;
   exports.LogarithmNotation = LogarithmNotation;
+  exports.MLogSciNotation = MLogSciNotation;
+  exports.MLogStdNotation = MLogStdNotation;
   exports.MixedEngineeringNotation = MixedEngineeringNotation;
   exports.MixedScientificNotation = MixedScientificNotation;
   exports.Notation = Notation;
