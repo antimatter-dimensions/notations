@@ -35,7 +35,7 @@ const NotationDisplay = function NotationDisplay(notationClass) {
   return {
     update(value) {
       const decimalValue = parse(value);
-      const formatted = decimalValue === null ? "???" : notation.format(decimalValue, 2, 1);
+      const formatted = decimalValue === null ? "???" : notation.format(decimalValue, 2, 2);
       span.textContent = `${notation.name}: ${formatted}`;
     }
   };
@@ -44,7 +44,6 @@ const NotationDisplay = function NotationDisplay(notationClass) {
 const displays = (function() {
   const N = ADNotations;
   const notations = [
-    N.MLogStdNotation,
     N.MLogSciNotation,
     N.ScientificNotation,
     N.EngineeringNotation,

@@ -1354,53 +1354,30 @@ var MLogSciNotation = function (_super) {
 
   Object.defineProperty(MLogSciNotation.prototype, "name", {
     get: function get() {
-      return "Mixed Logarithm (Scientific Exponent)";
+      return "Mixed Logarithm (Sci)";
     },
     enumerable: true,
     configurable: true
   });
 
   MLogSciNotation.prototype.formatDecimal = function (value, places) {
-    var l = new Decimal(value.log10());
+    if (value.exponent < 30) return scientific$1.formatDecimal(value, places);
+    return "e" + this.formatLog(value.log10(), places);
+  };
 
-    if (l.exponent >= 5) {
-      return "e" + scientific$1.formatDecimal(l, places);
-    } else {
-      return "e" + l.toFixed(places);
+  MLogSciNotation.prototype.formatLog = function (exponent, places) {
+    if (exponent < Settings.exponentCommas.min) {
+      return exponent.toFixed(places);
     }
+
+    if (this.showCommas(exponent)) {
+      return formatWithCommas(exponent.toFixed(places));
+    }
+
+    return scientific$1.formatDecimal(new Decimal(exponent), 3);
   };
 
   return MLogSciNotation;
 }(Notation);
 
-var standard$2 = new StandardNotation();
-
-var MLogStdNotation = function (_super) {
-  __extends(MLogStdNotation, _super);
-
-  function MLogStdNotation() {
-    return _super !== null && _super.apply(this, arguments) || this;
-  }
-
-  Object.defineProperty(MLogStdNotation.prototype, "name", {
-    get: function get() {
-      return "Mixed Logarithm (Standard notation Exponent)";
-    },
-    enumerable: true,
-    configurable: true
-  });
-
-  MLogStdNotation.prototype.formatDecimal = function (value, places) {
-    var l = new Decimal(value.log10());
-
-    if (l.exponent >= 5) {
-      return "e" + standard$2.formatDecimal(l, places);
-    } else {
-      return "e" + l.toFixed(places);
-    }
-  };
-
-  return MLogStdNotation;
-}(Notation);
-
-export { BarNotation, BlindNotation, BracketsNotation, CancerNotation, ClockNotation, DotsNotation, EngineeringNotation, HexNotation, ImperialNotation, InfinityNotation, LettersNotation, LogarithmNotation, MLogSciNotation, MLogStdNotation, MixedEngineeringNotation, MixedScientificNotation, Notation, PrimeNotation, RomanNotation, ScientificNotation, Settings, ShiNotation, StandardNotation, ZalgoNotation };
+export { BarNotation, BlindNotation, BracketsNotation, CancerNotation, ClockNotation, DotsNotation, EngineeringNotation, HexNotation, ImperialNotation, InfinityNotation, LettersNotation, LogarithmNotation, MLogSciNotation, MixedEngineeringNotation, MixedScientificNotation, Notation, PrimeNotation, RomanNotation, ScientificNotation, Settings, ShiNotation, StandardNotation, ZalgoNotation };
