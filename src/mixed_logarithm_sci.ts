@@ -12,7 +12,7 @@ export class MLogSciNotation extends Notation {
   }
 
   public formatDecimal(value: Decimal, places: number): string {
-    if (value.exponent < 30) return scientific.formatDecimal(value, places);
+    if (value.exponent < 33) return scientific.formatDecimal(value, places);
     return `e${this.formatLog(value.log10(), places)}`;
   }
 

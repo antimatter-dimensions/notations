@@ -1361,7 +1361,7 @@ var MLogSciNotation = function (_super) {
   });
 
   MLogSciNotation.prototype.formatDecimal = function (value, places) {
-    if (value.exponent < 30) return scientific$1.formatDecimal(value, places);
+    if (value.exponent < 33) return scientific$1.formatDecimal(value, places);
     return "e" + this.formatLog(value.log10(), places);
   };
 
