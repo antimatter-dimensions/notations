@@ -11,6 +11,10 @@ export class HexNotation extends Notation {
     return "Hex";
   }
 
+  public get negativeInfinite(): string {
+    return "00000000";
+  }
+
   public get infinite(): string {
     return "FFFFFFFF";
   }

@@ -19,13 +19,17 @@ export abstract class Notation {
         : this.formatUnder1000(number, placesUnder1000);
     }
 
-    if (Settings.isInfinite(decimal)) {
-      return this.infinite;
+    if (Settings.isInfinite(decimal.abs())) {
+      return decimal.sign() < 0 ?  this.negativeInfinite : this.infinite;
     }
 
     return decimal.sign() < 0
       ? this.formatNegativeDecimal(decimal.abs(), places)
       : this.formatDecimal(decimal, places);
+  }
+
+  public get negativeInfinite(): string {
+    return `-${this.infinite}`;
   }
 
   public get infinite(): string {

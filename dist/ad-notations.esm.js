@@ -48,13 +48,20 @@ var Notation = function () {
       return number < 0 ? this.formatNegativeUnder1000(Math.abs(number), placesUnder1000) : this.formatUnder1000(number, placesUnder1000);
     }
 
-    if (Settings.isInfinite(decimal)) {
-      return this.infinite;
+    if (Settings.isInfinite(decimal.abs())) {
+      return decimal.sign() < 0 ? this.negativeInfinite : this.infinite;
     }
 
     return decimal.sign() < 0 ? this.formatNegativeDecimal(decimal.abs(), places) : this.formatDecimal(decimal, places);
   };
 
+  Object.defineProperty(Notation.prototype, "negativeInfinite", {
+    get: function get() {
+      return "-" + this.infinite;
+    },
+    enumerable: true,
+    configurable: true
+  });
   Object.defineProperty(Notation.prototype, "infinite", {
     get: function get() {
       return "Infinite";
@@ -288,7 +295,6 @@ var StandardNotation = function (_super) {
 }(EngineeringNotation);
 
 var standard = new StandardNotation();
-var scientific = new ScientificNotation();
 
 var MixedScientificNotation = function (_super) {
   __extends(MixedScientificNotation, _super);
@@ -306,15 +312,20 @@ var MixedScientificNotation = function (_super) {
   });
 
   MixedScientificNotation.prototype.formatDecimal = function (value, places) {
-    var notation = value.exponent >= 33 ? scientific : standard;
-    return notation.formatDecimal(value, places);
+    if (value.exponent < 33) {
+      return standard.formatDecimal(value, places);
+    }
+
+    var fixedValue = fixMantissaOverflow(value, places, 10, 1);
+    var mantissa = fixedValue.mantissa.toFixed(places);
+    var exponent = this.formatExponent(fixedValue.exponent);
+    return mantissa + "e" + exponent;
   };
 
   return MixedScientificNotation;
 }(Notation);
 
 var standard$1 = new StandardNotation();
-var engineering = new EngineeringNotation();
 
 var MixedEngineeringNotation = function (_super) {
   __extends(MixedEngineeringNotation, _super);
@@ -332,8 +343,14 @@ var MixedEngineeringNotation = function (_super) {
   });
 
   MixedEngineeringNotation.prototype.formatDecimal = function (value, places) {
-    var notation = value.exponent >= 33 ? engineering : standard$1;
-    return notation.formatDecimal(value, places);
+    if (value.exponent < 33) {
+      return standard$1.formatDecimal(value, places);
+    }
+
+    var engineering = toFixedEngineering(value, places);
+    var mantissa = engineering.mantissa.toFixed(places);
+    var exponent = this.formatExponent(engineering.exponent);
+    return mantissa + "e" + exponent;
   };
 
   return MixedEngineeringNotation;
@@ -651,6 +668,13 @@ var HexNotation = function (_super) {
   Object.defineProperty(HexNotation.prototype, "name", {
     get: function get() {
       return "Hex";
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(HexNotation.prototype, "negativeInfinite", {
+    get: function get() {
+      return "00000000";
     },
     enumerable: true,
     configurable: true
@@ -1312,6 +1336,13 @@ var BlindNotation = function (_super) {
   Object.defineProperty(BlindNotation.prototype, "name", {
     get: function get() {
       return "Blind";
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(BlindNotation.prototype, "negativeInfinite", {
+    get: function get() {
+      return " ";
     },
     enumerable: true,
     configurable: true
