@@ -108,6 +108,24 @@ You can also extend existing notations (like `CancerNotation` does) and override
 other methods, but this is a more advanced case which you can figure out by
 looking at the source code of existing notations.
 
+## Community Notations
+
+To use community notations, download community pack from the
+[dist](https://github.com/antimatter-dimensions/notations/tree/master/dist) directory.
+The community pack can be used **separately** from the base pack. To access
+community notations from your code, use `ADCommunityNotations` instead of
+`ADNotations`. Apart from that, the usage pattern is the same as with
+the base pack 
+
+If you want your notation to be publicly available via this library, you should
+start by adding your notation to a `src/community` folder and making a pull
+request with it.
+
+After your PR is merged (which means that one of the maintainers decided that
+it is good enough), you can reach out to AD devs about adding it to a base game.
+There is no guarantee that it will be added, but all well-made notations will
+be available as a community pack.
+
 ## Build
 
 First, clone the repo
@@ -123,12 +141,18 @@ Then install npm dependencies
 npm install
 ```
 
-And then run build command which will build all targets to the dist directory.
+And then run build command which will build all packs to the dist directory and
+to the `docs` directory.
 
 ```
 npm run build
 ```
+
+To build base pack or community pack separately, use `build:base` or `build:community`
+command.
+
 ## Contributing
+
 1. Be reasonable when commiting something.
 2. Be original when making a new notation.
 

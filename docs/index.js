@@ -43,6 +43,7 @@ const NotationDisplay = function NotationDisplay(notationClass) {
 
 const displays = (function() {
   const N = ADNotations;
+  const CN = ADCommunityNotations;
   const notations = [
     N.ScientificNotation,
     N.EngineeringNotation,

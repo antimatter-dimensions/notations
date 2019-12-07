@@ -3,7 +3,9 @@
   "version": "1.1.1",
   "description": "Notations used in Antimatter Dimensions",
   "scripts": {
-    "build": "bili"
+    "build": "npm run build:ad && npm run build:community",
+    "build:ad": "bili --config bili.config.base.ts && cp dist/ad-notations.min.js docs/ad-notations.min.js",
+    "build:community": "bili --config bili.config.community.ts && cp dist/ad-notations.community.min.js docs/ad-notations.community.min.js"
   },
   "main": "dist/ad-notations.umd.js",
   "module": "dist/ad-notations.esm.js",
