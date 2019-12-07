@@ -12,6 +12,12 @@ export abstract class Notation {
 
     const decimal = Decimal.fromValue_noAlloc(value);
 
+    if (decimal.exponent < -300) {
+      return decimal.sign() < 0
+        ? this.formatNegativeVerySmallDecimal(decimal.abs(), placesUnder1000)
+        : this.formatVerySmallDecimal(decimal, placesUnder1000);
+    }
+
     if (decimal.exponent < 3) {
       const number = decimal.toNumber();
       return number < 0
@@ -19,8 +25,8 @@ export abstract class Notation {
         : this.formatUnder1000(number, placesUnder1000);
     }
 
-    if (Settings.isInfinite(decimal)) {
-      return this.infinite;
+    if (Settings.isInfinite(decimal.abs())) {
+      return decimal.sign() < 0 ?  this.negativeInfinite : this.infinite;
     }
 
     return decimal.sign() < 0
@@ -28,8 +34,20 @@ export abstract class Notation {
       : this.formatDecimal(decimal, places);
   }
 
+  public get negativeInfinite(): string {
+    return `-${this.infinite}`;
+  }
+
   public get infinite(): string {
     return "Infinite";
+  }
+
+  public formatNegativeVerySmallDecimal(value: Decimal, places: number): string {
+     return `-${this.formatVerySmallDecimal(value, places)}`;
+  }
+
+  public formatVerySmallDecimal(_value: Decimal, places: number): string {
+    return this.formatUnder1000(0, places);
   }
 
   public formatNegativeUnder1000(value: number, places: number): string {
