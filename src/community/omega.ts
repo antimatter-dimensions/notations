@@ -18,7 +18,7 @@ export class OmegaNotation extends Notation {
     return "Ω";
   }
 
-  private createSubNum(num: number) {
+  protected createSubNum(num: number) {
     let str = num.toFixed(0);
     let res = "";
     for (let i = 0; i < str.length; i++) {
