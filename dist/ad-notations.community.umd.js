@@ -31,14 +31,14 @@
     return value;
   }
   var SUBSCRIPT_NUMBERS = ["₀", "₁", "₂", "₃", "₄", "₅", "₆", "₇", "₈", "₉"];
-  function toSubscript(num) {
-    return num.toFixed(0).split("").map(function (x) {
+  function toSubscript(value) {
+    return value.toFixed(0).split("").map(function (x) {
       return SUBSCRIPT_NUMBERS[parseInt(x)];
     }).join("");
   }
   var SUPERSCRIPT_NUMBERS = ["⁰", "¹", "²", "³", "⁴", "⁵", "⁶", "⁷", "⁸", "⁹"];
-  function toSuperscript(num) {
-    return num.toFixed(0).split("").map(function (x) {
+  function toSuperscript(value) {
+    return value.toFixed(0).split("").map(function (x) {
       return SUPERSCRIPT_NUMBERS[parseInt(x)];
     }).join("");
   }
@@ -54,7 +54,7 @@
       var decimal = Decimal.fromValue_noAlloc(value);
 
       if (decimal.exponent < -300) {
-        return decimal.sign() < 0 ? this.formatNegativeVerySmallDecimal(decimal.abs(), placesUnder1000) : this.formatVerySmallDecimal(decimal, placesUnder1000);
+        return decimal.sign() < 0 ? this.formatVerySmallNegativeDecimal(decimal.abs(), placesUnder1000) : this.formatVerySmallDecimal(decimal, placesUnder1000);
       }
 
       if (decimal.exponent < 3) {
@@ -84,12 +84,12 @@
       configurable: true
     });
 
-    Notation.prototype.formatNegativeVerySmallDecimal = function (value, places) {
+    Notation.prototype.formatVerySmallNegativeDecimal = function (value, places) {
       return "-" + this.formatVerySmallDecimal(value, places);
     };
 
-    Notation.prototype.formatVerySmallDecimal = function (_value, places) {
-      return this.formatUnder1000(0, places);
+    Notation.prototype.formatVerySmallDecimal = function (value, places) {
+      return this.formatUnder1000(value.toNumber(), places);
     };
 
     Notation.prototype.formatNegativeUnder1000 = function (value, places) {

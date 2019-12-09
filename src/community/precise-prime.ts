@@ -18,7 +18,6 @@ export class PrecisePrimeNotation extends Notation {
     return "Primefinity?";
   }
 
-
   public formatUnder1000(value: number): string {
     return this.primify(new Decimal(value));
   }

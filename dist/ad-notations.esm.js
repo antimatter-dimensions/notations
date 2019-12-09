@@ -44,7 +44,7 @@ var Notation = function () {
     var decimal = Decimal.fromValue_noAlloc(value);
 
     if (decimal.exponent < -300) {
-      return decimal.sign() < 0 ? this.formatNegativeVerySmallDecimal(decimal.abs(), placesUnder1000) : this.formatVerySmallDecimal(decimal, placesUnder1000);
+      return decimal.sign() < 0 ? this.formatVerySmallNegativeDecimal(decimal.abs(), placesUnder1000) : this.formatVerySmallDecimal(decimal, placesUnder1000);
     }
 
     if (decimal.exponent < 3) {
@@ -74,12 +74,12 @@ var Notation = function () {
     configurable: true
   });
 
-  Notation.prototype.formatNegativeVerySmallDecimal = function (value, places) {
+  Notation.prototype.formatVerySmallNegativeDecimal = function (value, places) {
     return "-" + this.formatVerySmallDecimal(value, places);
   };
 
-  Notation.prototype.formatVerySmallDecimal = function (_value, places) {
-    return this.formatUnder1000(0, places);
+  Notation.prototype.formatVerySmallDecimal = function (value, places) {
+    return this.formatUnder1000(value.toNumber(), places);
   };
 
   Notation.prototype.formatNegativeUnder1000 = function (value, places) {
@@ -696,7 +696,7 @@ var HexNotation = function (_super) {
     configurable: true
   });
 
-  HexNotation.prototype.formatNegativeVerySmallDecimal = function (value) {
+  HexNotation.prototype.formatVerySmallNegativeDecimal = function (value) {
     return this.formatDecimal(value.negate());
   };
 
@@ -1371,6 +1371,14 @@ var BlindNotation = function (_super) {
     enumerable: true,
     configurable: true
   });
+
+  BlindNotation.prototype.formatVerySmallNegativeDecimal = function () {
+    return " ";
+  };
+
+  BlindNotation.prototype.formatVerySmallDecimal = function () {
+    return " ";
+  };
 
   BlindNotation.prototype.formatNegativeUnder1000 = function () {
     return " ";

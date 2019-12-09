@@ -42,12 +42,12 @@ export function toFixedEngineering(value: Decimal, places: number): Decimal {
 
 const SUBSCRIPT_NUMBERS = ["₀", "₁", "₂", "₃", "₄", "₅", "₆", "₇", "₈", "₉"];
 
-export function toSubscript(num: number): string {
-  return num.toFixed(0).split("").map(x => SUBSCRIPT_NUMBERS[parseInt(x)]).join("");
+export function toSubscript(value: number): string {
+  return value.toFixed(0).split("").map(x => SUBSCRIPT_NUMBERS[parseInt(x)]).join("");
 }
 
 const SUPERSCRIPT_NUMBERS = ["⁰", "¹", "²", "³", "⁴", "⁵", "⁶", "⁷", "⁸", "⁹"];
 
-export function toSuperscript(num: number): string {
-  return num.toFixed(0).split("").map(x => SUPERSCRIPT_NUMBERS[parseInt(x)]).join("");
+export function toSuperscript(value: number): string {
+  return value.toFixed(0).split("").map(x => SUPERSCRIPT_NUMBERS[parseInt(x)]).join("");
 }

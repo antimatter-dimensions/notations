@@ -14,7 +14,7 @@ export abstract class Notation {
 
     if (decimal.exponent < -300) {
       return decimal.sign() < 0
-        ? this.formatNegativeVerySmallDecimal(decimal.abs(), placesUnder1000)
+        ? this.formatVerySmallNegativeDecimal(decimal.abs(), placesUnder1000)
         : this.formatVerySmallDecimal(decimal, placesUnder1000);
     }
 
@@ -42,12 +42,14 @@ export abstract class Notation {
     return "Infinite";
   }
 
-  public formatNegativeVerySmallDecimal(value: Decimal, places: number): string {
+  public formatVerySmallNegativeDecimal(value: Decimal, places: number): string {
      return `-${this.formatVerySmallDecimal(value, places)}`;
   }
 
-  public formatVerySmallDecimal(_value: Decimal, places: number): string {
-    return this.formatUnder1000(0, places);
+  public formatVerySmallDecimal(value: Decimal, places: number): string {
+    // We switch to very small formatting as soon as 1e-300 due to precision loss,
+    // so value.toNumber() might not be zero.
+    return this.formatUnder1000(value.toNumber(), places);
   }
 
   public formatNegativeUnder1000(value: number, places: number): string {

@@ -19,7 +19,7 @@ export class HexNotation extends Notation {
     return "FFFFFFFF";
   }
 
-  public formatNegativeVerySmallDecimal(value: Decimal): string {
+  public formatVerySmallNegativeDecimal(value: Decimal): string {
     return this.formatDecimal(value.negate());
   }
 

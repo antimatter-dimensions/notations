@@ -13,6 +13,14 @@ export class BlindNotation extends Notation {
     return " ";
   }
 
+  public formatVerySmallNegativeDecimal(): string {
+    return " ";
+  }
+
+  public formatVerySmallDecimal(): string {
+    return " ";
+  }
+
   public formatNegativeUnder1000(): string {
     return " ";
   }
