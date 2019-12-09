@@ -1,5 +1,6 @@
 import { Notation } from "../notation";
 import Decimal from "break_infinity.js/break_infinity";
+import { toSuperscript } from "../utils";
 
 // The maximum number we can reliably find prime factors for.
 const MAX_INT = Number.MAX_SAFE_INTEGER;
@@ -7,12 +8,6 @@ const MAX_INT_DECIMAL = new Decimal(MAX_INT);
 const MAX_INT_LOG_10 = Math.log10(MAX_INT);
 // The maximum factor we consider.
 const MAX_FACTOR = 10000;
-
-// Unicode characters for exponents ranging 0 - 13.
-const EXPONENT_CHARACTERS = [
-  "\u2070", "\u00B9", "\u00B2", "\u00B3", "\u2074",
-  "\u2075", "\u2076", "\u2077", "\u2078", "\u2079"
-];
 
 export class PrecisePrimeNotation extends Notation {
   public get name(): string {
@@ -81,7 +76,7 @@ export class PrecisePrimeNotation extends Notation {
     const formattedExps = factorizations.map(
       (x, i) => this.maybeParenthesize(
         (i === exps.length - 1 && superscriptLastExponent)
-          ? this.convertToExponent(x[0]) : this.formatFromList(x),
+          ? toSuperscript(x[0]) : this.formatFromList(x),
         parenthesize[i]
       )
     )
@@ -90,15 +85,6 @@ export class PrecisePrimeNotation extends Notation {
       formattedExps[exps.length - 2] += superscript;
     }
     return formattedExps.join('^');
-  }
-
-  private convertToExponent(exp: number): string {
-    const s = [];
-    while (exp > 0) {
-      s.push(EXPONENT_CHARACTERS[exp % 10]);
-      exp = Math.floor(exp / 10);
-    }
-    return s.reverse().join("");
   }
 
   private formatFromList(factors: number[]): string {
@@ -114,7 +100,7 @@ export class PrecisePrimeNotation extends Notation {
       } else {
         if (last > 0) {
           if (count > 1) {
-            out.push(`${last}${this.convertToExponent(count)}`);
+            out.push(`${last}${toSuperscript(count)}`);
           } else {
             out.push(last);
           }
@@ -124,7 +110,7 @@ export class PrecisePrimeNotation extends Notation {
       }
     }
     if (count > 1) {
-      out.push(`${last}${this.convertToExponent(count)}`);
+      out.push(`${last}${toSuperscript(count)}`);
     } else {
       out.push(last);
     }

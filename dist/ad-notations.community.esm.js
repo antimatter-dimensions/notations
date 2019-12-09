@@ -27,8 +27,14 @@ function fixMantissaOverflow(value, places, threshold, powerOffset) {
 }
 var SUBSCRIPT_NUMBERS = ["₀", "₁", "₂", "₃", "₄", "₅", "₆", "₇", "₈", "₉"];
 function toSubscript(num) {
-  return num.toFixed(0).split('').map(function (x) {
+  return num.toFixed(0).split("").map(function (x) {
     return SUBSCRIPT_NUMBERS[parseInt(x)];
+  }).join("");
+}
+var SUPERSCRIPT_NUMBERS = ["⁰", "¹", "²", "³", "⁴", "⁵", "⁶", "⁷", "⁸", "⁹"];
+function toSuperscript(num) {
+  return num.toFixed(0).split("").map(function (x) {
+    return SUPERSCRIPT_NUMBERS[parseInt(x)];
   }).join("");
 }
 
@@ -277,7 +283,6 @@ var MAX_INT = Number.MAX_SAFE_INTEGER;
 var MAX_INT_DECIMAL = new Decimal(MAX_INT);
 var MAX_INT_LOG_10 = Math.log10(MAX_INT);
 var MAX_FACTOR = 10000;
-var EXPONENT_CHARACTERS = ["\u2070", "\xB9", "\xB2", "\xB3", "\u2074", "\u2075", "\u2076", "\u2077", "\u2078", "\u2079"];
 
 var PrecisePrimeNotation = function (_super) {
   __extends(PrecisePrimeNotation, _super);
@@ -353,7 +358,7 @@ var PrecisePrimeNotation = function (_super) {
       return x[0] !== x[x.length - 1] || i === exps.length - 2 && x.length > 1 && superscriptLastExponent;
     });
     var formattedExps = factorizations.map(function (x, i) {
-      return _this.maybeParenthesize(i === exps.length - 1 && superscriptLastExponent ? _this.convertToExponent(x[0]) : _this.formatFromList(x), parenthesize[i]);
+      return _this.maybeParenthesize(i === exps.length - 1 && superscriptLastExponent ? toSuperscript(x[0]) : _this.formatFromList(x), parenthesize[i]);
     });
 
     if (superscriptLastExponent) {
@@ -362,17 +367,6 @@ var PrecisePrimeNotation = function (_super) {
     }
 
     return formattedExps.join('^');
-  };
-
-  PrecisePrimeNotation.prototype.convertToExponent = function (exp) {
-    var s = [];
-
-    while (exp > 0) {
-      s.push(EXPONENT_CHARACTERS[exp % 10]);
-      exp = Math.floor(exp / 10);
-    }
-
-    return s.reverse().join("");
   };
 
   PrecisePrimeNotation.prototype.formatFromList = function (factors) {
@@ -388,7 +382,7 @@ var PrecisePrimeNotation = function (_super) {
       } else {
         if (last > 0) {
           if (count > 1) {
-            out.push("" + last + this.convertToExponent(count));
+            out.push("" + last + toSuperscript(count));
           } else {
             out.push(last);
           }
@@ -400,7 +394,7 @@ var PrecisePrimeNotation = function (_super) {
     }
 
     if (count > 1) {
-      out.push("" + last + this.convertToExponent(count));
+      out.push("" + last + toSuperscript(count));
     } else {
       out.push(last);
     }

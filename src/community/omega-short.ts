@@ -15,7 +15,7 @@ export class OmegaShortNotation extends OmegaNotation {
     if (beyondGreekArrayBounds || step.toNumber() > Number.MAX_SAFE_INTEGER) {
       lastLetter = "ω";
     }
-    let omegaOrder = Decimal.log(value, 8000);
+    const omegaOrder = Decimal.log(value, 8000);
     if (omegaAmount.equals(0)) {
       return lastLetter;
     } else if(omegaAmount.gt(0) && omegaAmount.lte(2)) {
