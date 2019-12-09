@@ -86,7 +86,7 @@ export class PrecisePrimeNotation extends Notation {
       )
     )
     if (superscriptLastExponent) {
-      let superscript = formattedExps.pop();
+      const superscript = formattedExps.pop();
       formattedExps[exps.length - 2] += superscript;
     }
     return formattedExps.join('^');
@@ -94,8 +94,9 @@ export class PrecisePrimeNotation extends Notation {
 
   private convertToExponent(exp: number): string {
     const s = [];
-    for (; exp > 0; exp = Math.floor(exp / 10)) {
+    while (exp > 0) {
       s.push(EXPONENT_CHARACTERS[exp % 10]);
+      exp = Math.floor(exp / 10);
     }
     return s.reverse().join("");
   }
@@ -107,7 +108,7 @@ export class PrecisePrimeNotation extends Notation {
     const out = [];
     let last = 0;
     let count = 0;
-    for (let i of factors) {
+    for (const i of factors) {
       if (i === last) {
         count++;
       } else {
@@ -130,9 +131,10 @@ export class PrecisePrimeNotation extends Notation {
     return out.join("\u00D7");
   }
 
-  private primesFromInt(n: number): number[] {
+  private primesFromInt(num: number): number[] {
+    let n = num;
     const l = [];
-    for (let k of [2, 3]) {
+    for (const k of [2, 3]) {
       for (; n % k == 0; n /= k) {
         l.push(k);
       }

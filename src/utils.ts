@@ -39,3 +39,9 @@ export function toEngineering(value: Decimal): Decimal {
 export function toFixedEngineering(value: Decimal, places: number): Decimal {
   return fixMantissaOverflow(toEngineering(value), places, 1000, 3);
 }
+
+const SUBSCRIPT_NUMBERS = ["₀", "₁", "₂", "₃", "₄", "₅", "₆", "₇", "₈", "₉"];
+
+export function toSubscript(num: number): string {
+  return num.toFixed(0).split('').map(x => SUBSCRIPT_NUMBERS[parseInt(x)]).join("");
+}

@@ -1,7 +1,11 @@
 import { Notation } from "../notation";
 import Decimal from "break_infinity.js/break_infinity";
 
-const JPNNOT_SUFFIXES = ['', '万', '億', '兆', '京', '垓', '秭', '穣', '溝', '澗', '正', '載', '極', '恒河沙', '阿僧祇', '那由他', '不可思議', '無量大数'];
+const JPNNOT_SUFFIXES = [
+  '', '万', '億', '兆', '京', '垓', '秭',
+  '穣', '溝', '澗', '正', '載', '極',
+  '恒河沙', '阿僧祇', '那由他', '不可思議', '無量大数'
+];
 
 export class JapaneseNotation extends Notation {
   public get name(): string {
@@ -27,10 +31,10 @@ export class JapaneseNotation extends Notation {
   }
 
   private jpnNotation(value: Decimal): string {
-    let exponentLast = Math.max(0, Math.floor(value.exponent / 4));
-    let mantissa = Decimal.times(Decimal.pow(10, value.exponent - 4 * exponentLast), value.mantissa).toFixed(4);
-    let integerPart = Decimal.floor(mantissa);
-    let subExponent = Decimal.times(Decimal.minus(mantissa, integerPart), 10000);
+    const exponentLast = Math.max(0, Math.floor(value.exponent / 4));
+    const mantissa = Decimal.times(Decimal.pow(10, value.exponent - 4 * exponentLast), value.mantissa).toFixed(4);
+    const integerPart = Decimal.floor(mantissa);
+    const subExponent = Decimal.times(Decimal.minus(mantissa, integerPart), 10000);
 
     let money_str = "" + integerPart + this.getSuffix(exponentLast);
 

@@ -22,7 +22,7 @@ export class TritetratedNotation extends Notation {
     let low = 0;
     let high = 16;
     while (high - low > 1e-7) {
-      let mid = (low + high) / 2;
+      const mid = (low + high) / 2;
       if (Decimal.pow(mid, Math.pow(mid, mid)).lt(value)) {
         low = mid;
       } else {

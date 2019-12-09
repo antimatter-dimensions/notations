@@ -30,6 +30,12 @@
 
     return value;
   }
+  var SUBSCRIPT_NUMBERS = ["₀", "₁", "₂", "₃", "₄", "₅", "₆", "₇", "₈", "₉"];
+  function toSubscript(num) {
+    return num.toFixed(0).split('').map(function (x) {
+      return SUBSCRIPT_NUMBERS[parseInt(x)];
+    }).join("");
+  }
 
   var Notation = function () {
     function Notation() {}
@@ -202,13 +208,6 @@
       enumerable: true,
       configurable: true
     });
-    Object.defineProperty(OmegaNotation.prototype, "subNums", {
-      get: function get() {
-        return "₀₁₂₃₄₅₆₇₈₉";
-      },
-      enumerable: true,
-      configurable: true
-    });
     Object.defineProperty(OmegaNotation.prototype, "infinite", {
       get: function get() {
         return "Ω";
@@ -217,27 +216,20 @@
       configurable: true
     });
 
-    OmegaNotation.prototype.createSubNum = function (num) {
-      var str = num.toFixed(0);
-      var res = "";
-
-      for (var i = 0; i < str.length; i++) {
-        res += this.subNums[parseInt(str[i])];
-      }
-
-      return res;
-    };
-
     OmegaNotation.prototype.formatUnder1000 = function (value) {
       return this.formatDecimal(new Decimal(value));
     };
 
     OmegaNotation.prototype.formatDecimal = function (value) {
-      value = new Decimal(value);
       var step = Decimal.floor(value.div(1000));
       var omegaAmount = Decimal.floor(step.div(this.greek.length));
-      var lastLetter = this.greek[step.toNumber() % this.greek.length] + this.createSubNum(value.toNumber() % 1000);
-      if (this.greek[step.toNumber() % this.greek.length] === undefined || step.toNumber() > Number.MAX_SAFE_INTEGER) lastLetter = "ω";
+      var lastLetter = this.greek[step.toNumber() % this.greek.length] + toSubscript(value.toNumber() % 1000);
+      var beyondGreekArrayBounds = this.greek[step.toNumber() % this.greek.length] === undefined;
+
+      if (beyondGreekArrayBounds || step.toNumber() > Number.MAX_SAFE_INTEGER) {
+        lastLetter = "ω";
+      }
+
       var omegaOrder = Decimal.log(value, 8000);
 
       if (omegaAmount.equals(0)) {
@@ -282,11 +274,15 @@
     });
 
     OmegaShortNotation.prototype.formatDecimal = function (value) {
-      value = new Decimal(value);
       var step = Decimal.floor(value.div(1000));
       var omegaAmount = Decimal.floor(step.div(this.greek.length));
-      var lastLetter = this.greek[step.toNumber() % this.greek.length] + this.createSubNum(value.toNumber() % 1000);
-      if (this.greek[step.toNumber() % this.greek.length] === undefined || step.toNumber() > Number.MAX_SAFE_INTEGER) lastLetter = "ω";
+      var lastLetter = this.greek[step.toNumber() % this.greek.length] + toSubscript(value.toNumber() % 1000);
+      var beyondGreekArrayBounds = this.greek[step.toNumber() % this.greek.length] === undefined;
+
+      if (beyondGreekArrayBounds || step.toNumber() > Number.MAX_SAFE_INTEGER) {
+        lastLetter = "ω";
+      }
+
       var omegaOrder = Decimal.log(value, 8000);
 
       if (omegaAmount.equals(0)) {
@@ -405,8 +401,9 @@
     PrecisePrimeNotation.prototype.convertToExponent = function (exp) {
       var s = [];
 
-      for (; exp > 0; exp = Math.floor(exp / 10)) {
+      while (exp > 0) {
         s.push(EXPONENT_CHARACTERS[exp % 10]);
+        exp = Math.floor(exp / 10);
       }
 
       return s.reverse().join("");
@@ -445,7 +442,8 @@
       return out.join("\xD7");
     };
 
-    PrecisePrimeNotation.prototype.primesFromInt = function (n) {
+    PrecisePrimeNotation.prototype.primesFromInt = function (num) {
+      var n = num;
       var l = [];
 
       for (var _i = 0, _a = [2, 3]; _i < _a.length; _i++) {
