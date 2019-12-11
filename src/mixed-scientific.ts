@@ -1,10 +1,9 @@
 import { Notation } from "./notation";
 import Decimal from "break_infinity.js/break_infinity";
-import { ScientificNotation } from "./scientific";
 import { StandardNotation } from "./standard";
+import { fixMantissaOverflow } from "./utils";
 
 const standard = new StandardNotation();
-const scientific = new ScientificNotation();
 
 export class MixedScientificNotation extends Notation {
   public get name(): string {
@@ -12,7 +11,12 @@ export class MixedScientificNotation extends Notation {
   }
 
   public formatDecimal(value: Decimal, places: number): string {
-    const notation = value.exponent >= 33 ? scientific : standard;
-    return notation.formatDecimal(value, places);
+    if (value.exponent < 33) {
+      return standard.formatDecimal(value, places);
+    }
+    const fixedValue = fixMantissaOverflow(value, places, 10, 1);
+    const mantissa = fixedValue.mantissa.toFixed(places);
+    const exponent = this.formatExponent(fixedValue.exponent);
+    return `${mantissa}e${exponent}`;
   }
 }

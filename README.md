@@ -116,7 +116,7 @@ To use community notations, download community pack from the
 The community pack can be used **separately** from the base pack. To access
 community notations from your code, use `ADCommunityNotations` instead of
 `ADNotations`. Apart from that, the usage pattern is the same as with
-the base pack 
+the base pack
 
 If you want your notation to be publicly available via this library, you should
 start by adding your notation to a `src/community` folder and making a pull
@@ -182,5 +182,13 @@ Special thanks to the authors of notations:
 - Shi: https://github.com/dan-simon
 - Blind: https://github.com/earthernsence
 
-Additional thanks to https://github.com/omsi6 for the scaffolding of docs page.
+Thanks to the authors of community notations:
+- Greek Letters: https://github.com/cook1ee
+- Omega: https://github.com/cook1ee
+- Omega (Short): https://github.com/cook1ee
+- Precise Prime: Based on Prime by https://github.com/Ikerstreamer, idea by https://github.com/BlackCapCoder, changes to Prime mostly by https://github.com/dan-simon
+- Japanese: https://github.com/Chiyozel
+- Mixed Logarithm (Sci): https://github.com/Chiyozel
+- Tritetrated: https://github.com/dan-simon
 
+Additional thanks to https://github.com/omsi6 for the scaffolding of docs page.

@@ -1,10 +1,9 @@
 import { Notation } from "./notation";
 import Decimal from "break_infinity.js/break_infinity";
 import { StandardNotation } from "./standard";
-import { EngineeringNotation } from "./engineering";
+import { toFixedEngineering } from "./utils";
 
 const standard = new StandardNotation();
-const engineering = new EngineeringNotation();
 
 export class MixedEngineeringNotation extends Notation {
   public get name(): string {
@@ -12,7 +11,12 @@ export class MixedEngineeringNotation extends Notation {
   }
 
   public formatDecimal(value: Decimal, places: number): string {
-    const notation = value.exponent >= 33 ? engineering : standard;
-    return notation.formatDecimal(value, places);
+    if (value.exponent < 33) {
+      return standard.formatDecimal(value, places);
+    }
+    const engineering = toFixedEngineering(value, places);
+    const mantissa = engineering.mantissa.toFixed(places);
+    const exponent = this.formatExponent(engineering.exponent);
+    return `${mantissa}e${exponent}`;
   }
 }

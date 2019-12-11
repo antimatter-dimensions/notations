@@ -48,18 +48,29 @@
 
       var decimal = Decimal.fromValue_noAlloc(value);
 
+      if (decimal.exponent < -300) {
+        return decimal.sign() < 0 ? this.formatVerySmallNegativeDecimal(decimal.abs(), placesUnder1000) : this.formatVerySmallDecimal(decimal, placesUnder1000);
+      }
+
       if (decimal.exponent < 3) {
         var number = decimal.toNumber();
         return number < 0 ? this.formatNegativeUnder1000(Math.abs(number), placesUnder1000) : this.formatUnder1000(number, placesUnder1000);
       }
 
-      if (Settings.isInfinite(decimal)) {
-        return this.infinite;
+      if (Settings.isInfinite(decimal.abs())) {
+        return decimal.sign() < 0 ? this.negativeInfinite : this.infinite;
       }
 
       return decimal.sign() < 0 ? this.formatNegativeDecimal(decimal.abs(), places) : this.formatDecimal(decimal, places);
     };
 
+    Object.defineProperty(Notation.prototype, "negativeInfinite", {
+      get: function get() {
+        return "-" + this.infinite;
+      },
+      enumerable: true,
+      configurable: true
+    });
     Object.defineProperty(Notation.prototype, "infinite", {
       get: function get() {
         return "Infinite";
@@ -67,6 +78,14 @@
       enumerable: true,
       configurable: true
     });
+
+    Notation.prototype.formatVerySmallNegativeDecimal = function (value, places) {
+      return "-" + this.formatVerySmallDecimal(value, places);
+    };
+
+    Notation.prototype.formatVerySmallDecimal = function (value, places) {
+      return this.formatUnder1000(value.toNumber(), places);
+    };
 
     Notation.prototype.formatNegativeUnder1000 = function (value, places) {
       return "-" + this.formatUnder1000(value, places);
@@ -311,10 +330,7 @@
         abbreviation += prefix[index2 * 3] + prefix[index2 * 3 + 1] + prefix[index2 * 3 + 2] + PREFIXES_2[index2--];
       }
 
-      if (abbreviation.endsWith("-")) {
-        abbreviation = abbreviation.slice(0, abbreviation.length - 1);
-      }
-
+      abbreviation = abbreviation.replace(/-$/, "");
       return abbreviation.replace("UM", "M").replace("UNA", "NA").replace("UPC", "PC").replace("UFM", "FM");
     };
 
@@ -322,7 +338,6 @@
   }(EngineeringNotation);
 
   var standard = new StandardNotation();
-  var scientific = new ScientificNotation();
 
   var MixedScientificNotation = function (_super) {
     __extends(MixedScientificNotation, _super);
@@ -340,15 +355,20 @@
     });
 
     MixedScientificNotation.prototype.formatDecimal = function (value, places) {
-      var notation = value.exponent >= 33 ? scientific : standard;
-      return notation.formatDecimal(value, places);
+      if (value.exponent < 33) {
+        return standard.formatDecimal(value, places);
+      }
+
+      var fixedValue = fixMantissaOverflow(value, places, 10, 1);
+      var mantissa = fixedValue.mantissa.toFixed(places);
+      var exponent = this.formatExponent(fixedValue.exponent);
+      return mantissa + "e" + exponent;
     };
 
     return MixedScientificNotation;
   }(Notation);
 
   var standard$1 = new StandardNotation();
-  var engineering = new EngineeringNotation();
 
   var MixedEngineeringNotation = function (_super) {
     __extends(MixedEngineeringNotation, _super);
@@ -366,8 +386,14 @@
     });
 
     MixedEngineeringNotation.prototype.formatDecimal = function (value, places) {
-      var notation = value.exponent >= 33 ? engineering : standard$1;
-      return notation.formatDecimal(value, places);
+      if (value.exponent < 33) {
+        return standard$1.formatDecimal(value, places);
+      }
+
+      var engineering = toFixedEngineering(value, places);
+      var mantissa = engineering.mantissa.toFixed(places);
+      var exponent = this.formatExponent(engineering.exponent);
+      return mantissa + "e" + exponent;
     };
 
     return MixedEngineeringNotation;
@@ -689,6 +715,13 @@
       enumerable: true,
       configurable: true
     });
+    Object.defineProperty(HexNotation.prototype, "negativeInfinite", {
+      get: function get() {
+        return "00000000";
+      },
+      enumerable: true,
+      configurable: true
+    });
     Object.defineProperty(HexNotation.prototype, "infinite", {
       get: function get() {
         return "FFFFFFFF";
@@ -697,16 +730,24 @@
       configurable: true
     });
 
+    HexNotation.prototype.formatVerySmallNegativeDecimal = function (value) {
+      return this.formatDecimal(value.negate());
+    };
+
+    HexNotation.prototype.formatVerySmallDecimal = function (value) {
+      return this.formatDecimal(value);
+    };
+
     HexNotation.prototype.formatNegativeUnder1000 = function (value) {
       return this.formatDecimal(new Decimal(-value));
     };
 
-    HexNotation.prototype.formatNegativeDecimal = function (value) {
-      return this.formatDecimal(value.negate());
-    };
-
     HexNotation.prototype.formatUnder1000 = function (value) {
       return this.formatDecimal(new Decimal(value));
+    };
+
+    HexNotation.prototype.formatNegativeDecimal = function (value) {
+      return this.formatDecimal(value.negate());
     };
 
     HexNotation.prototype.formatDecimal = function (value) {
@@ -1350,6 +1391,13 @@
       enumerable: true,
       configurable: true
     });
+    Object.defineProperty(BlindNotation.prototype, "negativeInfinite", {
+      get: function get() {
+        return " ";
+      },
+      enumerable: true,
+      configurable: true
+    });
     Object.defineProperty(BlindNotation.prototype, "infinite", {
       get: function get() {
         return " ";
@@ -1357,6 +1405,14 @@
       enumerable: true,
       configurable: true
     });
+
+    BlindNotation.prototype.formatVerySmallNegativeDecimal = function () {
+      return " ";
+    };
+
+    BlindNotation.prototype.formatVerySmallDecimal = function () {
+      return " ";
+    };
 
     BlindNotation.prototype.formatNegativeUnder1000 = function () {
       return " ";

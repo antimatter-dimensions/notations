@@ -11,21 +11,33 @@ export class HexNotation extends Notation {
     return "Hex";
   }
 
+  public get negativeInfinite(): string {
+    return "00000000";
+  }
+
   public get infinite(): string {
     return "FFFFFFFF";
+  }
+
+  public formatVerySmallNegativeDecimal(value: Decimal): string {
+    return this.formatDecimal(value.negate());
+  }
+
+  public formatVerySmallDecimal(value: Decimal): string {
+    return this.formatDecimal(value);
   }
 
   public formatNegativeUnder1000(value: number): string {
     return this.formatDecimal(new Decimal(-value));
   };
 
-  public formatNegativeDecimal(value: Decimal): string {
-    return this.formatDecimal(value.negate());
-  };
-
   public formatUnder1000(value: number): string {
     return this.formatDecimal(new Decimal(value));
   }
+
+  public formatNegativeDecimal(value: Decimal): string {
+    return this.formatDecimal(value.negate());
+  };
 
   public formatDecimal(value: Decimal): string {
     // The `this.rawValue(x, 32, 8)` returns an integer between 0 and 2^32,

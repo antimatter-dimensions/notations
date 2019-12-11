@@ -41,6 +41,12 @@ const NotationDisplay = function NotationDisplay(notationClass) {
   };
 };
 
+const communityHeaderSpan = function () {
+  let span = document.createElement("span");
+  span.textContent = "Community notations:";
+  return span;
+}
+
 const displays = (function() {
   const N = ADNotations;
   const CN = ADCommunityNotations;
@@ -66,7 +72,19 @@ const displays = (function() {
     N.ShiNotation,
     N.BlindNotation
   ];
-  return notations.reverse().map((n) => new NotationDisplay(n));
+  const communityNotations = [
+    CN.GreekLettersNotation,
+    CN.OmegaNotation,
+    CN.OmegaShortNotation,
+    CN.PrecisePrimeNotation,
+    CN.JapaneseNotation,
+    CN.MixedLogarithmSciNotation,
+    CN.TritetratedNotation,
+  ]
+  let communityNotationsDisplay = communityNotations.reverse().map((n) => new NotationDisplay(n));
+  inputContainer.after(communityHeaderSpan());
+  let mainNotationsDisplay = notations.reverse().map((n) => new NotationDisplay(n));
+  return mainNotationsDisplay.concat(communityNotationsDisplay);
 }());
 
 function updateValues() {

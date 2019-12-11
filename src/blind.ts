@@ -5,7 +5,19 @@ export class BlindNotation extends Notation {
     return "Blind";
   }
 
+  public get negativeInfinite(): string {
+    return " ";
+  }
+
   public get infinite(): string {
+    return " ";
+  }
+
+  public formatVerySmallNegativeDecimal(): string {
+    return " ";
+  }
+
+  public formatVerySmallDecimal(): string {
     return " ";
   }
 
