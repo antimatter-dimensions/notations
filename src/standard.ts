@@ -30,9 +30,9 @@ export class StandardNotation extends EngineeringNotation {
   public formatDecimal(value: Decimal, places: number): string {
     const engineering = toFixedEngineering(value, places);
     const mantissa = engineering.mantissa.toFixed(places);
-    const abbreviation = value.exponent <= 303
+    const abbreviation = engineering.exponent <= 303
       ? ABBREVIATIONS[engineering.exponent / 3]
-      : this.abbreviate(value.exponent);
+      : this.abbreviate(engineering.exponent);
     return `${mantissa} ${abbreviation}`;
   }
 

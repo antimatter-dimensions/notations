@@ -270,7 +270,7 @@ var StandardNotation = function (_super) {
   StandardNotation.prototype.formatDecimal = function (value, places) {
     var engineering = toFixedEngineering(value, places);
     var mantissa = engineering.mantissa.toFixed(places);
-    var abbreviation = value.exponent <= 303 ? ABBREVIATIONS[engineering.exponent / 3] : this.abbreviate(value.exponent);
+    var abbreviation = engineering.exponent <= 303 ? ABBREVIATIONS[engineering.exponent / 3] : this.abbreviate(engineering.exponent);
     return mantissa + " " + abbreviation;
   };
 
