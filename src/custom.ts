@@ -3,11 +3,11 @@ import Decimal from "break_infinity.js/break_infinity";
 import { toEngineering } from "./utils";
 
 export class CustomNotation extends EngineeringNotation {
-  letters: string | string[];
-  mantissaExponentSeparator: string;
-  separator: string;
+  private letters: string | string[];
+  private mantissaExponentSeparator: string;
+  private separator: string;
   
-  constructor(letters: string | string[], mantissaExponentSeparator="", separator="") {
+  constructor(letters: string | string[], mantissaExponentSeparator: string="", separator: string="") {
     super();
     this.letters = letters;
     if (this.letters.length < 2) {
@@ -39,7 +39,7 @@ export class CustomNotation extends EngineeringNotation {
     if (normalizedExponent <= base) {
       return [this.letters[normalizedExponent - 1]];
     }
-    let letters = [];
+    const letters = [];
     while (normalizedExponent > base) {
       const remainder = normalizedExponent % base;
       const letterIndex = (remainder === 0 ? base : remainder) - 1;
