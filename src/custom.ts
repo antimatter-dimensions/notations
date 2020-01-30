@@ -7,7 +7,7 @@ export class CustomNotation extends EngineeringNotation {
   private mantissaExponentSeparator: string;
   private separator: string;
   
-  constructor(letters: string | string[], mantissaExponentSeparator: string="", separator: string="") {
+  constructor(letters: string | string[], mantissaExponentSeparator="", separator="") {
     super();
     this.letters = letters;
     if (this.letters.length < 2) {
