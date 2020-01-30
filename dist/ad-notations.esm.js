@@ -163,13 +163,80 @@ var EngineeringNotation = function (_super) {
   return EngineeringNotation;
 }(Notation);
 
+var CustomNotation = function (_super) {
+  __extends(CustomNotation, _super);
+
+  function CustomNotation(letters, mantissaExponentSeparator, separator) {
+    if (mantissaExponentSeparator === void 0) {
+      mantissaExponentSeparator = "";
+    }
+
+    if (separator === void 0) {
+      separator = "";
+    }
+
+    var _this = _super.call(this) || this;
+
+    _this.letters = letters;
+
+    if (_this.letters.length < 2) {
+      throw new Error('Not enough letters! (At least 2 are required.)');
+    }
+
+    _this.mantissaExponentSeparator = mantissaExponentSeparator;
+    _this.separator = separator;
+    return _this;
+  }
+
+  Object.defineProperty(CustomNotation.prototype, "name", {
+    get: function get() {
+      return "Custom";
+    },
+    enumerable: true,
+    configurable: true
+  });
+
+  CustomNotation.prototype.formatDecimal = function (value, places) {
+    var engineering = toEngineering(value);
+    var mantissa = engineering.mantissa.toFixed(places);
+    return mantissa + this.mantissaExponentSeparator + this.transcribe(engineering.exponent).join(this.separator);
+  };
+
+  CustomNotation.prototype.transcribe = function (exponent) {
+    var normalizedExponent = exponent / 3;
+    var base = this.letters.length;
+
+    if (normalizedExponent <= base) {
+      return [this.letters[normalizedExponent - 1]];
+    }
+
+    var letters = [];
+
+    while (normalizedExponent > base) {
+      var remainder = normalizedExponent % base;
+      var letterIndex = (remainder === 0 ? base : remainder) - 1;
+      letters.push(this.letters[letterIndex]);
+      normalizedExponent = (normalizedExponent - remainder) / base;
+
+      if (remainder === 0) {
+        normalizedExponent--;
+      }
+    }
+
+    letters.push(this.letters[normalizedExponent - 1]);
+    return letters.reverse();
+  };
+
+  return CustomNotation;
+}(EngineeringNotation);
+
 var LETTERS = "abcdefghijklmnopqrstuvwxyz";
 
 var LettersNotation = function (_super) {
   __extends(LettersNotation, _super);
 
   function LettersNotation() {
-    return _super !== null && _super.apply(this, arguments) || this;
+    return _super.call(this, LETTERS) || this;
   }
 
   Object.defineProperty(LettersNotation.prototype, "name", {
@@ -179,48 +246,8 @@ var LettersNotation = function (_super) {
     enumerable: true,
     configurable: true
   });
-
-  LettersNotation.prototype.formatDecimal = function (value, places) {
-    var engineering = toEngineering(value);
-    var mantissa = engineering.mantissa.toFixed(places);
-    return mantissa + this.transcribe(engineering.exponent);
-  };
-
-  Object.defineProperty(LettersNotation.prototype, "letters", {
-    get: function get() {
-      return LETTERS;
-    },
-    enumerable: true,
-    configurable: true
-  });
-
-  LettersNotation.prototype.transcribe = function (exponent) {
-    var normalizedExponent = exponent / 3;
-    var base = this.letters.length;
-
-    if (normalizedExponent <= base) {
-      return this.letters[normalizedExponent - 1];
-    }
-
-    var letters = "";
-
-    while (normalizedExponent > base) {
-      var remainder = normalizedExponent % base;
-      var letterIndex = (remainder === 0 ? base : remainder) - 1;
-      letters = this.letters[letterIndex] + letters;
-      normalizedExponent = (normalizedExponent - remainder) / base;
-
-      if (remainder === 0) {
-        normalizedExponent--;
-      }
-    }
-
-    letters = this.letters[normalizedExponent - 1] + letters;
-    return letters;
-  };
-
   return LettersNotation;
-}(EngineeringNotation);
+}(CustomNotation);
 
 var CANCER = ["😠", "🎂", "🎄", "💀", "🍆", "👪", "🌈", "💯", "🍦", "🎃", "💋", "😂", "🌙", "⛔", "🐙", "💩", "❓", "☢", "🙈", "👍", "☂", "✌", "⚠", "❌", "😋", "⚡"];
 
@@ -228,7 +255,7 @@ var CancerNotation = function (_super) {
   __extends(CancerNotation, _super);
 
   function CancerNotation() {
-    return _super !== null && _super.apply(this, arguments) || this;
+    return _super.call(this, CANCER) || this;
   }
 
   Object.defineProperty(CancerNotation.prototype, "name", {
@@ -238,15 +265,8 @@ var CancerNotation = function (_super) {
     enumerable: true,
     configurable: true
   });
-  Object.defineProperty(CancerNotation.prototype, "letters", {
-    get: function get() {
-      return CANCER;
-    },
-    enumerable: true,
-    configurable: true
-  });
   return CancerNotation;
-}(LettersNotation);
+}(CustomNotation);
 
 var ABBREVIATIONS = ["", "K", "M", "B", "T", "Qa", "Qt", "Sx", "Sp", "Oc", "No", "Dc", "UDc", "DDc", "TDc", "QaDc", "QtDc", "SxDc", "SpDc", "ODc", "NDc", "Vg", "UVg", "DVg", "TVg", "QaVg", "QtVg", "SxVg", "SpVg", "OVg", "NVg", "Tg", "UTg", "DTg", "TTg", "QaTg", "QtTg", "SxTg", "SpTg", "OTg", "NTg", "Qd", "UQd", "DQd", "TQd", "QaQd", "QtQd", "SxQd", "SpQd", "OQd", "NQd", "Qi", "UQi", "DQi", "TQi", "QaQi", "QtQi", "SxQi", "SpQi", "OQi", "NQi", "Se", "USe", "DSe", "TSe", "QaSe", "QtSe", "SxSe", "SpSe", "OSe", "NSe", "St", "USt", "DSt", "TSt", "QaSt", "QtSt", "SxSt", "SpSt", "OSt", "NSt", "Og", "UOg", "DOg", "TOg", "QaOg", "QtOg", "SxOg", "SpOg", "OOg", "NOg", "Nn", "UNn", "DNn", "TNn", "QaNn", "QtNn", "SxNn", "SpNn", "ONn", "NNn", "Ce"];
 var PREFIXES = [["", "U", "D", "T", "Qa", "Qt", "Sx", "Sp", "O", "N"], ["", "Dc", "Vg", "Tg", "Qd", "Qi", "Se", "St", "Og", "Nn"], ["", "Ce", "Dn", "Tc", "Qe", "Qu", "Sc", "Si", "Oe", "Ne"]];
@@ -1399,4 +1419,4 @@ var BlindNotation = function (_super) {
   return BlindNotation;
 }(Notation);
 
-export { BarNotation, BlindNotation, BracketsNotation, CancerNotation, ClockNotation, DotsNotation, EngineeringNotation, HexNotation, ImperialNotation, InfinityNotation, LettersNotation, LogarithmNotation, MixedEngineeringNotation, MixedScientificNotation, Notation, PrimeNotation, RomanNotation, ScientificNotation, Settings, ShiNotation, StandardNotation, ZalgoNotation };
+export { BarNotation, BlindNotation, BracketsNotation, CancerNotation, ClockNotation, CustomNotation, DotsNotation, EngineeringNotation, HexNotation, ImperialNotation, InfinityNotation, LettersNotation, LogarithmNotation, MixedEngineeringNotation, MixedScientificNotation, Notation, PrimeNotation, RomanNotation, ScientificNotation, Settings, ShiNotation, StandardNotation, ZalgoNotation };
