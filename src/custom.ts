@@ -7,12 +7,12 @@ export class CustomNotation extends EngineeringNotation {
   private mantissaExponentSeparator: string;
   private separator: string;
   
-  constructor(letters: string | string[], mantissaExponentSeparator="", separator="") {
+  constructor(letters: string | string[], mantissaExponentSeparator = "", separator = "") {
+    if (letters.length < 2) {
+      throw new Error("The supplied letter sequence must contain at least 2 letters");
+    }
     super();
     this.letters = letters;
-    if (this.letters.length < 2) {
-      throw new Error('Not enough letters! (At least 2 are required.)');
-    }
     this.mantissaExponentSeparator = mantissaExponentSeparator;
     this.separator = separator;
   }
