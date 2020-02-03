@@ -175,14 +175,14 @@ var CustomNotation = function (_super) {
       separator = "";
     }
 
-    var _this = _super.call(this) || this;
+    var _this = this;
 
-    _this.letters = letters;
-
-    if (_this.letters.length < 2) {
-      throw new Error('Not enough letters! (At least 2 are required.)');
+    if (letters.length < 2) {
+      throw new Error("The supplied letter sequence must contain at least 2 letters");
     }
 
+    _this = _super.call(this) || this;
+    _this.letters = letters;
     _this.mantissaExponentSeparator = mantissaExponentSeparator;
     _this.separator = separator;
     return _this;
