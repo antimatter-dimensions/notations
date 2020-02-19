@@ -32,7 +32,8 @@ const VOLUME_UNITS: VolumeUnit[] = [
 const MINIMS = VOLUME_UNITS[1];
 const VOLUME_ADJECTIVES = [
   "minute ", "tiny ", "petite ", "small ", "modest ", "medium ", "generous ",
-  "large ", "great ", "huge ", "gigantic ", "colossal ", "vast ", "cosmic "
+  "large ", "great ", "grand ", "huge ", "gigantic ", "immense ", "colossal ",
+  "vast ", "galactic ", "cosmic ", "infinite ", "eternal "
 ];
 const VOWELS = new Set("aeiouAEIOU");
 const MAX_VOLUME = 10 * VOLUME_UNITS[VOLUME_UNITS.length - 1][0];

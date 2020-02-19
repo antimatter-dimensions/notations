@@ -809,7 +809,7 @@ var HexNotation = function (_super) {
 
 var VOLUME_UNITS = [[0, "pL", 0], [61611520, "minim", 0], [61611520 * 60, "dram", 1], [61611520 * 60 * 8, "ounce", 2], [61611520 * 60 * 8 * 4, "gill", 2], [61611520 * 60 * 8 * 4 * 2, "cup", 3], [61611520 * 60 * 8 * 4 * 2 * 2, "pint", 4], [61611520 * 60 * 8 * 4 * 2 * 2 * 2, "quart", 4], [61611520 * 60 * 8 * 4 * 2 * 2 * 2 * 4, "gallon", 4], [61611520 * 60 * 8 * 4 * 2 * 2 * 2 * 4 * 4.5, "pin", 3], [61611520 * 60 * 8 * 4 * 2 * 2 * 2 * 4 * 9, "firkin", 3], [61611520 * 60 * 8 * 4 * 2 * 2 * 2 * 4 * 18, "kilderkin", 4], [61611520 * 60 * 8 * 4 * 2 * 2 * 2 * 4 * 36, "barrel", 4], [61611520 * 60 * 8 * 4 * 2 * 2 * 2 * 4 * 54, "hogshead", 5], [61611520 * 60 * 8 * 4 * 2 * 2 * 2 * 4 * 72, "puncheon", 6], [61611520 * 60 * 8 * 4 * 2 * 2 * 2 * 4 * 108, "butt", 7], [61611520 * 60 * 8 * 4 * 2 * 2 * 2 * 4 * 216, "tun", 7]];
 var MINIMS = VOLUME_UNITS[1];
-var VOLUME_ADJECTIVES = ["minute ", "tiny ", "petite ", "small ", "modest ", "medium ", "generous ", "large ", "great ", "huge ", "gigantic ", "colossal ", "vast ", "cosmic "];
+var VOLUME_ADJECTIVES = ["minute ", "tiny ", "petite ", "small ", "modest ", "medium ", "generous ", "large ", "great ", "grand ", "huge ", "gigantic ", "immense ", "colossal ", "vast ", "galactic ", "cosmic ", "infinite ", "eternal "];
 var VOWELS = new Set("aeiouAEIOU");
 var MAX_VOLUME = 10 * VOLUME_UNITS[VOLUME_UNITS.length - 1][0];
 var LOG_MAX_VOLUME = Math.log10(MAX_VOLUME);
