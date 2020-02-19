@@ -1,6 +1,6 @@
 {
   "name": "@antimatter-dimensions/notations",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Notations used in Antimatter Dimensions",
   "scripts": {
     "build": "npm run build:ad && npm run build:community",
