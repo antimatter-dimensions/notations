@@ -12,8 +12,11 @@ var Settings = {
   }
 };
 
+var commaRegexp = /\B(?=([0-9]{3})+(?![0-9]))/g;
 function formatWithCommas(value) {
-  return value.toString().replace(/\B(?=([0-9]{3})+(?![0-9]))/g, ",");
+  var decimalPointSplit = value.toString().split(".");
+  decimalPointSplit[0] = decimalPointSplit[0].replace(commaRegexp, ",");
+  return decimalPointSplit.join(".");
 }
 function fixMantissaOverflow(value, places, threshold, powerOffset) {
   var pow10 = Math.pow(10, places);
@@ -37,6 +40,14 @@ var Notation = function () {
   function Notation() {}
 
   Notation.prototype.format = function (value, places, placesUnder1000) {
+    if (places === void 0) {
+      places = 0;
+    }
+
+    if (placesUnder1000 === void 0) {
+      placesUnder1000 = 0;
+    }
+
     if (typeof value === "number" && !Number.isFinite(value)) {
       return this.infinite;
     }
@@ -480,8 +491,7 @@ var InfinityNotation = function (_super) {
     var formatted = infinities.toFixed(Math.max(infPlaces, places));
 
     if (Settings.exponentCommas.show) {
-      var parts = formatted.split(".");
-      return formatWithCommas(parts[0]) + "." + parts[1] + "\u221E";
+      return formatWithCommas(formatted) + "\u221E";
     }
 
     return formatted + "\u221E";
