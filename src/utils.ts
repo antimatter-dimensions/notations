@@ -1,7 +1,11 @@
 import Decimal from "break_infinity.js/break_infinity";
 
+const commaRegexp = /\B(?=(\d{3})+(?!\d))/gu;
+
 export function formatWithCommas(value: number | string): string {
-  return value.toString().replace(/\B(?=(\d{3})+(?!\d))/gu, ",");
+  const decimalPointSplit = value.toString().split(".");
+  decimalPointSplit[0] = decimalPointSplit[0].replace(commaRegexp, ",");
+  return decimalPointSplit.join(".");
 }
 
 /**
