@@ -16,8 +16,7 @@ export class InfinityNotation extends Notation {
     const infPlaces = infinities < 1000 ? 4 : 3;
     const formatted = infinities.toFixed(Math.max(infPlaces, places));
     if (Settings.exponentCommas.show) {
-      const parts = formatted.split(".");
-      return `${formatWithCommas(parts[0])}.${parts[1]}∞`;
+      return `${formatWithCommas(formatted)}∞`;
     }
 
     return `${formatted}∞`;

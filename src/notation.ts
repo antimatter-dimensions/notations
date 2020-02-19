@@ -5,7 +5,7 @@ import { formatWithCommas } from "./utils";
 export abstract class Notation {
   public abstract get name(): string;
 
-  public format(value: DecimalSource, places: number, placesUnder1000: number): string {
+  public format(value: DecimalSource, places=0, placesUnder1000=0): string {
     if (typeof value === "number" && !Number.isFinite(value)) {
       return this.infinite;
     }
