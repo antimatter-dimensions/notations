@@ -191,7 +191,7 @@ Thanks to the authors of community notations:
 - Mixed Logarithm (Sci): https://github.com/Chiyozel
 - Tritetrated: https://github.com/dan-simon
 - Flags: https://github.com/kajfik000
-- YesNo: https://github.com/kajfik000
+- YesNo: https://github.com/Kaedenn
 - Evil: https://github.com/dan-simon
 
 Additional thanks to https://github.com/omsi6 for the scaffolding of docs page.
