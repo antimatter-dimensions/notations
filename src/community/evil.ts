@@ -10,8 +10,8 @@ export class EvilNotation extends Notation {
   }
 
   public formatDecimal(value: Decimal, places: number): string {
-    let loglog = Math.log(value.log(2)) / Math.log(2);
-    let roundedLoglog = Math.round(loglog);
+    const loglog = Math.log(value.log(2)) / Math.log(2);
+    const roundedLoglog = Math.round(loglog);
     let adjustedValue;
     if (roundedLoglog < 6 || Math.abs(loglog - roundedLoglog) > 0.25) {
       adjustedValue = value;
