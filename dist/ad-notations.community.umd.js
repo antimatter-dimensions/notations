@@ -33,6 +33,13 @@
 
     return value;
   }
+  function toEngineering(value) {
+    var exponentOffset = value.exponent % 3;
+    return Decimal.fromMantissaExponent_noNormalize(value.mantissa * Math.pow(10, exponentOffset), value.exponent - exponentOffset);
+  }
+  function toFixedEngineering(value, places) {
+    return fixMantissaOverflow(toEngineering(value), places, 1000, 3);
+  }
   var SUBSCRIPT_NUMBERS = ["₀", "₁", "₂", "₃", "₄", "₅", "₆", "₇", "₈", "₉"];
   function toSubscript(value) {
     return value.toFixed(0).split("").map(function (x) {
@@ -650,6 +657,209 @@
     return TritetratedNotation;
   }(Notation);
 
+  var EngineeringNotation = function (_super) {
+    __extends(EngineeringNotation, _super);
+
+    function EngineeringNotation() {
+      return _super !== null && _super.apply(this, arguments) || this;
+    }
+
+    Object.defineProperty(EngineeringNotation.prototype, "name", {
+      get: function get() {
+        return "Engineering";
+      },
+      enumerable: true,
+      configurable: true
+    });
+
+    EngineeringNotation.prototype.formatDecimal = function (value, places) {
+      var engineering = toFixedEngineering(value, places);
+      var mantissa = engineering.mantissa.toFixed(places);
+      var exponent = this.formatExponent(engineering.exponent);
+      return mantissa + "e" + exponent;
+    };
+
+    return EngineeringNotation;
+  }(Notation);
+
+  var CustomNotation = function (_super) {
+    __extends(CustomNotation, _super);
+
+    function CustomNotation(letters, mantissaExponentSeparator, separator) {
+      if (mantissaExponentSeparator === void 0) {
+        mantissaExponentSeparator = "";
+      }
+
+      if (separator === void 0) {
+        separator = "";
+      }
+
+      var _this = this;
+
+      if (letters.length < 2) {
+        throw new Error("The supplied letter sequence must contain at least 2 letters");
+      }
+
+      _this = _super.call(this) || this;
+      _this.letters = letters;
+      _this.mantissaExponentSeparator = mantissaExponentSeparator;
+      _this.separator = separator;
+      return _this;
+    }
+
+    Object.defineProperty(CustomNotation.prototype, "name", {
+      get: function get() {
+        return "Custom";
+      },
+      enumerable: true,
+      configurable: true
+    });
+
+    CustomNotation.prototype.formatDecimal = function (value, places) {
+      var engineering = toEngineering(value);
+      var mantissa = engineering.mantissa.toFixed(places);
+      return mantissa + this.mantissaExponentSeparator + this.transcribe(engineering.exponent).join(this.separator);
+    };
+
+    CustomNotation.prototype.transcribe = function (exponent) {
+      var normalizedExponent = exponent / 3;
+      var base = this.letters.length;
+
+      if (normalizedExponent <= base) {
+        return [this.letters[normalizedExponent - 1]];
+      }
+
+      var letters = [];
+
+      while (normalizedExponent > base) {
+        var remainder = normalizedExponent % base;
+        var letterIndex = (remainder === 0 ? base : remainder) - 1;
+        letters.push(this.letters[letterIndex]);
+        normalizedExponent = (normalizedExponent - remainder) / base;
+
+        if (remainder === 0) {
+          normalizedExponent--;
+        }
+      }
+
+      letters.push(this.letters[normalizedExponent - 1]);
+      return letters.reverse();
+    };
+
+    return CustomNotation;
+  }(EngineeringNotation);
+
+  var FLAGS = ["\uD83C\uDDE6\uD83C\uDDEB", "\uD83C\uDDE6\uD83C\uDDE9", "\uD83C\uDDE6\uD83C\uDDEA", "\uD83C\uDDE6\uD83C\uDDEB", "\uD83C\uDDE6\uD83C\uDDEC", "\uD83C\uDDE6\uD83C\uDDEE", "\uD83C\uDDE6\uD83C\uDDF1", "\uD83C\uDDE6\uD83C\uDDF2", "\uD83C\uDDE6\uD83C\uDDF4", "\uD83C\uDDE6\uD83C\uDDF6", "\uD83C\uDDE6\uD83C\uDDF7", "\uD83C\uDDE6\uD83C\uDDF8", "\uD83C\uDDE6\uD83C\uDDF9", "\uD83C\uDDE6\uD83C\uDDFA", "\uD83C\uDDE6\uD83C\uDDFC", "\uD83C\uDDE6\uD83C\uDDFD", "\uD83C\uDDE6\uD83C\uDDFF", "\uD83C\uDDE7\uD83C\uDDE6", "\uD83C\uDDE7\uD83C\uDDE7", "\uD83C\uDDE7\uD83C\uDDE9", "\uD83C\uDDE7\uD83C\uDDEA", "\uD83C\uDDE7\uD83C\uDDEB", "\uD83C\uDDE7\uD83C\uDDEC", "\uD83C\uDDE7\uD83C\uDDED", "\uD83C\uDDE7\uD83C\uDDEE", "\uD83C\uDDE7\uD83C\uDDEF", "\uD83C\uDDE7\uD83C\uDDF1", "\uD83C\uDDE7\uD83C\uDDF2", "\uD83C\uDDE7\uD83C\uDDF3", "\uD83C\uDDE7\uD83C\uDDF4", "\uD83C\uDDE7\uD83C\uDDF6", "\uD83C\uDDE7\uD83C\uDDF7", "\uD83C\uDDE7\uD83C\uDDF8", "\uD83C\uDDE7\uD83C\uDDF9", "\uD83C\uDDE7\uD83C\uDDFB", "\uD83C\uDDE7\uD83C\uDDFC", "\uD83C\uDDE7\uD83C\uDDFE", "\uD83C\uDDE7\uD83C\uDDFF", "\uD83C\uDDE8\uD83C\uDDE6", "\uD83C\uDDE8\uD83C\uDDE8", "\uD83C\uDDE8\uD83C\uDDE9", "\uD83C\uDDE8\uD83C\uDDEB", "\uD83C\uDDE8\uD83C\uDDEC", "\uD83C\uDDE8\uD83C\uDDED", "\uD83C\uDDE8\uD83C\uDDEE", "\uD83C\uDDE8\uD83C\uDDF0", "\uD83C\uDDE8\uD83C\uDDF1", "\uD83C\uDDE8\uD83C\uDDF2", "\uD83C\uDDE8\uD83C\uDDF3", "\uD83C\uDDE8\uD83C\uDDF4", "\uD83C\uDDE8\uD83C\uDDF5", "\uD83C\uDDE8\uD83C\uDDF7", "\uD83C\uDDE8\uD83C\uDDFA", "\uD83C\uDDE8\uD83C\uDDFB", "\uD83C\uDDE8\uD83C\uDDFC", "\uD83C\uDDE8\uD83C\uDDFD", "\uD83C\uDDE8\uD83C\uDDFE", "\uD83C\uDDE8\uD83C\uDDFF", "\uD83C\uDDE9\uD83C\uDDEA", "\uD83C\uDDE9\uD83C\uDDEC", "\uD83C\uDDE9\uD83C\uDDEF", "\uD83C\uDDE9\uD83C\uDDF0", "\uD83C\uDDE9\uD83C\uDDF2", "\uD83C\uDDE9\uD83C\uDDF4", "\uD83C\uDDE9\uD83C\uDDFF", "\uD83C\uDDEA\uD83C\uDDE6", "\uD83C\uDDEA\uD83C\uDDE8", "\uD83C\uDDEA\uD83C\uDDEA", "\uD83C\uDDEA\uD83C\uDDEC", "\uD83C\uDDEA\uD83C\uDDED", "\uD83C\uDDEA\uD83C\uDDF7", "\uD83C\uDDEA\uD83C\uDDF8", "\uD83C\uDDEA\uD83C\uDDF9", "\uD83C\uDDEA\uD83C\uDDFA", "\uD83C\uDDEB\uD83C\uDDEE", "\uD83C\uDDEB\uD83C\uDDEF", "\uD83C\uDDEB\uD83C\uDDF0", "\uD83C\uDDEB\uD83C\uDDF2", "\uD83C\uDDEB\uD83C\uDDF4", "\uD83C\uDDEB\uD83C\uDDF7", "\uD83C\uDDEC\uD83C\uDDE6", "\uD83C\uDDEC\uD83C\uDDE7", "\uD83C\uDDEC\uD83C\uDDE9", "\uD83C\uDDEC\uD83C\uDDEA", "\uD83C\uDDEC\uD83C\uDDEB", "\uD83C\uDDEC\uD83C\uDDEC", "\uD83C\uDDEC\uD83C\uDDED", "\uD83C\uDDEC\uD83C\uDDEE", "\uD83C\uDDEC\uD83C\uDDF1", "\uD83C\uDDEC\uD83C\uDDF2", "\uD83C\uDDEC\uD83C\uDDF3", "\uD83C\uDDEC\uD83C\uDDF5", "\uD83C\uDDEC\uD83C\uDDF6", "\uD83C\uDDEC\uD83C\uDDF7", "\uD83C\uDDEC\uD83C\uDDF8", "\uD83C\uDDEC\uD83C\uDDF9", "\uD83C\uDDEC\uD83C\uDDFA", "\uD83C\uDDEC\uD83C\uDDFC", "\uD83C\uDDEC\uD83C\uDDFE", "\uD83C\uDDED\uD83C\uDDF0", "\uD83C\uDDED\uD83C\uDDF2", "\uD83C\uDDED\uD83C\uDDF3", "\uD83C\uDDED\uD83C\uDDF7", "\uD83C\uDDED\uD83C\uDDF9", "\uD83C\uDDED\uD83C\uDDFA", "\uD83C\uDDEE\uD83C\uDDE8", "\uD83C\uDDEE\uD83C\uDDE9", "\uD83C\uDDEE\uD83C\uDDEA", "\uD83C\uDDEE\uD83C\uDDF1", "\uD83C\uDDEE\uD83C\uDDF2", "\uD83C\uDDEE\uD83C\uDDF3", "\uD83C\uDDEE\uD83C\uDDF4", "\uD83C\uDDEE\uD83C\uDDF6", "\uD83C\uDDEE\uD83C\uDDF7", "\uD83C\uDDEE\uD83C\uDDF8", "\uD83C\uDDEE\uD83C\uDDF9", "\uD83C\uDDEF\uD83C\uDDEA", "\uD83C\uDDEF\uD83C\uDDF2", "\uD83C\uDDEF\uD83C\uDDF4", "\uD83C\uDDEF\uD83C\uDDF5", "\uD83C\uDDF0\uD83C\uDDEA", "\uD83C\uDDF0\uD83C\uDDEC", "\uD83C\uDDF0\uD83C\uDDED", "\uD83C\uDDF0\uD83C\uDDEE", "\uD83C\uDDF0\uD83C\uDDF2", "\uD83C\uDDF0\uD83C\uDDF3", "\uD83C\uDDF0\uD83C\uDDF5", "\uD83C\uDDF0\uD83C\uDDF7", "\uD83C\uDDF0\uD83C\uDDFC", "\uD83C\uDDF0\uD83C\uDDFE", "\uD83C\uDDF0\uD83C\uDDFF", "\uD83C\uDDF1\uD83C\uDDE6", "\uD83C\uDDF1\uD83C\uDDE7", "\uD83C\uDDF1\uD83C\uDDE8", "\uD83C\uDDF1\uD83C\uDDEE", "\uD83C\uDDF1\uD83C\uDDF0", "\uD83C\uDDF1\uD83C\uDDF7", "\uD83C\uDDF1\uD83C\uDDF8", "\uD83C\uDDF1\uD83C\uDDF9", "\uD83C\uDDF1\uD83C\uDDFA", "\uD83C\uDDF1\uD83C\uDDFB", "\uD83C\uDDF1\uD83C\uDDFE", "\uD83C\uDDF2\uD83C\uDDE6", "\uD83C\uDDF2\uD83C\uDDE8", "\uD83C\uDDF2\uD83C\uDDE9", "\uD83C\uDDF2\uD83C\uDDEA", "\uD83C\uDDF2\uD83C\uDDEB", "\uD83C\uDDF2\uD83C\uDDEC", "\uD83C\uDDF2\uD83C\uDDED", "\uD83C\uDDF2\uD83C\uDDF0", "\uD83C\uDDF2\uD83C\uDDF1", "\uD83C\uDDF2\uD83C\uDDF2", "\uD83C\uDDF2\uD83C\uDDF3", "\uD83C\uDDF2\uD83C\uDDF4", "\uD83C\uDDF2\uD83C\uDDF5", "\uD83C\uDDF2\uD83C\uDDF6", "\uD83C\uDDF2\uD83C\uDDF7", "\uD83C\uDDF2\uD83C\uDDF8", "\uD83C\uDDF2\uD83C\uDDF9", "\uD83C\uDDF2\uD83C\uDDFA", "\uD83C\uDDF2\uD83C\uDDFB", "\uD83C\uDDF2\uD83C\uDDFC", "\uD83C\uDDF2\uD83C\uDDFD", "\uD83C\uDDF2\uD83C\uDDFE", "\uD83C\uDDF2\uD83C\uDDFF", "\uD83C\uDDF3\uD83C\uDDE6", "\uD83C\uDDF3\uD83C\uDDE8", "\uD83C\uDDF3\uD83C\uDDEA", "\uD83C\uDDF3\uD83C\uDDEB", "\uD83C\uDDF3\uD83C\uDDEC", "\uD83C\uDDF3\uD83C\uDDEE", "\uD83C\uDDF3\uD83C\uDDF1", "\uD83C\uDDF3\uD83C\uDDF4", "\uD83C\uDDF3\uD83C\uDDF5", "\uD83C\uDDF3\uD83C\uDDF7", "\uD83C\uDDF3\uD83C\uDDFA", "\uD83C\uDDF3\uD83C\uDDFF", "\uD83C\uDDF4\uD83C\uDDF2", "\uD83C\uDDF5\uD83C\uDDE6", "\uD83C\uDDF5\uD83C\uDDEA", "\uD83C\uDDF5\uD83C\uDDEB", "\uD83C\uDDF5\uD83C\uDDEC", "\uD83C\uDDF5\uD83C\uDDED", "\uD83C\uDDF5\uD83C\uDDF0", "\uD83C\uDDF5\uD83C\uDDF1", "\uD83C\uDDF5\uD83C\uDDF2", "\uD83C\uDDF5\uD83C\uDDF3", "\uD83C\uDDF5\uD83C\uDDF7", "\uD83C\uDDF5\uD83C\uDDF8", "\uD83C\uDDF5\uD83C\uDDF9", "\uD83C\uDDF5\uD83C\uDDFC", "\uD83C\uDDF5\uD83C\uDDFE", "\uD83C\uDDF6\uD83C\uDDE6", "\uD83C\uDDF7\uD83C\uDDEA", "\uD83C\uDDF7\uD83C\uDDF4", "\uD83C\uDDF7\uD83C\uDDF8", "\uD83C\uDDF7\uD83C\uDDFA", "\uD83C\uDDF7\uD83C\uDDFC", "\uD83C\uDDF8\uD83C\uDDE6", "\uD83C\uDDF8\uD83C\uDDE7", "\uD83C\uDDF8\uD83C\uDDE8", "\uD83C\uDDF8\uD83C\uDDE9", "\uD83C\uDDF8\uD83C\uDDEA", "\uD83C\uDDF8\uD83C\uDDEC", "\uD83C\uDDF8\uD83C\uDDED", "\uD83C\uDDF8\uD83C\uDDEE", "\uD83C\uDDF8\uD83C\uDDEF", "\uD83C\uDDF8\uD83C\uDDF0", "\uD83C\uDDF8\uD83C\uDDF1", "\uD83C\uDDF8\uD83C\uDDF2", "\uD83C\uDDF8\uD83C\uDDF3", "\uD83C\uDDF8\uD83C\uDDF4", "\uD83C\uDDF8\uD83C\uDDF7", "\uD83C\uDDF8\uD83C\uDDF8", "\uD83C\uDDF8\uD83C\uDDF9", "\uD83C\uDDF8\uD83C\uDDFB", "\uD83C\uDDF8\uD83C\uDDFD", "\uD83C\uDDF8\uD83C\uDDFE", "\uD83C\uDDF8\uD83C\uDDFF", "\uD83C\uDDF9\uD83C\uDDE6", "\uD83C\uDDF9\uD83C\uDDE8", "\uD83C\uDDF9\uD83C\uDDE9", "\uD83C\uDDF9\uD83C\uDDEB", "\uD83C\uDDF9\uD83C\uDDEC", "\uD83C\uDDF9\uD83C\uDDED", "\uD83C\uDDF9\uD83C\uDDEF", "\uD83C\uDDF9\uD83C\uDDF0", "\uD83C\uDDF9\uD83C\uDDF1", "\uD83C\uDDF9\uD83C\uDDF2", "\uD83C\uDDF9\uD83C\uDDF3", "\uD83C\uDDF9\uD83C\uDDF4", "\uD83C\uDDF9\uD83C\uDDF7", "\uD83C\uDDF9\uD83C\uDDF9", "\uD83C\uDDF9\uD83C\uDDFB", "\uD83C\uDDF9\uD83C\uDDFC", "\uD83C\uDDF9\uD83C\uDDFF", "\uD83C\uDDFA\uD83C\uDDE6", "\uD83C\uDDFA\uD83C\uDDEC", "\uD83C\uDDFA\uD83C\uDDF2", "\uD83C\uDDFA\uD83C\uDDF3", "\uD83C\uDDFA\uD83C\uDDF8", "\uD83C\uDDFA\uD83C\uDDFE", "\uD83C\uDDFA\uD83C\uDDFF", "\uD83C\uDDFB\uD83C\uDDE6", "\uD83C\uDDFB\uD83C\uDDE8", "\uD83C\uDDFB\uD83C\uDDEA", "\uD83C\uDDFB\uD83C\uDDEC", "\uD83C\uDDFB\uD83C\uDDEE", "\uD83C\uDDFB\uD83C\uDDF3", "\uD83C\uDDFB\uD83C\uDDFA", "\uD83C\uDDFC\uD83C\uDDEB", "\uD83C\uDDFC\uD83C\uDDF8", "\uD83C\uDDFD\uD83C\uDDF0", "\uD83C\uDDFE\uD83C\uDDEA", "\uD83C\uDDFE\uD83C\uDDF9", "\uD83C\uDDFF\uD83C\uDDE6", "\uD83C\uDDFF\uD83C\uDDF2", "\uD83C\uDDFF\uD83C\uDDFC"];
+
+  var FlagsNotation = function (_super) {
+    __extends(FlagsNotation, _super);
+
+    function FlagsNotation() {
+      return _super.call(this, FLAGS) || this;
+    }
+
+    Object.defineProperty(FlagsNotation.prototype, "name", {
+      get: function get() {
+        return "Flags";
+      },
+      enumerable: true,
+      configurable: true
+    });
+    return FlagsNotation;
+  }(CustomNotation);
+
+  var YesNoNotation = function (_super) {
+    __extends(YesNoNotation, _super);
+
+    function YesNoNotation() {
+      return _super !== null && _super.apply(this, arguments) || this;
+    }
+
+    Object.defineProperty(YesNoNotation.prototype, "name", {
+      get: function get() {
+        return "YesNo";
+      },
+      enumerable: true,
+      configurable: true
+    });
+    Object.defineProperty(YesNoNotation.prototype, "negativeInfinite", {
+      get: function get() {
+        return "YES";
+      },
+      enumerable: true,
+      configurable: true
+    });
+    Object.defineProperty(YesNoNotation.prototype, "infinite", {
+      get: function get() {
+        return "YES";
+      },
+      enumerable: true,
+      configurable: true
+    });
+
+    YesNoNotation.prototype.formatVerySmallNegativeDecimal = function (x) {
+      return x.neq(0) ? "YES" : "NO";
+    };
+
+    YesNoNotation.prototype.formatVerySmallDecimal = function (x) {
+      return x.neq(0) ? "YES" : "NO";
+    };
+
+    YesNoNotation.prototype.formatNegativeUnder1000 = function (x) {
+      return x !== 0 ? "YES" : "NO";
+    };
+
+    YesNoNotation.prototype.formatUnder1000 = function (x) {
+      return x !== 0 ? "YES" : "NO";
+    };
+
+    YesNoNotation.prototype.formatNegativeDecimal = function (x) {
+      return x.neq(0) ? "YES" : "NO";
+    };
+
+    YesNoNotation.prototype.formatDecimal = function (x) {
+      return x.neq(0) ? "YES" : "NO";
+    };
+
+    return YesNoNotation;
+  }(Notation);
+
+  var scientific$1 = new ScientificNotation();
+
+  var EvilNotation = function (_super) {
+    __extends(EvilNotation, _super);
+
+    function EvilNotation() {
+      return _super !== null && _super.apply(this, arguments) || this;
+    }
+
+    Object.defineProperty(EvilNotation.prototype, "name", {
+      get: function get() {
+        return "Evil";
+      },
+      enumerable: true,
+      configurable: true
+    });
+
+    EvilNotation.prototype.formatDecimal = function (value, places) {
+      var loglog = Math.log(value.log(2)) / Math.log(2);
+      var roundedLoglog = Math.round(loglog);
+      var adjustedValue;
+
+      if (roundedLoglog < 6 || Math.abs(loglog - roundedLoglog) > 0.25) {
+        adjustedValue = value;
+      } else {
+        adjustedValue = value.pow(roundedLoglog % 2 === 0 ? 2 : 1 / 2);
+      }
+
+      return scientific$1.format(adjustedValue, places);
+    };
+
+    return EvilNotation;
+  }(Notation);
+
+  exports.EvilNotation = EvilNotation;
+  exports.FlagsNotation = FlagsNotation;
   exports.GreekLettersNotation = GreekLettersNotation;
   exports.JapaneseNotation = JapaneseNotation;
   exports.MixedLogarithmSciNotation = MixedLogarithmSciNotation;
@@ -659,6 +869,7 @@
   exports.PrecisePrimeNotation = PrecisePrimeNotation;
   exports.Settings = Settings;
   exports.TritetratedNotation = TritetratedNotation;
+  exports.YesNoNotation = YesNoNotation;
 
   Object.defineProperty(exports, '__esModule', { value: true });
 

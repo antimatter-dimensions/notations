@@ -80,6 +80,9 @@ const displays = (function() {
     CN.JapaneseNotation,
     CN.MixedLogarithmSciNotation,
     CN.TritetratedNotation,
+    CN.FlagsNotation,
+    CN.YesNoNotation,
+    CN.EvilNotation,
   ]
   let communityNotationsDisplay = communityNotations.reverse().map((n) => new NotationDisplay(n));
   inputContainer.after(communityHeaderSpan());
