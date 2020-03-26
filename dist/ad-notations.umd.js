@@ -781,7 +781,7 @@
     };
 
     HexNotation.prototype.formatDecimal = function (value) {
-      return this.rawValue(value, 32, 8).toString(16).toUpperCase().padStart(8, "0");
+      return this.rawValue(value, 32).toString(16).toUpperCase().padStart(8, "0");
     };
 
     HexNotation.prototype.modifiedLogarithm = function (x) {
@@ -789,10 +789,6 @@
       var previousPowerOfTwo = Decimal.pow(2, floorOfLog);
       var fractionToNextPowerOfTwo = Decimal.div(x, previousPowerOfTwo).toNumber() - 1;
       return floorOfLog + fractionToNextPowerOfTwo;
-    };
-
-    HexNotation.prototype.rawValue = function (value, numberOfBits, extraPrecisionForRounding) {
-      return this.getValueFromSigns(this.getSigns(value, numberOfBits, extraPrecisionForRounding), numberOfBits);
     };
 
     HexNotation.prototype.isFinite = function (x) {
@@ -803,39 +799,32 @@
       return isFinite(x.e) && isFinite(x.mantissa);
     };
 
-    HexNotation.prototype.getSigns = function (value, numberOfBits, extraPrecisionForRounding) {
+    HexNotation.prototype.rawValue = function (inputValue, numberOfBits) {
       var signs = [];
 
-      for (var i = 0; i < numberOfBits + extraPrecisionForRounding; i++) {
-        if (!this.isFinite(value)) {
+      for (var i = 0; i < numberOfBits; i++) {
+        if (!this.isFinite(inputValue)) {
           break;
         }
 
-        if (Decimal.lt(value, 0)) {
+        if (Decimal.lt(inputValue, 0)) {
           signs.push(SIGNS.NEGATIVE);
-          value = Decimal.times(value, -1);
+          inputValue = -this.modifiedLogarithm(Decimal.times(inputValue, -1));
         } else {
           signs.push(SIGNS.POSITIVE);
-        }
-
-        value = this.modifiedLogarithm(value);
-      }
-
-      return signs;
-    };
-
-    HexNotation.prototype.getValueFromSigns = function (signs, numberOfBits) {
-      var result = 0;
-
-      for (var i = signs.length - 1; i >= 0; i--) {
-        if (signs[i] === SIGNS.NEGATIVE) {
-          result = 1 / 2 - result / 2;
-        } else {
-          result = 1 / 2 + result / 2;
+          inputValue = this.modifiedLogarithm(inputValue);
         }
       }
 
-      return Math.round(result * Math.pow(2, numberOfBits));
+      var resultValue = parseInt(signs.map(function (x) {
+        return x === SIGNS.POSITIVE ? 1 : 0;
+      }).join("").padEnd(numberOfBits, "0"), 2);
+
+      if (resultValue !== Math.pow(2, numberOfBits) - 1 && (inputValue > 0 || inputValue === 0 && resultValue % 2 === 1)) {
+        resultValue += 1;
+      }
+
+      return resultValue;
     };
 
     return HexNotation;
