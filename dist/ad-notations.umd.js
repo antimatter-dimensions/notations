@@ -2,9 +2,9 @@
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('break_infinity.js/break_infinity')) :
   typeof define === 'function' && define.amd ? define(['exports', 'break_infinity.js/break_infinity'], factory) :
   (global = global || self, factory(global.ADNotations = {}, global.Decimal));
-}(this, function (exports, Decimal) { 'use strict';
+}(this, (function (exports, Decimal) { 'use strict';
 
-  Decimal = Decimal && Decimal.hasOwnProperty('default') ? Decimal['default'] : Decimal;
+  Decimal = Decimal && Object.prototype.hasOwnProperty.call(Decimal, 'default') ? Decimal['default'] : Decimal;
 
   var Settings = {
     isInfinite: function isInfinite(decimal) {
@@ -1478,4 +1478,4 @@
 
   Object.defineProperty(exports, '__esModule', { value: true });
 
-}));
+})));
