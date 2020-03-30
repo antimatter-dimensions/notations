@@ -66,17 +66,18 @@ export class HexNotation extends Notation {
   }
 
   private rawValue(inputValue: Decimal | number, numberOfBits: number): number {
+    let value = inputValue;
     const signs = [];
     for (let i = 0; i < numberOfBits; i++) {
-      if (!this.isFinite(inputValue)) {
+      if (!this.isFinite(value)) {
         break;
       }
-      if (Decimal.lt(inputValue, 0)) {
+      if (Decimal.lt(value, 0)) {
         signs.push(SIGNS.NEGATIVE);
-        inputValue = -this.modifiedLogarithm(Decimal.times(inputValue, -1));
+        value = -this.modifiedLogarithm(Decimal.times(value, -1));
       } else {
         signs.push(SIGNS.POSITIVE);
-        inputValue = this.modifiedLogarithm(inputValue as Decimal);
+        value = this.modifiedLogarithm(value as Decimal);
       }
     }
     // Convert the signs to a number, adding zeros at the end
@@ -86,7 +87,7 @@ export class HexNotation extends Notation {
       .padEnd(numberOfBits, "0"), 2);
     // This conditional is just here for correct rounding.
     if (resultValue !== Math.pow(2, numberOfBits) - 1
-      && (inputValue > 0 || (inputValue === 0 && resultValue % 2 === 1))) {
+      && (value > 0 || (value === 0 && resultValue % 2 === 1))) {
       resultValue += 1;
     }
     return resultValue;

@@ -800,19 +800,20 @@
     };
 
     HexNotation.prototype.rawValue = function (inputValue, numberOfBits) {
+      var value = inputValue;
       var signs = [];
 
       for (var i = 0; i < numberOfBits; i++) {
-        if (!this.isFinite(inputValue)) {
+        if (!this.isFinite(value)) {
           break;
         }
 
-        if (Decimal.lt(inputValue, 0)) {
+        if (Decimal.lt(value, 0)) {
           signs.push(SIGNS.NEGATIVE);
-          inputValue = -this.modifiedLogarithm(Decimal.times(inputValue, -1));
+          value = -this.modifiedLogarithm(Decimal.times(value, -1));
         } else {
           signs.push(SIGNS.POSITIVE);
-          inputValue = this.modifiedLogarithm(inputValue);
+          value = this.modifiedLogarithm(value);
         }
       }
 
@@ -820,7 +821,7 @@
         return x === SIGNS.POSITIVE ? 1 : 0;
       }).join("").padEnd(numberOfBits, "0"), 2);
 
-      if (resultValue !== Math.pow(2, numberOfBits) - 1 && (inputValue > 0 || inputValue === 0 && resultValue % 2 === 1)) {
+      if (resultValue !== Math.pow(2, numberOfBits) - 1 && (value > 0 || value === 0 && resultValue % 2 === 1)) {
         resultValue += 1;
       }
 

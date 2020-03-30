@@ -27,7 +27,7 @@ export class CoronavirusNotation extends Notation {
     for (let i = 0; i < characters.length; i++) {
       if ('0123456789'.includes(characters[i])) {
         if (seenDigits.map(x => x % 5).includes(+characters[i] % 5)) {
-          let cancerIndex = seenDigits.map(x => x % 5).indexOf(+characters[i] % 5) +
+          const cancerIndex = seenDigits.map(x => x % 5).indexOf(+characters[i] % 5) +
             5 * ((+!seenDigits.includes(+characters[i]) + i) % 2);
           characters[i] = CANCER[cancerIndex];
         } else {
