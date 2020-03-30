@@ -824,4 +824,55 @@ var EvilNotation = function (_super) {
   return EvilNotation;
 }(Notation);
 
-export { EvilNotation, FlagsNotation, GreekLettersNotation, JapaneseNotation, MixedLogarithmSciNotation, Notation, OmegaNotation, OmegaShortNotation, PrecisePrimeNotation, Settings, TritetratedNotation, YesNoNotation };
+var scientific$2 = new ScientificNotation();
+var CANCER = ["🎂", "🎄", "💀", "👪", "🌈", "💯", "🎃", "💋", "😂", "🌙"];
+
+var CoronavirusNotation = function (_super) {
+  __extends(CoronavirusNotation, _super);
+
+  function CoronavirusNotation() {
+    return _super !== null && _super.apply(this, arguments) || this;
+  }
+
+  Object.defineProperty(CoronavirusNotation.prototype, "name", {
+    get: function get() {
+      return "Coronavirus";
+    },
+    enumerable: true,
+    configurable: true
+  });
+
+  CoronavirusNotation.prototype.formatUnder1000 = function (value, places) {
+    return this.infect(scientific$2.formatUnder1000(value, places));
+  };
+
+  CoronavirusNotation.prototype.formatDecimal = function (value, places) {
+    return this.infect(scientific$2.formatDecimal(value, places));
+  };
+
+  CoronavirusNotation.prototype.infect = function (formatted) {
+    var characters = formatted.split('');
+    var seenDigits = [];
+
+    for (var i = 0; i < characters.length; i++) {
+      if ('0123456789'.includes(characters[i])) {
+        if (seenDigits.map(function (x) {
+          return x % 5;
+        }).includes(+characters[i] % 5)) {
+          var cancerIndex = seenDigits.map(function (x) {
+            return x % 5;
+          }).indexOf(+characters[i] % 5) + 5 * ((+!seenDigits.includes(+characters[i]) + i) % 2);
+          characters[i] = CANCER[cancerIndex];
+        } else {
+          seenDigits.push(+characters[i]);
+        }
+      }
+    }
+
+    return characters.join('');
+  };
+
+  return CoronavirusNotation;
+}(Notation);
+
+export { CoronavirusNotation, EvilNotation, FlagsNotation, GreekLettersNotation, JapaneseNotation, MixedLogarithmSciNotation, Notation, OmegaNotation, OmegaShortNotation, PrecisePrimeNotation, Settings, TritetratedNotation, YesNoNotation };

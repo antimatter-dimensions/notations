@@ -10,3 +10,4 @@ export * from "./tritetrated";
 export * from "./flags";
 export * from "./yes-no";
 export * from "./evil";
+export * from "./coronavirus";
