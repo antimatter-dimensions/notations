@@ -1419,4 +1419,42 @@ var BlindNotation = function (_super) {
   return BlindNotation;
 }(Notation);
 
-export { BarNotation, BlindNotation, BracketsNotation, CancerNotation, ClockNotation, CustomNotation, DotsNotation, EngineeringNotation, HexNotation, ImperialNotation, InfinityNotation, LettersNotation, LogarithmNotation, MixedEngineeringNotation, MixedScientificNotation, Notation, PrimeNotation, RomanNotation, ScientificNotation, Settings, ShiNotation, StandardNotation, ZalgoNotation };
+var notationList = [new ScientificNotation(), new LettersNotation(), new StandardNotation(), new LogarithmNotation(), new BracketsNotation(), new InfinityNotation(), new RomanNotation(), new DotsNotation(), new ZalgoNotation(), new HexNotation(), new ImperialNotation(), new ClockNotation(), new PrimeNotation(), new BarNotation(), new ShiNotation(), new BlindNotation()];
+
+var AllNotation = function (_super) {
+  __extends(AllNotation, _super);
+
+  function AllNotation() {
+    return _super !== null && _super.apply(this, arguments) || this;
+  }
+
+  Object.defineProperty(AllNotation.prototype, "name", {
+    get: function get() {
+      return "ALL";
+    },
+    enumerable: true,
+    configurable: true
+  });
+
+  AllNotation.prototype.formatNegativeUnder1000 = function (value, places) {
+    return this.formatDecimal(new Decimal(-value), places);
+  };
+
+  AllNotation.prototype.formatUnder1000 = function (value, places) {
+    return this.formatDecimal(new Decimal(value), places);
+  };
+
+  AllNotation.prototype.formatNegativeDecimal = function (value, places) {
+    return this.formatDecimal(new Decimal(-value), places);
+  };
+
+  AllNotation.prototype.formatDecimal = function (value, places) {
+    var index = Math.floor(Math.log2(value.abs().plus(2).log2()));
+    var notation = notationList[index % notationList.length];
+    return notation.format(value, places, places);
+  };
+
+  return AllNotation;
+}(Notation);
+
+export { AllNotation, BarNotation, BlindNotation, BracketsNotation, CancerNotation, ClockNotation, CustomNotation, DotsNotation, EngineeringNotation, HexNotation, ImperialNotation, InfinityNotation, LettersNotation, LogarithmNotation, MixedEngineeringNotation, MixedScientificNotation, Notation, PrimeNotation, RomanNotation, ScientificNotation, Settings, ShiNotation, StandardNotation, ZalgoNotation };
