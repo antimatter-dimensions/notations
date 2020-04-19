@@ -181,6 +181,7 @@ Special thanks to the authors of notations:
 - Bar: https://github.com/earthernsence
 - Shi: https://github.com/dan-simon
 - Blind: https://github.com/earthernsence
+- ALL: https://github.com/cyip92
 
 Thanks to the authors of community notations:
 - Greek Letters: https://github.com/cook1ee

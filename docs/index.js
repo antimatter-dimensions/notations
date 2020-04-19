@@ -70,7 +70,8 @@ const displays = (function() {
     N.PrimeNotation,
     N.BarNotation,
     N.ShiNotation,
-    N.BlindNotation
+    N.BlindNotation,
+    N.AllNotation,
   ];
   const communityNotations = [
     CN.GreekLettersNotation,
