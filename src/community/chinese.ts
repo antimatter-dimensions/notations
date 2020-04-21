@@ -80,7 +80,7 @@ export class ChineseNotation extends Notation {
       if (digit === 0) {
         return "";
       }
-      if (digit === 1 && x > 0) {
+      if (digit === 1 && x === 1) {
         return ChineseNotPlaces[x];
       }
       return ChineseNotDigits[digit] + ChineseNotPlaces[x];

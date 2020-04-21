@@ -954,7 +954,7 @@ var ChineseNotation = function (_super) {
         return "";
       }
 
-      if (digit === 1 && x > 0) {
+      if (digit === 1 && x === 1) {
         return ChineseNotPlaces[x];
       }
 
