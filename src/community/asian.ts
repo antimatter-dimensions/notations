@@ -34,7 +34,7 @@ export class AsianNotation extends Notation {
     if (value.exponent < 52)
       return getAbove10000Value(value);
       
-    let replacement = new Decimal(Math.floor(value.exponent / 48));
+    const replacement = new Decimal(Math.floor(value.exponent / 48));
     if (replacement < 6)
       return getAbove1e48Value(value.div("1e" + (replacement * 48)))
         + AsianNotPrefix[12].padStart(replacement, AsianNotPrefix[12]);
