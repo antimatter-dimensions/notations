@@ -75,7 +75,7 @@ export class ChineseNotation extends Notation {
   }
 
   private formatUnder10000(value: number): string {
-    return [3, 2, 1, 0].map(function (x: number) {
+    return [3, 2, 1, 0].map(function (x: number): string {
       const digit = Math.floor(value / Math.pow(10, x)) % 10;
       if (digit === 0) {
         return "";
