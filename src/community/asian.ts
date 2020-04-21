@@ -36,36 +36,41 @@ export class AsianNotation extends Notation {
       
     let replacement = new Decimal(Math.floor(value.exponent / 48));
     if (replacement < 6)
-      return getAbove1e48Value(value.div("1e" + (replacement * 48))) + AsianNotPrefix[12].padStart(replacement, AsianNotPrefix[12]);
+      return getAbove1e48Value(value.div("1e" + (replacement * 48)))
+        + AsianNotPrefix[12].padStart(replacement, AsianNotPrefix[12]);
     
-    return getAbove1e48Value(value.div("1e" + (replacement * 48))) + "(" + formatDecimal(replacement) + ")" + AsianNotPrefix[12];
+    return getAbove1e48Value(value.div("1e" + (replacement * 48)))
+      + "(" + formatDecimal(replacement) + ")" + AsianNotPrefix[12];
   }
   
   private getAbove1e48Value(value: Decimal): string {
-      let exp = Math.floor(value.exponent / 4) * 4;
-      let man = (value.mantissa * Math.pow(10, value.exponent - exp));
+      const exp = Math.floor(value.exponent / 4) * 4;
+      const man = (value.mantissa * Math.pow(10, value.exponent - exp));
       return getUnder10000WithPlacesValue(man) + AsianNotPrefixes[exp / 4]
   }
 
   private getAbove10000Value(value: Decimal): string {
-      let exp = Math.floor(value.exponent / 4) * 4;
-      let man = Math.floor(value.mantissa * Math.pow(10, value.exponent - exp));
-      let manb = Math.floor(value.mantissa * Math.pow(10, value.exponent - exp + 4)) % 10000;
+      const exp = Math.floor(value.exponent / 4) * 4;
+      const man = Math.floor(value.mantissa * Math.pow(10, value.exponent - exp));
+      const manb = Math.floor(value.mantissa * Math.pow(10, value.exponent - exp + 4)) % 10000;
       return getUnder10000Value(man) + AsianNotPrefixes[exp / 4] + 
         ((manb > 0) ? (getUnder10000Value(manb) + AsianNotPrefixes[exp / 4 - 1]) : "");
   }
   
   private getUnder10000WithPlacesValue(value: number): string {
-    return ((Math.floor(value / 1000 % 10) > 0) ? (AsianNotDigits[Math.floor(value / 1000 % 10)] + AsianNotPlaces[3]) : "") + 
+    return ((Math.floor(value / 1000 % 10) > 0) ? 
+            (AsianNotDigits[Math.floor(value / 1000 % 10)] + AsianNotPlaces[3]) : "") + 
       ((Math.floor(value / 100 % 10) > 0) ? (AsianNotDigits[Math.floor(value / 100 % 10)] + AsianNotPlaces[2]) : "") + 
       ((Math.floor(value / 10 % 10) == 1) ? AsianNotPlaces[1] : "") + 
       ((Math.floor(value / 10 % 10) > 1) ? (AsianNotDigits[Math.floor(value / 10 % 10)] + AsianNotPlaces[1]) : "") + 
       ((Math.floor(value) % 10 > 0) ? AsianNotDigits[Math.floor(value) % 10] : "") +
-      (value > 1 ? AsianNotDigits[0] : "") + "點" + AsianNotDigits[Math.floor(value * 10) % 10] + AsianNotDigits[Math.floor(value * 100) % 10] + AsianNotDigits[Math.floor(value * 1000) % 10];
+      (value > 1 ? AsianNotDigits[0] : "") + "點" + AsianNotDigits[Math.floor(value * 10) % 10]
+      + AsianNotDigits[Math.floor(value * 100) % 10] + AsianNotDigits[Math.floor(value * 1000) % 10];
   }
 
   private getUnder10000Value(value: number): string {
-    return ((Math.floor(value / 1000 % 10) > 0) ? (AsianNotDigits[Math.floor(value / 1000 % 10)] + AsianNotPlaces[3]) : "") + 
+    return ((Math.floor(value / 1000 % 10) > 0) ? 
+            (AsianNotDigits[Math.floor(value / 1000 % 10)] + AsianNotPlaces[3]) : "") + 
       ((Math.floor(value / 100 % 10) > 0) ? (AsianNotDigits[Math.floor(value / 100 % 10)] + AsianNotPlaces[2]) : "") + 
       ((Math.floor(value / 10 % 10) == 1) ? AsianNotPlaces[1] : "") + 
       ((Math.floor(value / 10 % 10) > 1) ? (AsianNotDigits[Math.floor(value / 10 % 10)] + AsianNotPlaces[1]) : "") + 
