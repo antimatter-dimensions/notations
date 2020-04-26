@@ -909,6 +909,97 @@
     return CoronavirusNotation;
   }(Notation);
 
+  var ChineseNotPrefixes = ["", "万", "亿", "兆", "京", "垓", "秭", "穰", "沟", "涧", "正", "载", "极"];
+  var ChineseNotDigits = ["〇", "一", "二", "三", "四", "五", "六", "七", "八", "九"];
+  var ChineseNotPlaces = ["", "十", "百", "千"];
+
+  var ChineseNotation = function (_super) {
+    __extends(ChineseNotation, _super);
+
+    function ChineseNotation() {
+      return _super !== null && _super.apply(this, arguments) || this;
+    }
+
+    Object.defineProperty(ChineseNotation.prototype, "name", {
+      get: function get() {
+        return "Chinese";
+      },
+      enumerable: true,
+      configurable: true
+    });
+    Object.defineProperty(ChineseNotation.prototype, "infinite", {
+      get: function get() {
+        return "無窮";
+      },
+      enumerable: true,
+      configurable: true
+    });
+
+    ChineseNotation.prototype.formatUnder1000 = function (value) {
+      return this.formatUnder10000(value);
+    };
+
+    ChineseNotation.prototype.formatDecimal = function (value) {
+      return this.formatChinese(value);
+    };
+
+    ChineseNotation.prototype.formatChinese = function (value) {
+      if (value.exponent < 4) {
+        return this.formatUnder10000(value.toNumber());
+      }
+
+      if (value.exponent < 52) {
+        return this.formatAbove10000(value);
+      }
+
+      var replacement = Math.floor(value.exponent / 48);
+
+      if (replacement < 6) {
+        return this.formatAbove1e48(value.div(Decimal.pow(1e48, replacement))) + ChineseNotPrefixes[12].repeat(replacement);
+      }
+
+      return this.formatAbove1e48(value.div(Decimal.pow(1e48, replacement))) + "(" + this.formatChinese(new Decimal(replacement)) + ")" + ChineseNotPrefixes[12];
+    };
+
+    ChineseNotation.prototype.formatAbove1e48 = function (value) {
+      var exp = Math.floor(value.exponent / 4) * 4;
+      var man = value.mantissa * Math.pow(10, value.exponent - exp);
+      return this.formatUnder10000WithPlaces(man) + ChineseNotPrefixes[exp / 4];
+    };
+
+    ChineseNotation.prototype.formatAbove10000 = function (value) {
+      var exp = Math.floor(value.exponent / 4) * 4;
+      var man = Math.floor(value.mantissa * Math.pow(10, value.exponent - exp));
+      var manb = Math.floor(value.mantissa * Math.pow(10, value.exponent - exp + 4)) % 10000;
+      return this.formatUnder10000(man) + ChineseNotPrefixes[exp / 4] + (manb > 0 ? this.formatUnder10000(manb) + ChineseNotPrefixes[exp / 4 - 1] : "");
+    };
+
+    ChineseNotation.prototype.formatUnder10000WithPlaces = function (value) {
+      return this.formatUnder1000(value) + "點" + [1, 2, 3].map(function (x) {
+        return ChineseNotDigits[Math.floor(value * Math.pow(10, x)) % 10];
+      }).join('');
+    };
+
+    ChineseNotation.prototype.formatUnder10000 = function (value) {
+      return [3, 2, 1, 0].map(function (x) {
+        var digit = Math.floor(value / Math.pow(10, x)) % 10;
+
+        if (digit === 0) {
+          return "";
+        }
+
+        if (digit === 1 && x === 1) {
+          return ChineseNotPlaces[x];
+        }
+
+        return ChineseNotDigits[digit] + ChineseNotPlaces[x];
+      }).join("") || ChineseNotDigits[0];
+    };
+
+    return ChineseNotation;
+  }(Notation);
+
+  exports.ChineseNotation = ChineseNotation;
   exports.CoronavirusNotation = CoronavirusNotation;
   exports.EvilNotation = EvilNotation;
   exports.FlagsNotation = FlagsNotation;

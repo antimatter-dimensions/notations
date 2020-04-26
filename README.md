@@ -195,5 +195,6 @@ Thanks to the authors of community notations:
 - YesNo: https://github.com/Kaedenn
 - Evil: https://github.com/dan-simon
 - Coronavirus: https://github.com/dan-simon
+- Chinese: https://github.com/ducdat0507
 
 Additional thanks to https://github.com/omsi6 for the scaffolding of docs page.
