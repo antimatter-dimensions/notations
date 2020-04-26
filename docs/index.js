@@ -16,6 +16,18 @@ const parseWithoutE = function(value) {
   return new Decimal(value.replace(/,/g, ""));
 };
 
+
+// This function only works if the base is more than 1
+const pow = function(a, b) {
+  if (b === Infinity) {
+    return new Decimal(Infinity);
+  } else if (b === -Infinity) {
+    return new Decimal(-Infinity);
+  } else {
+    return Decimal.pow(a, b);
+  }
+}
+
 const parse = function(value) {
   const stringParts = value.split("e");
   if (!stringParts[stringParts.length - 1].match(/\d/)) {
@@ -25,7 +37,7 @@ const parse = function(value) {
   if (numberParts.includes(null)) {
     return null;
   }
-  return numberParts.reduceRight((a, b) => Decimal.pow(10, a.toNumber()).times(b));
+  return numberParts.reduceRight((a, b) => pow(10, a.toNumber()).times(b));
 };
 
 const NotationDisplay = function NotationDisplay(notationClass) {
