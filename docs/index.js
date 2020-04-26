@@ -22,7 +22,7 @@ const pow = function(a, b) {
   if (b === Infinity) {
     return new Decimal(Infinity);
   } else if (b === -Infinity) {
-    return new Decimal(-Infinity);
+    return new Decimal(0);
   } else {
     return Decimal.pow(a, b);
   }
