@@ -1018,7 +1018,7 @@ var ElementalNotation = function (_super) {
   ElementalNotation.prototype.elemental = function (value, places) {
     var _this = this;
 
-    var log = Math.max(0, value.log(118));
+    var log = value.log(118);
     var parts = [];
 
     while (log >= 1 && parts.length < 4) {

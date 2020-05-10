@@ -56,7 +56,7 @@ export class ElementalNotation extends Notation {
   }
 
   private elemental(value: Decimal, places: number): string {
-    let log = Math.max(0, value.log(118));
+    let log = value.log(118);
     let parts: [string, number][] = [];
     while (log >= 1 && parts.length < 4) {
       const [abbreviation, value] = this.getAbbreviationAndValue(log);
