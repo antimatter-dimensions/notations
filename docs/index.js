@@ -98,6 +98,7 @@ const displays = (function() {
     CN.EvilNotation,
     CN.CoronavirusNotation,
     CN.ChineseNotation,
+    CN.ElementalNotation,
   ]
   let communityNotationsDisplay = communityNotations.reverse().map((n) => new NotationDisplay(n));
   inputContainer.after(communityHeaderSpan());

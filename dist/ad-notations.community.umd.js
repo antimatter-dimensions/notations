@@ -999,8 +999,99 @@
     return ChineseNotation;
   }(Notation);
 
+  var ELEMENT_LISTS = [["H"], ["He", "Li", "Be", "B", "C", "N", "O", "F"], ["Ne", "Na", "Mg", "Al", "Si", "P", "S", "Cl"], ["Ar", "K", "Ca", "Sc", "Ti", "V", "Cr", "Mn", "Fe", "Co", "Ni", "Cu", "Zn", "Ga", "Ge", "As", "Se", "Br"], ["Kr", "Rb", "Sr", "Y", "Zr", "Nb", "Mo", "Tc", "Ru", "Rh", "Pd", "Ag", "Cd", "In", "Sn", "Sb", "Te", "I"], ["Xe", "Cs", "Ba", "La", "Ce", "Pr", "Nd", "Pm", "Sm", "Eu", "Gd", "Tb", "Dy", "Ho", "Er", "Tm", "Yb", "Lu", "Hf", "Ta", "W", "Re", "Os", "Ir", "Pt", "Au", "Hg", "Tl", "Pb", "Bi", "Po", "At"], ["Rn", "Fr", "Ra", "Ac", "Th", "Pa", "U", "Np", "Pu", "Am", "Cm", "Bk", "Cf", "Es", "Fm", "Md", "No", "Lr", "Rf", "Db", "Sg", "Bh", "Hs", "Mt", "Ds", "Rg", "Cn", "Nh", "Fl", "Mc", "Lv", "Ts"], ["Og"]];
+
+  var ElementalNotation = function (_super) {
+    __extends(ElementalNotation, _super);
+
+    function ElementalNotation() {
+      return _super !== null && _super.apply(this, arguments) || this;
+    }
+
+    Object.defineProperty(ElementalNotation.prototype, "name", {
+      get: function get() {
+        return "Elemental";
+      },
+      enumerable: true,
+      configurable: true
+    });
+    Object.defineProperty(ElementalNotation.prototype, "infinite", {
+      get: function get() {
+        return 'Infinity';
+      },
+      enumerable: true,
+      configurable: true
+    });
+
+    ElementalNotation.prototype.formatUnder1000 = function (value, placesUnder1000) {
+      return this.elemental(new Decimal(value), placesUnder1000);
+    };
+
+    ElementalNotation.prototype.formatDecimal = function (value, places) {
+      return this.elemental(value, places);
+    };
+
+    ElementalNotation.prototype.getAbbreviationAndValue = function (x) {
+      var abbreviationListIndexUnfloored = Math.log(x) / Math.log(118);
+      var abbreviationListIndex = Math.floor(abbreviationListIndexUnfloored);
+      var abbreviationList = ELEMENT_LISTS[Math.floor(abbreviationListIndex)];
+      var abbreviationSublistIndex = Math.floor((abbreviationListIndexUnfloored - abbreviationListIndex) * abbreviationList.length);
+      var abbreviation = abbreviationList[abbreviationSublistIndex];
+      var value = Math.pow(118, abbreviationListIndex + abbreviationSublistIndex / abbreviationList.length);
+      return [abbreviation, value];
+    };
+
+    ElementalNotation.prototype.formatElementalPart = function (abbreviation, n) {
+      if (n === 1) {
+        return abbreviation;
+      }
+
+      return n + " " + abbreviation;
+    };
+
+    ElementalNotation.prototype.elemental = function (value, places) {
+      var _this = this;
+
+      var log = value.log(118);
+      var parts = [];
+
+      while (log >= 1 && parts.length < 4) {
+        var _a = this.getAbbreviationAndValue(log),
+            abbreviation = _a[0],
+            value_1 = _a[1];
+
+        var n = Math.floor(log / value_1);
+        log -= n * value_1;
+        parts.unshift([abbreviation, n]);
+      }
+
+      var formattedMantissa = Decimal.pow(118, log).toFixed(places);
+
+      if (parts.length === 0) {
+        return formattedMantissa;
+      }
+
+      if (parts.length === 1) {
+        return formattedMantissa + " \xD7 " + this.formatElementalPart(parts[0][0], parts[0][1]);
+      }
+
+      if (parts.length >= 4) {
+        return parts.map(function (x) {
+          return _this.formatElementalPart(x[0], x[1]);
+        }).join(" + ");
+      }
+
+      return formattedMantissa + " \xD7 (" + parts.map(function (x) {
+        return _this.formatElementalPart(x[0], x[1]);
+      }).join(" + ") + ")";
+    };
+
+    return ElementalNotation;
+  }(Notation);
+
   exports.ChineseNotation = ChineseNotation;
   exports.CoronavirusNotation = CoronavirusNotation;
+  exports.ElementalNotation = ElementalNotation;
   exports.EvilNotation = EvilNotation;
   exports.FlagsNotation = FlagsNotation;
   exports.GreekLettersNotation = GreekLettersNotation;
