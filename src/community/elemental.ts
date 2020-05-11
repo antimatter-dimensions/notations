@@ -64,15 +64,15 @@ export class ElementalNotation extends Notation {
       log -= n * value;
       parts.unshift([abbreviation, n]);
     }
+    if (parts.length >= 4) {
+      return parts.map(x => this.formatElementalPart(x[0], x[1])).join(" + ");
+    }
     let formattedMantissa = Decimal.pow(118, log).toFixed(places);
     if (parts.length === 0) {
       return formattedMantissa;
     }
     if (parts.length === 1) {
       return `${formattedMantissa} × ${this.formatElementalPart(parts[0][0], parts[0][1])}`;
-    }
-    if (parts.length >= 4) {
-      return parts.map(x => this.formatElementalPart(x[0], x[1])).join(" + ");
     }
     return `${formattedMantissa} × (${parts.map(x => this.formatElementalPart(x[0], x[1])).join(" + ")})`;
   }
