@@ -13,3 +13,5 @@ export * from "./evil";
 export * from "./coronavirus";
 export * from "./chinese";
 export * from "./elemental";
+export * from "./binary";
+export * from "./hexadecimal";
