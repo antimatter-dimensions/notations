@@ -34,7 +34,7 @@ export class CustomBaseNotation extends Notation {
     return result;
   }
   
-  public formatExponent(exponent: number) {
+  public formatExponent(exponent: number): string {
     if (this.noSpecialFormatting(exponent)) {
       return this.formatUnder1000(exponent, 0);
     }
