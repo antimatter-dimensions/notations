@@ -9,3 +9,4 @@ export class BinaryNotation extends CustomBaseNotation {
     return "Binary";
   }
 }
+
