@@ -111,7 +111,7 @@
     };
 
     Notation.prototype.formatExponent = function (exponent) {
-      if (exponent < Settings.exponentCommas.min) {
+      if (this.noSpecialFormatting(exponent)) {
         return exponent.toString();
       }
 
@@ -120,6 +120,10 @@
       }
 
       return this.formatDecimal(new Decimal(exponent), 3);
+    };
+
+    Notation.prototype.noSpecialFormatting = function (exponent) {
+      return exponent < Settings.exponentCommas.min;
     };
 
     Notation.prototype.showCommas = function (exponent) {

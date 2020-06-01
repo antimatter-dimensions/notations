@@ -67,13 +67,17 @@ export abstract class Notation {
   abstract formatDecimal(value: Decimal, places: number): string;
 
   protected formatExponent(exponent: number): string {
-    if (exponent < Settings.exponentCommas.min) {
+    if (this.noSpecialFormatting(exponent)) {
       return exponent.toString();
     }
     if (this.showCommas(exponent)) {
       return formatWithCommas(exponent);
     }
     return this.formatDecimal(new Decimal(exponent), 3);
+  }
+  
+  protected noSpecialFormatting(exponent: number): boolean {
+    return exponent < Settings.exponentCommas.min;
   }
 
   protected showCommas(exponent: number): boolean {

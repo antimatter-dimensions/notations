@@ -123,7 +123,7 @@
     };
 
     Notation.prototype.formatExponent = function (exponent) {
-      if (exponent < Settings.exponentCommas.min) {
+      if (this.noSpecialFormatting(exponent)) {
         return exponent.toString();
       }
 
@@ -132,6 +132,10 @@
       }
 
       return this.formatDecimal(new Decimal(exponent), 3);
+    };
+
+    Notation.prototype.noSpecialFormatting = function (exponent) {
+      return exponent < Settings.exponentCommas.min;
     };
 
     Notation.prototype.showCommas = function (exponent) {
@@ -1089,12 +1093,118 @@
     return ElementalNotation;
   }(Notation);
 
+  var CustomBaseNotation = function (_super) {
+    __extends(CustomBaseNotation, _super);
+
+    function CustomBaseNotation(digits) {
+      var _this = this;
+
+      if (digits.length < 2) {
+        throw new Error("The supplied digits must contain at least 2 digits");
+      }
+
+      _this = _super.call(this) || this;
+      _this.base = digits.length;
+      _this.digits = digits;
+      return _this;
+    }
+
+    Object.defineProperty(CustomBaseNotation.prototype, "name", {
+      get: function get() {
+        return "Custom Base";
+      },
+      enumerable: true,
+      configurable: true
+    });
+
+    CustomBaseNotation.prototype.formatUnder1000 = function (valueIn, places) {
+      var value = Math.round(valueIn * Math.pow(this.base, places));
+      var digits = [];
+
+      while (value > 0) {
+        digits.push(this.digits[value % this.base]);
+        value = Math.floor(value / this.base);
+      }
+
+      var result = digits.reverse().join("");
+
+      if (places > 0) {
+        result = result.padStart(places + 1, "0");
+        result = result.slice(0, -places) + "." + result.slice(-places);
+      }
+
+      return result;
+    };
+
+    CustomBaseNotation.prototype.formatExponent = function (exponent) {
+      if (this.noSpecialFormatting(exponent)) {
+        return this.formatUnder1000(exponent, 0);
+      }
+
+      if (this.showCommas(exponent)) {
+        return formatWithCommas(this.formatUnder1000(exponent, 0));
+      }
+
+      return this.formatDecimal(new Decimal(exponent), Math.floor(Decimal.log(1000, this.base)));
+    };
+
+    CustomBaseNotation.prototype.formatDecimal = function (value, places) {
+      var exponent = Math.floor(value.log(this.base));
+      var mantissa = value.div(Decimal.pow(this.base, exponent)).toNumber();
+
+      if (mantissa >= this.base - Math.pow(this.base, -places) / 2) {
+        mantissa = 1;
+        exponent++;
+      }
+
+      return this.formatUnder1000(mantissa, places) + "e" + this.formatExponent(exponent);
+    };
+
+    return CustomBaseNotation;
+  }(Notation);
+
+  var BinaryNotation = function (_super) {
+    __extends(BinaryNotation, _super);
+
+    function BinaryNotation() {
+      return _super.call(this, "01") || this;
+    }
+
+    Object.defineProperty(BinaryNotation.prototype, "name", {
+      get: function get() {
+        return "Binary";
+      },
+      enumerable: true,
+      configurable: true
+    });
+    return BinaryNotation;
+  }(CustomBaseNotation);
+
+  var HexadecimalNotation = function (_super) {
+    __extends(HexadecimalNotation, _super);
+
+    function HexadecimalNotation() {
+      return _super.call(this, "0123456789ABCDEF") || this;
+    }
+
+    Object.defineProperty(HexadecimalNotation.prototype, "name", {
+      get: function get() {
+        return "Hexadecimal";
+      },
+      enumerable: true,
+      configurable: true
+    });
+    return HexadecimalNotation;
+  }(CustomBaseNotation);
+
+  exports.BinaryNotation = BinaryNotation;
   exports.ChineseNotation = ChineseNotation;
   exports.CoronavirusNotation = CoronavirusNotation;
   exports.ElementalNotation = ElementalNotation;
   exports.EvilNotation = EvilNotation;
   exports.FlagsNotation = FlagsNotation;
   exports.GreekLettersNotation = GreekLettersNotation;
+  exports.HexadecimalNotation = HexadecimalNotation;
   exports.JapaneseNotation = JapaneseNotation;
   exports.MixedLogarithmSciNotation = MixedLogarithmSciNotation;
   exports.Notation = Notation;
