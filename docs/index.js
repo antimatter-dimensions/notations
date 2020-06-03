@@ -101,7 +101,9 @@ const displays = (function() {
     CN.ElementalNotation,
     CN.BinaryNotation,
     CN.HexadecimalNotation,
-  ]
+    CN.HahaFunnyNotation,
+    CN.HahaFunnyVersionTwoNotation
+  ];
   let communityNotationsDisplay = communityNotations.reverse().map((n) => new NotationDisplay(n));
   inputContainer.after(communityHeaderSpan());
   let mainNotationsDisplay = notations.reverse().map((n) => new NotationDisplay(n));

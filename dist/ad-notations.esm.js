@@ -74,14 +74,14 @@ var Notation = function () {
     get: function get() {
       return "-" + this.infinite;
     },
-    enumerable: true,
+    enumerable: false,
     configurable: true
   });
   Object.defineProperty(Notation.prototype, "infinite", {
     get: function get() {
       return "Infinite";
     },
-    enumerable: true,
+    enumerable: false,
     configurable: true
   });
 
@@ -139,7 +139,7 @@ var ScientificNotation = function (_super) {
     get: function get() {
       return "Scientific";
     },
-    enumerable: true,
+    enumerable: false,
     configurable: true
   });
 
@@ -164,7 +164,7 @@ var EngineeringNotation = function (_super) {
     get: function get() {
       return "Engineering";
     },
-    enumerable: true,
+    enumerable: false,
     configurable: true
   });
 
@@ -207,7 +207,7 @@ var CustomNotation = function (_super) {
     get: function get() {
       return "Custom";
     },
-    enumerable: true,
+    enumerable: false,
     configurable: true
   });
 
@@ -258,7 +258,7 @@ var LettersNotation = function (_super) {
     get: function get() {
       return "Letters";
     },
-    enumerable: true,
+    enumerable: false,
     configurable: true
   });
   return LettersNotation;
@@ -277,7 +277,7 @@ var CancerNotation = function (_super) {
     get: function get() {
       return "Cancer";
     },
-    enumerable: true,
+    enumerable: false,
     configurable: true
   });
   return CancerNotation;
@@ -298,7 +298,7 @@ var StandardNotation = function (_super) {
     get: function get() {
       return "Standard";
     },
-    enumerable: true,
+    enumerable: false,
     configurable: true
   });
 
@@ -351,7 +351,7 @@ var MixedScientificNotation = function (_super) {
     get: function get() {
       return "Mixed scientific";
     },
-    enumerable: true,
+    enumerable: false,
     configurable: true
   });
 
@@ -382,7 +382,7 @@ var MixedEngineeringNotation = function (_super) {
     get: function get() {
       return "Mixed engineering";
     },
-    enumerable: true,
+    enumerable: false,
     configurable: true
   });
 
@@ -411,7 +411,7 @@ var LogarithmNotation = function (_super) {
     get: function get() {
       return "Logarithm";
     },
-    enumerable: true,
+    enumerable: false,
     configurable: true
   });
 
@@ -443,7 +443,7 @@ var BracketsNotation = function (_super) {
     get: function get() {
       return "Brackets";
     },
-    enumerable: true,
+    enumerable: false,
     configurable: true
   });
 
@@ -484,7 +484,7 @@ var InfinityNotation = function (_super) {
     get: function get() {
       return "Infinity";
     },
-    enumerable: true,
+    enumerable: false,
     configurable: true
   });
 
@@ -520,14 +520,14 @@ var RomanNotation = function (_super) {
     get: function get() {
       return "Roman";
     },
-    enumerable: true,
+    enumerable: false,
     configurable: true
   });
   Object.defineProperty(RomanNotation.prototype, "infinite", {
     get: function get() {
       return "Infinitus";
     },
-    enumerable: true,
+    enumerable: false,
     configurable: true
   });
 
@@ -591,14 +591,14 @@ var DotsNotation = function (_super) {
     get: function get() {
       return "Dots";
     },
-    enumerable: true,
+    enumerable: false,
     configurable: true
   });
   Object.defineProperty(DotsNotation.prototype, "infinite", {
     get: function get() {
       return "⣿⠀⣿";
     },
-    enumerable: true,
+    enumerable: false,
     configurable: true
   });
 
@@ -656,7 +656,7 @@ var ZalgoNotation = function (_super) {
     get: function get() {
       return "Zalgo";
     },
-    enumerable: true,
+    enumerable: false,
     configurable: true
   });
   Object.defineProperty(ZalgoNotation.prototype, "infinite", {
@@ -665,7 +665,7 @@ var ZalgoNotation = function (_super) {
         return _char + randomElement(ZALGO_CHARS);
       }).join("");
     },
-    enumerable: true,
+    enumerable: false,
     configurable: true
   });
 
@@ -712,21 +712,21 @@ var HexNotation = function (_super) {
     get: function get() {
       return "Hex";
     },
-    enumerable: true,
+    enumerable: false,
     configurable: true
   });
   Object.defineProperty(HexNotation.prototype, "negativeInfinite", {
     get: function get() {
       return "00000000";
     },
-    enumerable: true,
+    enumerable: false,
     configurable: true
   });
   Object.defineProperty(HexNotation.prototype, "infinite", {
     get: function get() {
       return "FFFFFFFF";
     },
-    enumerable: true,
+    enumerable: false,
     configurable: true
   });
 
@@ -820,7 +820,7 @@ var ImperialNotation = function (_super) {
     get: function get() {
       return "Imperial";
     },
-    enumerable: true,
+    enumerable: false,
     configurable: true
   });
 
@@ -1026,14 +1026,14 @@ var ClockNotation = function (_super) {
     get: function get() {
       return "Clock";
     },
-    enumerable: true,
+    enumerable: false,
     configurable: true
   });
   Object.defineProperty(ClockNotation.prototype, "infinite", {
     get: function get() {
       return "🕛🕡";
     },
-    enumerable: true,
+    enumerable: false,
     configurable: true
   });
 
@@ -1129,14 +1129,14 @@ var PrimeNotation = function (_super) {
     get: function get() {
       return "Prime";
     },
-    enumerable: true,
+    enumerable: false,
     configurable: true
   });
   Object.defineProperty(PrimeNotation.prototype, "infinite", {
     get: function get() {
       return "Primefinity?";
     },
-    enumerable: true,
+    enumerable: false,
     configurable: true
   });
 
@@ -1293,7 +1293,7 @@ var BarNotation = function (_super) {
     get: function get() {
       return "Bar";
     },
-    enumerable: true,
+    enumerable: false,
     configurable: true
   });
 
@@ -1330,14 +1330,14 @@ var ShiNotation = function (_super) {
     get: function get() {
       return "Shi";
     },
-    enumerable: true,
+    enumerable: false,
     configurable: true
   });
   Object.defineProperty(ShiNotation.prototype, "infinite", {
     get: function get() {
       return this.shi(Decimal.NUMBER_MAX_VALUE);
     },
-    enumerable: true,
+    enumerable: false,
     configurable: true
   });
 
@@ -1378,21 +1378,21 @@ var BlindNotation = function (_super) {
     get: function get() {
       return "Blind";
     },
-    enumerable: true,
+    enumerable: false,
     configurable: true
   });
   Object.defineProperty(BlindNotation.prototype, "negativeInfinite", {
     get: function get() {
       return " ";
     },
-    enumerable: true,
+    enumerable: false,
     configurable: true
   });
   Object.defineProperty(BlindNotation.prototype, "infinite", {
     get: function get() {
       return " ";
     },
-    enumerable: true,
+    enumerable: false,
     configurable: true
   });
 
@@ -1436,7 +1436,7 @@ var AllNotation = function (_super) {
     get: function get() {
       return "ALL";
     },
-    enumerable: true,
+    enumerable: false,
     configurable: true
   });
 

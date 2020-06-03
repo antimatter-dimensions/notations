@@ -79,14 +79,14 @@
       get: function get() {
         return "-" + this.infinite;
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
     Object.defineProperty(Notation.prototype, "infinite", {
       get: function get() {
         return "Infinite";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
 
@@ -134,18 +134,18 @@
   }();
 
   /*! *****************************************************************************
-  Copyright (c) Microsoft Corporation. All rights reserved.
-  Licensed under the Apache License, Version 2.0 (the "License"); you may not use
-  this file except in compliance with the License. You may obtain a copy of the
-  License at http://www.apache.org/licenses/LICENSE-2.0
+  Copyright (c) Microsoft Corporation.
 
-  THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-  KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
-  WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
-  MERCHANTABLITY OR NON-INFRINGEMENT.
+  Permission to use, copy, modify, and/or distribute this software for any
+  purpose with or without fee is hereby granted.
 
-  See the Apache Version 2.0 License for specific language governing permissions
-  and limitations under the License.
+  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+  REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+  AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+  INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+  LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+  OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+  PERFORMANCE OF THIS SOFTWARE.
   ***************************************************************************** */
   /* global Reflect, Promise */
 
@@ -173,7 +173,7 @@
       get: function get() {
         return "Scientific";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
 
@@ -198,7 +198,7 @@
       get: function get() {
         return "Engineering";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
 
@@ -241,7 +241,7 @@
       get: function get() {
         return "Custom";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
 
@@ -292,7 +292,7 @@
       get: function get() {
         return "Letters";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
     return LettersNotation;
@@ -311,7 +311,7 @@
       get: function get() {
         return "Cancer";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
     return CancerNotation;
@@ -332,7 +332,7 @@
       get: function get() {
         return "Standard";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
 
@@ -385,7 +385,7 @@
       get: function get() {
         return "Mixed scientific";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
 
@@ -416,7 +416,7 @@
       get: function get() {
         return "Mixed engineering";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
 
@@ -445,7 +445,7 @@
       get: function get() {
         return "Logarithm";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
 
@@ -477,7 +477,7 @@
       get: function get() {
         return "Brackets";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
 
@@ -518,7 +518,7 @@
       get: function get() {
         return "Infinity";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
 
@@ -554,14 +554,14 @@
       get: function get() {
         return "Roman";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
     Object.defineProperty(RomanNotation.prototype, "infinite", {
       get: function get() {
         return "Infinitus";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
 
@@ -625,14 +625,14 @@
       get: function get() {
         return "Dots";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
     Object.defineProperty(DotsNotation.prototype, "infinite", {
       get: function get() {
         return "⣿⠀⣿";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
 
@@ -690,7 +690,7 @@
       get: function get() {
         return "Zalgo";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
     Object.defineProperty(ZalgoNotation.prototype, "infinite", {
@@ -699,7 +699,7 @@
           return _char + randomElement(ZALGO_CHARS);
         }).join("");
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
 
@@ -746,21 +746,21 @@
       get: function get() {
         return "Hex";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
     Object.defineProperty(HexNotation.prototype, "negativeInfinite", {
       get: function get() {
         return "00000000";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
     Object.defineProperty(HexNotation.prototype, "infinite", {
       get: function get() {
         return "FFFFFFFF";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
 
@@ -854,7 +854,7 @@
       get: function get() {
         return "Imperial";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
 
@@ -1060,14 +1060,14 @@
       get: function get() {
         return "Clock";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
     Object.defineProperty(ClockNotation.prototype, "infinite", {
       get: function get() {
         return "🕛🕡";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
 
@@ -1163,14 +1163,14 @@
       get: function get() {
         return "Prime";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
     Object.defineProperty(PrimeNotation.prototype, "infinite", {
       get: function get() {
         return "Primefinity?";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
 
@@ -1327,7 +1327,7 @@
       get: function get() {
         return "Bar";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
 
@@ -1364,14 +1364,14 @@
       get: function get() {
         return "Shi";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
     Object.defineProperty(ShiNotation.prototype, "infinite", {
       get: function get() {
         return this.shi(Decimal.NUMBER_MAX_VALUE);
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
 
@@ -1412,21 +1412,21 @@
       get: function get() {
         return "Blind";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
     Object.defineProperty(BlindNotation.prototype, "negativeInfinite", {
       get: function get() {
         return " ";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
     Object.defineProperty(BlindNotation.prototype, "infinite", {
       get: function get() {
         return " ";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
 
@@ -1470,7 +1470,7 @@
       get: function get() {
         return "ALL";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
 

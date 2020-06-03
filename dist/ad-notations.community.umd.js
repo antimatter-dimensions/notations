@@ -91,14 +91,14 @@
       get: function get() {
         return "-" + this.infinite;
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
     Object.defineProperty(Notation.prototype, "infinite", {
       get: function get() {
         return "Infinite";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
 
@@ -146,18 +146,18 @@
   }();
 
   /*! *****************************************************************************
-  Copyright (c) Microsoft Corporation. All rights reserved.
-  Licensed under the Apache License, Version 2.0 (the "License"); you may not use
-  this file except in compliance with the License. You may obtain a copy of the
-  License at http://www.apache.org/licenses/LICENSE-2.0
+  Copyright (c) Microsoft Corporation.
 
-  THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-  KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
-  WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
-  MERCHANTABLITY OR NON-INFRINGEMENT.
+  Permission to use, copy, modify, and/or distribute this software for any
+  purpose with or without fee is hereby granted.
 
-  See the Apache Version 2.0 License for specific language governing permissions
-  and limitations under the License.
+  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+  REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+  AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+  INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+  LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+  OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+  PERFORMANCE OF THIS SOFTWARE.
   ***************************************************************************** */
   /* global Reflect, Promise */
 
@@ -185,14 +185,14 @@
       get: function get() {
         return "Greek Letters";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
     Object.defineProperty(GreekLettersNotation.prototype, "greek", {
       get: function get() {
         return "άαβγδεζηθικλμνξοπρστυφχψωΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ".split("");
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
 
@@ -226,21 +226,21 @@
       get: function get() {
         return "Omega";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
     Object.defineProperty(OmegaNotation.prototype, "greek", {
       get: function get() {
         return "βζλψΣΘΨω";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
     Object.defineProperty(OmegaNotation.prototype, "infinite", {
       get: function get() {
         return "Ω";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
 
@@ -297,7 +297,7 @@
       get: function get() {
         return "Omega (Short)";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
 
@@ -351,14 +351,14 @@
       get: function get() {
         return "Precise Prime";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
     Object.defineProperty(PrecisePrimeNotation.prototype, "infinite", {
       get: function get() {
         return "Primefinity?";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
 
@@ -509,14 +509,14 @@
       get: function get() {
         return "Japanese";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
     Object.defineProperty(JapaneseNotation.prototype, "infinite", {
       get: function get() {
         return "無限";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
 
@@ -560,7 +560,7 @@
       get: function get() {
         return "Scientific";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
 
@@ -587,7 +587,7 @@
       get: function get() {
         return "Mixed Logarithm (Sci)";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
 
@@ -622,14 +622,14 @@
       get: function get() {
         return "Tritetrated";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
     Object.defineProperty(TritetratedNotation.prototype, "infinite", {
       get: function get() {
         return 'Infinity';
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
 
@@ -672,7 +672,7 @@
       get: function get() {
         return "Engineering";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
 
@@ -715,7 +715,7 @@
       get: function get() {
         return "Custom";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
 
@@ -766,7 +766,7 @@
       get: function get() {
         return "Flags";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
     return FlagsNotation;
@@ -783,21 +783,21 @@
       get: function get() {
         return "YesNo";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
     Object.defineProperty(YesNoNotation.prototype, "negativeInfinite", {
       get: function get() {
         return "YES";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
     Object.defineProperty(YesNoNotation.prototype, "infinite", {
       get: function get() {
         return "YES";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
 
@@ -841,7 +841,7 @@
       get: function get() {
         return "Evil";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
 
@@ -876,7 +876,7 @@
       get: function get() {
         return "Coronavirus";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
 
@@ -928,14 +928,14 @@
       get: function get() {
         return "Chinese";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
     Object.defineProperty(ChineseNotation.prototype, "infinite", {
       get: function get() {
         return "無窮";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
 
@@ -1016,14 +1016,14 @@
       get: function get() {
         return "Elemental";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
     Object.defineProperty(ElementalNotation.prototype, "infinite", {
       get: function get() {
         return 'Infinity';
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
 
@@ -1113,7 +1113,7 @@
       get: function get() {
         return "Custom Base";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
 
@@ -1174,7 +1174,7 @@
       get: function get() {
         return "Binary";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
     return BinaryNotation;
@@ -1191,11 +1191,99 @@
       get: function get() {
         return "Hexadecimal";
       },
-      enumerable: true,
+      enumerable: false,
       configurable: true
     });
     return HexadecimalNotation;
   }(CustomBaseNotation);
+
+  var theNumbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59", "60", "61", "62", "63", "64", "65", "66", "67", "68", "69"];
+  var LOG69 = Math.log(69);
+
+  var HahaFunnyNotation = function (_super) {
+    __extends(HahaFunnyNotation, _super);
+
+    function HahaFunnyNotation() {
+      return _super !== null && _super.apply(this, arguments) || this;
+    }
+
+    Object.defineProperty(HahaFunnyNotation.prototype, "name", {
+      get: function get() {
+        return "Funny Number";
+      },
+      enumerable: false,
+      configurable: true
+    });
+
+    HahaFunnyNotation.prototype.formatDecimal = function (value) {
+      var log69 = Math.LN10 / LOG69 * value.log10();
+      var wholeLog = Math.floor(log69);
+      var decimalLog = log69 - wholeLog;
+      var decimalLog4761 = Math.floor(decimalLog * 4761);
+      var parts = [theNumbers[decimalLog4761 % 69], theNumbers[Math.floor(decimalLog4761 / 69)]];
+
+      while (wholeLog >= 69) {
+        var remainder = wholeLog % 69;
+        wholeLog = (wholeLog - remainder) / 69;
+        parts.push(theNumbers[remainder]);
+      }
+
+      parts.push(theNumbers[wholeLog]);
+      return parts.join("");
+    };
+
+    Object.defineProperty(HahaFunnyNotation.prototype, "infinite", {
+      get: function get() {
+        return "69420";
+      },
+      enumerable: false,
+      configurable: true
+    });
+
+    HahaFunnyNotation.prototype.formatUnder1000 = function (value) {
+      return this.formatDecimal(new Decimal(value));
+    };
+
+    return HahaFunnyNotation;
+  }(Notation);
+
+  var HahaFunnyVersionTwoNotation = function (_super) {
+    __extends(HahaFunnyVersionTwoNotation, _super);
+
+    function HahaFunnyVersionTwoNotation() {
+      return _super !== null && _super.apply(this, arguments) || this;
+    }
+
+    Object.defineProperty(HahaFunnyVersionTwoNotation.prototype, "name", {
+      get: function get() {
+        return "Funny Number 2.0";
+      },
+      enumerable: false,
+      configurable: true
+    });
+
+    HahaFunnyVersionTwoNotation.prototype.logbase69 = function (value) {
+      return value.log(69) / Math.LN10;
+    };
+
+    HahaFunnyVersionTwoNotation.prototype.formatDecimal = function (value) {
+      return this.logbase69(value).toString();
+    };
+
+    Object.defineProperty(HahaFunnyVersionTwoNotation.prototype, "infinite", {
+      get: function get() {
+        return "69420";
+      },
+      enumerable: false,
+      configurable: true
+    });
+
+    HahaFunnyVersionTwoNotation.prototype.formatUnder1000 = function (value) {
+      return this.formatDecimal(new Decimal(value));
+    };
+
+    return HahaFunnyVersionTwoNotation;
+  }(Notation);
 
   exports.BinaryNotation = BinaryNotation;
   exports.ChineseNotation = ChineseNotation;
@@ -1204,6 +1292,8 @@
   exports.EvilNotation = EvilNotation;
   exports.FlagsNotation = FlagsNotation;
   exports.GreekLettersNotation = GreekLettersNotation;
+  exports.HahaFunnyNotation = HahaFunnyNotation;
+  exports.HahaFunnyVersionTwoNotation = HahaFunnyVersionTwoNotation;
   exports.HexadecimalNotation = HexadecimalNotation;
   exports.JapaneseNotation = JapaneseNotation;
   exports.MixedLogarithmSciNotation = MixedLogarithmSciNotation;

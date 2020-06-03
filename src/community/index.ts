@@ -15,3 +15,5 @@ export * from "./chinese";
 export * from "./elemental";
 export * from "./binary";
 export * from "./hexadecimal";
+export * from "./haha-funny";
+export * from "./haha-funny-v2";
