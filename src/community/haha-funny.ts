@@ -9,7 +9,13 @@ export class HahaFunnyNotation extends Notation {
   }
 
   public formatDecimal(value: Decimal): string {
-    const log69 = Math.LN10 / LOG69 * value.plus(1).log10();
+    if (value.eq(0)) {
+      return "42069";
+    }
+    if (value.lt(1)) {
+      return this.formatDecimal(value.pow(-1)).split("").reverse().join("");
+    }
+    const log69 = Math.LN10 / LOG69 * value.log10();
     let log = Math.floor(log69 * Math.pow(69, 2));
     const parts = [];
     while (log > 0 || parts.length < 3) {

@@ -6,12 +6,8 @@ export class NiceNotation extends Notation {
     return "Nice";
   }
 
-  private logBase69(value: Decimal): number {
-    return value.log(69) / Math.LN10;
-  }
-
   public formatDecimal(value: Decimal, places: number): string {
-    return this.logBase69(value).toFixed(Math.max(2, places)).replace("-", "^");
+    return value.log(69).toFixed(Math.max(2, places)).replace("-", "^");
   }
 
   public get infinite(): string {

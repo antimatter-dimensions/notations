@@ -1181,7 +1181,15 @@ var HahaFunnyNotation = function (_super) {
   });
 
   HahaFunnyNotation.prototype.formatDecimal = function (value) {
-    var log69 = Math.LN10 / LOG69 * value.plus(1).log10();
+    if (value.eq(0)) {
+      return "42069";
+    }
+
+    if (value.lt(1)) {
+      return this.formatDecimal(value.pow(-1)).split("").reverse().join("");
+    }
+
+    var log69 = Math.LN10 / LOG69 * value.log10();
     var log = Math.floor(log69 * Math.pow(69, 2));
     var parts = [];
 
@@ -1224,12 +1232,8 @@ var NiceNotation = function (_super) {
     configurable: true
   });
 
-  NiceNotation.prototype.logBase69 = function (value) {
-    return value.log(69) / Math.LN10;
-  };
-
   NiceNotation.prototype.formatDecimal = function (value, places) {
-    return this.logBase69(value).toFixed(Math.max(2, places)).replace("-", "^");
+    return value.log(69).toFixed(Math.max(2, places)).replace("-", "^");
   };
 
   Object.defineProperty(NiceNotation.prototype, "infinite", {
