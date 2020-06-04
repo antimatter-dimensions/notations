@@ -1163,4 +1163,88 @@ var HexadecimalNotation = function (_super) {
   return HexadecimalNotation;
 }(CustomBaseNotation);
 
-export { BinaryNotation, ChineseNotation, CoronavirusNotation, ElementalNotation, EvilNotation, FlagsNotation, GreekLettersNotation, HexadecimalNotation, JapaneseNotation, MixedLogarithmSciNotation, Notation, OmegaNotation, OmegaShortNotation, PrecisePrimeNotation, Settings, TritetratedNotation, YesNoNotation };
+var LOG69 = Math.log(69);
+
+var HahaFunnyNotation = function (_super) {
+  __extends(HahaFunnyNotation, _super);
+
+  function HahaFunnyNotation() {
+    return _super !== null && _super.apply(this, arguments) || this;
+  }
+
+  Object.defineProperty(HahaFunnyNotation.prototype, "name", {
+    get: function get() {
+      return "Haha Funny";
+    },
+    enumerable: true,
+    configurable: true
+  });
+
+  HahaFunnyNotation.prototype.formatDecimal = function (value) {
+    var log69 = Math.LN10 / LOG69 * value.plus(1).log10();
+    var log = Math.floor(log69 * Math.pow(69, 2));
+    var parts = [];
+
+    while (log > 0 || parts.length < 3) {
+      var remainder = log % 69;
+      log = Math.floor(log / 69);
+      parts.push((remainder + 1).toString());
+    }
+
+    return parts.join("");
+  };
+
+  Object.defineProperty(HahaFunnyNotation.prototype, "infinite", {
+    get: function get() {
+      return "69420";
+    },
+    enumerable: true,
+    configurable: true
+  });
+
+  HahaFunnyNotation.prototype.formatUnder1000 = function (value) {
+    return this.formatDecimal(new Decimal(value));
+  };
+
+  return HahaFunnyNotation;
+}(Notation);
+
+var NiceNotation = function (_super) {
+  __extends(NiceNotation, _super);
+
+  function NiceNotation() {
+    return _super !== null && _super.apply(this, arguments) || this;
+  }
+
+  Object.defineProperty(NiceNotation.prototype, "name", {
+    get: function get() {
+      return "Nice";
+    },
+    enumerable: true,
+    configurable: true
+  });
+
+  NiceNotation.prototype.logBase69 = function (value) {
+    return value.log(69) / Math.LN10;
+  };
+
+  NiceNotation.prototype.formatDecimal = function (value, places) {
+    return this.logBase69(value).toFixed(Math.max(2, places)).replace("-", "^");
+  };
+
+  Object.defineProperty(NiceNotation.prototype, "infinite", {
+    get: function get() {
+      return "69420";
+    },
+    enumerable: true,
+    configurable: true
+  });
+
+  NiceNotation.prototype.formatUnder1000 = function (value, places) {
+    return this.formatDecimal(new Decimal(value), places);
+  };
+
+  return NiceNotation;
+}(Notation);
+
+export { BinaryNotation, ChineseNotation, CoronavirusNotation, ElementalNotation, EvilNotation, FlagsNotation, GreekLettersNotation, HahaFunnyNotation, HexadecimalNotation, JapaneseNotation, MixedLogarithmSciNotation, NiceNotation, Notation, OmegaNotation, OmegaShortNotation, PrecisePrimeNotation, Settings, TritetratedNotation, YesNoNotation };

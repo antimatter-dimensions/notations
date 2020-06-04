@@ -101,6 +101,8 @@ const displays = (function() {
     CN.ElementalNotation,
     CN.BinaryNotation,
     CN.HexadecimalNotation,
+    CN.HahaFunnyNotation,
+    CN.NiceNotation,
   ]
   let communityNotationsDisplay = communityNotations.reverse().map((n) => new NotationDisplay(n));
   inputContainer.after(communityHeaderSpan());
