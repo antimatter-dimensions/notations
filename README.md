@@ -198,5 +198,7 @@ Thanks to the authors of community notations:
 - Chinese: https://github.com/ducdat0507
 - Binary: Suggested by https://github.com/garnet420, implemented by https://github.com/dan-simon
 - Hexadecimal: Suggested by https://github.com/garnet420, implemented by https://github.com/dan-simon, independently created earlier by https://github.com/aarextiaokhiao
+- Haha Funny: https://github.com/earthernsence
+- Nice: https://github.com/earthernsence
 
 Additional thanks to https://github.com/omsi6 for the scaffolding of docs page.
