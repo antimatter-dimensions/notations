@@ -34,7 +34,7 @@
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.13.0",
-    "bili": "^4.8.1",
+    "bili": "^5.0.2",
     "eslint": "^7.0.0",
     "rollup-plugin-typescript2": "^0.27.0",
     "typescript": "^3.8.3"
