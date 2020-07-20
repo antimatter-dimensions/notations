@@ -1,7 +1,7 @@
 # Antimatter Dimensions Notations
 
 [![NPM](https://img.shields.io/npm/v/@antimatter-dimensions/notations.svg)](https://www.npmjs.com/package/@antimatter-dimensions/notations)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/0d92aa2fdf1d4921a0f74c8c0cf989f7)](https://www.codacy.com/gh/antimatter-dimensions/notations?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=antimatter-dimensions/notations&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/0d92aa2fdf1d4921a0f74c8c0cf989f7)](https://www.codacy.com/gh/antimatter-dimensions/notations?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=antimatter-dimensions/notations&amp;utm_campaign=Badge_Grade)
 
 All the notations that are included in the current version of Antimatter Dimensions, and the upcoming Reality Update.
 
