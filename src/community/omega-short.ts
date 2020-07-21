@@ -1,5 +1,5 @@
 import { OmegaNotation } from "./omega";
-import Decimal from "break_infinity.js/break_infinity";
+import Decimal from "break_infinity.js";
 import { toSubscript } from "../utils";
 
 export class OmegaShortNotation extends OmegaNotation {

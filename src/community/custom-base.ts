@@ -1,4 +1,4 @@
-import Decimal from "break_infinity.js/break_infinity";
+import Decimal from "break_infinity.js";
 import { Notation } from "../notation";
 import { formatWithCommas } from "../utils";
 

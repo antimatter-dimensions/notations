@@ -1,4 +1,4 @@
-import Decimal from "break_infinity.js/break_infinity";
+import Decimal from "break_infinity.js";
 
 export const Settings = {
   isInfinite: (decimal: Decimal) => decimal.gte(Decimal.MAX_VALUE),

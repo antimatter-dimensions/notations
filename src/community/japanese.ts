@@ -1,5 +1,5 @@
 import { Notation } from "../notation";
-import Decimal from "break_infinity.js/break_infinity";
+import Decimal from "break_infinity.js";
 
 const JPNNOT_SUFFIXES = [
   '', '万', '億', '兆', '京', '垓', '秭',

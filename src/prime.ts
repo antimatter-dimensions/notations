@@ -1,5 +1,5 @@
 import { Notation } from "./notation";
-import Decimal from "break_infinity.js/break_infinity";
+import Decimal from "break_infinity.js";
 
 // The maximum number we can reliably find all prime factors for.
 const MAX_INT = 10006;

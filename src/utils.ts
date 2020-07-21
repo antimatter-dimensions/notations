@@ -1,4 +1,4 @@
-import Decimal from "break_infinity.js/break_infinity";
+import Decimal from "break_infinity.js";
 
 const commaRegexp = /\B(?=(\d{3})+(?!\d))/gu;
 
