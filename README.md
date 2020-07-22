@@ -112,7 +112,7 @@ looking at the source code of existing notations.
 ## Community Notations
 
 To use community notations, download community pack from the
-[dist](https://github.com/antimatter-dimensions/notations/tree/master/dist) directory.
+[releases](https://github.com/antimatter-dimensions/notations/releases) page.
 The community pack can be used **separately** from the base pack. To access
 community notations from your code, use `ADCommunityNotations` instead of
 `ADNotations`. Apart from that, the usage pattern is the same as with
@@ -161,44 +161,44 @@ command.
 
 Special thanks to the authors of notations:
 
-- Scientific: https://github.com/iblobtouch
-- Engineering: https://github.com/iblobtouch
-- Letters: https://github.com/iblobtouch
-- Standard: https://github.com/1234abcdcba4321
+- Scientific: [iblobtouch](https://github.com/iblobtouch)
+- Engineering: [iblobtouch](https://github.com/iblobtouch)
+- Letters: [iblobtouch](https://github.com/iblobtouch)
+- Standard: [Slabdrill](https://github.com/1234abcdcba4321)
 - Cancer: haha hevi screw u 😂😂😂
-- Mixed Scientific: https://github.com/IvarK
-- Mixed Engineering: https://github.com/IvarK
-- Logarithm: https://github.com/IvarK
-- Brackets: https://github.com/JCBoorgo
-- Infinity: https://github.com/omsi6
-- Roman: https://github.com/Razenpok
-- Dots: https://github.com/garnet420
-- Zalgo: https://github.com/cyip92
-- Hex: https://github.com/dan-simon
-- Imperial: https://github.com/garnet420, https://github.com/realrapidjazz
-- Clock: https://github.com/Razenpok, https://github.com/garnet420
-- Prime: https://github.com/Ikerstreamer
-- Bar: https://github.com/earthernsence
-- Shi: https://github.com/dan-simon
-- Blind: https://github.com/earthernsence
-- ALL: https://github.com/cyip92
+- Mixed Scientific: [Hevipelle](https://github.com/IvarK)
+- Mixed Engineering: [Hevipelle](https://github.com/IvarK)
+- Logarithm: [Hevipelle](https://github.com/IvarK)
+- Brackets: [Boo](https://github.com/JCBoorgo)
+- Infinity: [Omsi](https://github.com/omsi6)
+- Roman: [Razenpok](https://github.com/Razenpok)
+- Dots: [Garnet](https://github.com/garnet420)
+- Zalgo: [SpectralFlame](https://github.com/cyip92)
+- Hex: [dan-simon](https://github.com/dan-simon)
+- Imperial: [Garnet](https://github.com/garnet420), [realrapidjazz](https://github.com/realrapidjazz)
+- Clock: [Razenpok](https://github.com/Razenpok), [Garnet](https://github.com/garnet420)
+- Prime: [Iker](https://github.com/Ikerstreamer)
+- Bar: [Earth](https://github.com/earthernsence)
+- Shi: [dan-simon](https://github.com/dan-simon)
+- Blind: [Earth](https://github.com/earthernsence)
+- ALL: [SpectralFlame](https://github.com/cyip92)
 
 Thanks to the authors of community notations:
-- Greek Letters: https://github.com/cook1ee
-- Omega: https://github.com/cook1ee
-- Omega (Short): https://github.com/cook1ee
-- Precise Prime: Based on Prime by https://github.com/Ikerstreamer, idea by https://github.com/BlackCapCoder, changes to Prime mostly by https://github.com/dan-simon
-- Japanese: https://github.com/Chiyozel
-- Mixed Logarithm (Sci): https://github.com/Chiyozel
-- Tritetrated: https://github.com/dan-simon
-- Flags: https://github.com/kajfik000
-- YesNo: https://github.com/Kaedenn
-- Evil: https://github.com/dan-simon
-- Coronavirus: https://github.com/dan-simon
-- Chinese: https://github.com/ducdat0507
-- Binary: Suggested by https://github.com/garnet420, implemented by https://github.com/dan-simon
-- Hexadecimal: Suggested by https://github.com/garnet420, implemented by https://github.com/dan-simon, independently created earlier by https://github.com/aarextiaokhiao
-- Haha Funny: https://github.com/earthernsence
-- Nice: https://github.com/earthernsence
+- Greek Letters: [cook1ee](https://github.com/cook1ee)
+- Omega: [cook1ee](https://github.com/cook1ee)
+- Omega (Short): [cook1ee](https://github.com/cook1ee)
+- Precise Prime: Based on Prime by [Iker](https://github.com/Ikerstreamer), idea by [BlackCapCoder](https://github.com/BlackCapCoder), changes to Prime mostly by [dan-simon](https://github.com/dan-simon)
+- Japanese: [Chiyozel](https://github.com/Chiyozel)
+- Mixed Logarithm (Sci): [Chiyozel](https://github.com/Chiyozel)
+- Tritetrated: [dan-simon](https://github.com/dan-simon)
+- Flags: [Kajfik](https://github.com/kajfik000)
+- YesNo: [Kaedenn](https://github.com/Kaedenn)
+- Evil: [dan-simon](https://github.com/dan-simon)
+- Coronavirus: [dan-simon](https://github.com/dan-simon)
+- Chinese: [ducdat0507](https://github.com/ducdat0507)
+- Binary: Suggested by [Garnet](https://github.com/garnet420), implemented by [dan-simon](https://github.com/dan-simon)
+- Hexadecimal: Suggested by [Garnet](https://github.com/garnet420), implemented by [dan-simon](https://github.com/dan-simon), independently created earlier by [Aarex](https://github.com/aarextiaokhiao)
+- Haha Funny: [Earth](https://github.com/earthernsence)
+- Nice: [Earth](https://github.com/earthernsence)
 
-Additional thanks to https://github.com/omsi6 for the scaffolding of docs page.
+Additional thanks to [Omsi](https://github.com/omsi6) for the scaffolding of docs page.
