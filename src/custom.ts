@@ -1,5 +1,5 @@
 import { EngineeringNotation } from "./engineering";
-import Decimal from "break_infinity.js/break_infinity";
+import Decimal from "break_infinity.js";
 import { toEngineering } from "./utils";
 
 export class CustomNotation extends EngineeringNotation {

@@ -1,5 +1,5 @@
 import { Notation } from "./notation";
-import Decimal from "break_infinity.js/break_infinity";
+import Decimal from "break_infinity.js";
 
 // eslint-disable-next-line @typescript-eslint/no-type-alias
 type VolumeUnit = [number, string, number];

@@ -1,5 +1,5 @@
 import { Notation } from "./notation";
-import Decimal from "break_infinity.js/break_infinity";
+import Decimal from "break_infinity.js";
 
 // https://en.wikipedia.org/wiki/Lion-Eating_Poet_in_the_Stone_Den
 const SHI = "世使侍勢十史嗜士始室實屍市恃拭拾施是時氏濕獅矢石視試詩誓識逝適釋食";

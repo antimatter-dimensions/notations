@@ -1,5 +1,5 @@
 import { Notation } from "../notation";
-import Decimal from "break_infinity.js/break_infinity";
+import Decimal from "break_infinity.js";
 
 /// Prefixes to use. Each prefix is 10000 times larger than the previous one.
 const ChineseNotPrefixes   = ["", "万", "亿", "兆", "京", "垓", "秭", "穰", "沟", "涧", "正", "载", "极"];

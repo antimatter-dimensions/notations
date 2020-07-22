@@ -1,4 +1,4 @@
-import Decimal, { DecimalSource } from "break_infinity.js/break_infinity";
+import Decimal, { DecimalSource } from "break_infinity.js";
 import { Settings } from "./settings";
 import { formatWithCommas } from "./utils";
 
