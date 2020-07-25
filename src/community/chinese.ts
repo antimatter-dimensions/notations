@@ -26,7 +26,7 @@ export class ChineseNotation extends Notation {
   public get infinite(): string {
     return "無窮";
   }
-  
+
   public formatUnder1000(value: number): string {
     return this.formatUnder10000(value);
   }
@@ -34,44 +34,44 @@ export class ChineseNotation extends Notation {
   public formatDecimal(value: Decimal): string {
     return this.formatChinese(value);
   }
-  
+
   private formatChinese(value: Decimal): string {
     if (value.exponent < 4) {
       return this.formatUnder10000(value.toNumber());
     }
-    
+
     if (value.exponent < 52) {
       return this.formatAbove10000(value);
     }
-      
+
     const replacement = Math.floor(value.exponent / 48);
-    
+
     if (replacement < 6) {
       return this.formatAbove1e48(value.div(Decimal.pow(1e48, replacement))) +
         ChineseNotPrefixes[12].repeat(replacement);
     }
-    
+
     return this.formatAbove1e48(value.div(Decimal.pow(1e48, replacement)))
       + "(" + this.formatChinese(new Decimal(replacement)) + ")" + ChineseNotPrefixes[12];
   }
-  
+
   private formatAbove1e48(value: Decimal): string {
       const exp = Math.floor(value.exponent / 4) * 4;
       const man = (value.mantissa * Math.pow(10, value.exponent - exp));
-      return this.formatUnder10000WithPlaces(man) + ChineseNotPrefixes[exp / 4]
+      return this.formatUnder10000WithPlaces(man) + ChineseNotPrefixes[exp / 4];
   }
 
   private formatAbove10000(value: Decimal): string {
       const exp = Math.floor(value.exponent / 4) * 4;
       const man = Math.floor(value.mantissa * Math.pow(10, value.exponent - exp));
       const manb = Math.floor(value.mantissa * Math.pow(10, value.exponent - exp + 4)) % 10000;
-      return this.formatUnder10000(man) + ChineseNotPrefixes[exp / 4] + 
+      return this.formatUnder10000(man) + ChineseNotPrefixes[exp / 4] +
         ((manb > 0) ? (this.formatUnder10000(manb) + ChineseNotPrefixes[exp / 4 - 1]) : "");
   }
-  
+
   private formatUnder10000WithPlaces(value: number): string {
     return this.formatUnder1000(value) + "點" +
-      [1, 2, 3].map(x => ChineseNotDigits[Math.floor(value * Math.pow(10, x)) % 10]).join('');
+      [1, 2, 3].map(x => ChineseNotDigits[Math.floor(value * Math.pow(10, x)) % 10]).join("");
   }
 
   private formatUnder10000(value: number): string {

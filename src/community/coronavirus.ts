@@ -12,7 +12,7 @@ export class CoronavirusNotation extends Notation {
   public get name(): string {
     return "Coronavirus";
   }
-  
+
   public formatUnder1000(value: number, places: number): string {
     return this.infect(scientific.formatUnder1000(value, places));
   }
@@ -35,6 +35,6 @@ export class CoronavirusNotation extends Notation {
         }
       }
     }
-    return characters.join('');
+    return characters.join("");
   }
 }

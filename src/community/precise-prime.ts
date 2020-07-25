@@ -83,7 +83,7 @@ export class PrecisePrimeNotation extends Notation {
       const superscript = formattedExps.pop();
       formattedExps[exps.length - 2] += superscript;
     }
-    return formattedExps.join('^');
+    return formattedExps.join("^");
   }
 
   private formatFromList(factors: number[]): string {
@@ -120,7 +120,7 @@ export class PrecisePrimeNotation extends Notation {
     let n = num;
     const l = [];
     for (const k of [2, 3]) {
-      for (; n % k == 0; n /= k) {
+      for (; n % k === 0; n /= k) {
         l.push(k);
       }
     }
