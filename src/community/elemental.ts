@@ -36,18 +36,18 @@ export class ElementalNotation extends Notation {
   public formatDecimal(value: Decimal, places: number): string {
     return this.elemental(value, places);
   }
-  
+
   private getAbbreviationAndValue(x: number): [string, number] {
-    let abbreviationListIndexUnfloored = Math.log(x) / Math.log(118);
-    let abbreviationListIndex = Math.floor(abbreviationListIndexUnfloored);
-    let abbreviationList = ELEMENT_LISTS[Math.floor(abbreviationListIndex)];
-    let abbreviationSublistIndex = Math.floor(
+    const abbreviationListIndexUnfloored = Math.log(x) / Math.log(118);
+    const abbreviationListIndex = Math.floor(abbreviationListIndexUnfloored);
+    const abbreviationList = ELEMENT_LISTS[Math.floor(abbreviationListIndex)];
+    const abbreviationSublistIndex = Math.floor(
       (abbreviationListIndexUnfloored - abbreviationListIndex) * abbreviationList.length);
-    let abbreviation = abbreviationList[abbreviationSublistIndex];
-    let value = Math.pow(118, abbreviationListIndex + abbreviationSublistIndex / abbreviationList.length);
+    const abbreviation = abbreviationList[abbreviationSublistIndex];
+    const value = Math.pow(118, abbreviationListIndex + abbreviationSublistIndex / abbreviationList.length);
     return [abbreviation, value];
   }
-  
+
   private formatElementalPart(abbreviation: string, n: number): string {
     if (n === 1) {
       return abbreviation;
@@ -57,7 +57,7 @@ export class ElementalNotation extends Notation {
 
   private elemental(value: Decimal, places: number): string {
     let log = value.log(118);
-    let parts: [string, number][] = [];
+    const parts: [string, number][] = [];
     while (log >= 1 && parts.length < 4) {
       const [abbreviation, value] = this.getAbbreviationAndValue(log);
       const n = Math.floor(log / value);
@@ -67,7 +67,7 @@ export class ElementalNotation extends Notation {
     if (parts.length >= 4) {
       return parts.map(x => this.formatElementalPart(x[0], x[1])).join(" + ");
     }
-    let formattedMantissa = Decimal.pow(118, log).toFixed(places);
+    const formattedMantissa = Decimal.pow(118, log).toFixed(places);
     if (parts.length === 0) {
       return formattedMantissa;
     }

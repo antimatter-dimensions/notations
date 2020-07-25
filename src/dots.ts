@@ -30,8 +30,8 @@ export class DotsNotation extends Notation {
     return `${this.dotify(exponent)}⣿${this.dotify(mantissa * 254)}`;
   }
 
-  private dotify(value: number, pad: boolean = false): string {
-    value = Math.round(value);
+  private dotify(rawValue: number, pad=false): string {
+    const value = Math.round(rawValue);
     if (!pad && value < 254) {
       return DOT_DIGITS[value + 1];
     }
