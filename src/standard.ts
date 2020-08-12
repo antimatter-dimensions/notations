@@ -27,13 +27,13 @@ export class StandardNotation extends EngineeringNotation {
     return "Standard";
   }
 
-  public formatDecimal(value: Decimal, places: number): string {
+  public formatDecimal(value: Decimal, places: number, space: boolean = true): string {
     const engineering = toFixedEngineering(value, places);
     const mantissa = engineering.mantissa.toFixed(places);
     const abbreviation = engineering.exponent <= 303
       ? ABBREVIATIONS[engineering.exponent / 3]
       : this.abbreviate(engineering.exponent);
-    return `${mantissa} ${abbreviation}`;
+    return `${mantissa}${space ? " " : ""}${abbreviation}`;
   }
 
   private abbreviate(e: number): string {

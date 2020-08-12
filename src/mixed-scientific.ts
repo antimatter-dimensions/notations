@@ -10,9 +10,9 @@ export class MixedScientificNotation extends Notation {
     return "Mixed scientific";
   }
 
-  public formatDecimal(value: Decimal, places: number): string {
+  public formatDecimal(value: Decimal, places: number, spaceStandard: boolean = true): string {
     if (value.exponent < 33) {
-      return standard.formatDecimal(value, places);
+      return standard.formatDecimal(value, places, spaceStandard);
     }
     const fixedValue = fixMantissaOverflow(value, places, 10, 1);
     const mantissa = fixedValue.mantissa.toFixed(places);
