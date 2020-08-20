@@ -1,6 +1,6 @@
 import Decimal from "break_infinity.js";
 import { Notation } from "../notation";
-import { formatWithCommas } from "../utils";
+import { formatHigherBaseWithCommas } from "../utils";
 
 export class CustomBaseNotation extends Notation {
   private base: number;
@@ -39,7 +39,7 @@ export class CustomBaseNotation extends Notation {
       return this.formatUnder1000(exponent, 0);
     }
     if (this.showCommas(exponent)) {
-      return formatWithCommas(this.formatUnder1000(exponent, 0));
+      return formatHigherBaseWithCommas(this.formatUnder1000(exponent, 0));
     }
     return this.formatDecimal(new Decimal(exponent), Math.floor(Decimal.log(1000, this.base)));
   }

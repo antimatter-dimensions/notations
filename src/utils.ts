@@ -2,9 +2,17 @@ import Decimal from "break_infinity.js";
 
 const commaRegexp = /\B(?=(\d{3})+(?!\d))/gu;
 
+const higherBaseCommaRegexp = /\B(?=([0-9A-Za-z]{3})+(?![0-9A-Za-z]))/gu;
+
 export function formatWithCommas(value: number | string): string {
   const decimalPointSplit = value.toString().split(".");
   decimalPointSplit[0] = decimalPointSplit[0].replace(commaRegexp, ",");
+  return decimalPointSplit.join(".");
+}
+
+export function formatHigherBaseWithCommas(value: number | string): string {
+  const decimalPointSplit = value.toString().split(".");
+  decimalPointSplit[0] = decimalPointSplit[0].replace(higherBaseCommaRegexp, ",");
   return decimalPointSplit.join(".");
 }
 
