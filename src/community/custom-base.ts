@@ -22,7 +22,7 @@ export class CustomBaseNotation extends Notation {
   public formatUnder1000(valueIn: number, places: number): string {
     let value = Math.round(valueIn * Math.pow(this.base, places));
     const digits = [];
-    while (value > 0) {
+    while (value > 0 || digits.length === 0) {
       digits.push(this.digits[value % this.base])
       value = Math.floor(value / this.base);
     }
