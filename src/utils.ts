@@ -1,18 +1,27 @@
 import Decimal from "break_infinity.js";
 
-const commaRegexp = /\B(?=(\d{3})+(?!\d))/gu;
+function commaSection(value: string, index: number): string {
+  if (index === 0) {
+    return value.slice(-3);
+  } else {
+    return value.slice(-3 * (index + 1), -3 * index);
+  }
+}
 
-const higherBaseCommaRegexp = /\B(?=([0-9A-Za-z]{3})+(?![0-9A-Za-z]))/gu;
+function addCommas(value: string): string {
+  return Array.from(Array(Math.ceil(value.length / 3))).map(
+    (_, i) => commaSection(value, i)).reverse().join(',');
+}
 
 export function formatWithCommas(value: number | string): string {
   const decimalPointSplit = value.toString().split(".");
-  decimalPointSplit[0] = decimalPointSplit[0].replace(commaRegexp, ",");
+  decimalPointSplit[0] = decimalPointSplit[0].replace(/\d+$/g, addCommas);
   return decimalPointSplit.join(".");
 }
 
 export function formatHigherBaseWithCommas(value: number | string): string {
   const decimalPointSplit = value.toString().split(".");
-  decimalPointSplit[0] = decimalPointSplit[0].replace(higherBaseCommaRegexp, ",");
+  decimalPointSplit[0] = decimalPointSplit[0].replace(/[0-9A-Za-z]+$/g, addCommas);
   return decimalPointSplit.join(".");
 }
 
