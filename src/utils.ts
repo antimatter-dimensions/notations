@@ -10,7 +10,7 @@ function commaSection(value: string, index: number): string {
 
 function addCommas(value: string): string {
   return Array.from(Array(Math.ceil(value.length / 3))).map(
-    (_, i) => commaSection(value, i)).reverse().join(',');
+    (_, i) => commaSection(value, i)).reverse().join(",");
 }
 
 export function formatWithCommas(value: number | string): string {
