@@ -21,13 +21,17 @@ export abstract class AbstractInfixNotation extends Notation {
   public formatDecimal(value: Decimal, places: number): string {
     return this.formatInfix(value, places);
   }
+  
+  private numberOfPlaces(value: Decimal, places: number): number {
+    return Math.min(places, Math.min(this.groupDigits - 1, value.exponent));
+  }
 
-  public formatInfix(inputValue: Decimal, inputPlaces: number): string {
-    let places = Math.max(inputPlaces, this.groupDigits - 1);
+  protected formatInfix(inputValue: Decimal, inputPlaces: number): string {
     // Stop numbers starting with a lot of 9s from having those 9s rounded up,
     // by potentially adding 1 to the exponent.
-    const value = fixMantissaOverflow(inputValue, places, 10, 1);
-    places = Math.min(places, value.exponent);
+    const value = fixMantissaOverflow(
+      inputValue, this.numberOfPlaces(inputValue, inputPlaces), 10, 1);
+    const places = this.numberOfPlaces(value, inputPlaces);
     const mantissaString = value.mantissa.toFixed(places).replace('.', '');
     const result = [];
     let anyExponent = false;
