@@ -18,18 +18,18 @@ import { AbstractInfixNotation } from "./infix-abstract";
 
 // Name comes from https://en.wikipedia.org/wiki/Long_and_short_scales
 export class InfixShortScaleNotation extends AbstractInfixNotation {
-	public get name(): string {
-		return "Infix short scale";
-	}
+  public get name(): string {
+    return "Infix short scale";
+  }
 
-	protected formatMantissa(digit: number):string {
-		return this.numberToSubscript(digit);
-	}
-	protected formatExponent(exp: number):string {
-		const i = exp / 3;
-// 		return exp.toString(10);
-		return (i > -1 && i <= 101)
-			? ABBREVIATIONS[i]
-			: (i-1).toString(10);
-	}
+  protected formatMantissa(digit: number): string {
+    return this.numberToSubscript(digit);
+  }
+  protected formatExponent(exp: number): string {
+    const i = exp / 3;
+//     return exp.toString(10);
+    return (i > -1 && i <= 101)
+      ? ABBREVIATIONS[i]
+      : (i-1).toString(10);
+  }
 }

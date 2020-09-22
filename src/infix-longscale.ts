@@ -27,27 +27,26 @@ import Decimal from "break_infinity.js";
 
 // Name comes from https://en.wikipedia.org/wiki/Long_and_short_scales
 export class InfixLongScaleNotation extends AbstractInfixNotation {
-	public get name(): string {
-		return "Infix long scale";
-	}
+  public get name(): string {
+    return "Infix long scale";
+  }
 
-	protected formatMantissa(digit: number):string {
-		return this.numberToSubscript(digit);
-	}
-	protected formatExponent(exp: number):string {
-		const i = exp / 3;
-// 		return exp.toString(10);
-		return (i > -1 && i <= 101)
-			? ABBREVIATIONS[i]
-			: (i-1).toString(10);
-	}
+  public formatDecimal(value: Decimal, places: number): string {
+    let str = super.formatDecimal(value, Math.max(places, 5));
 
-	public formatDecimal(value: Decimal, places: number): string {
-		let str = super.formatDecimal(value, Math.max(places, 5));
+    if ((value.exponent > 0) && (value.exponent % 6) === 5) {
+      str += this.formatExponent(value.exponent - 5);
+    }
+    return str;
+  }
 
-		if ((value.exponent > 0) && (value.exponent % 6) === 5) {
-			str += this.formatExponent(value.exponent - 5);
-		}
-		return str;
-	}
+  protected formatMantissa(digit: number): string {
+    return this.numberToSubscript(digit);
+  }
+  protected formatExponent(exp: number): string {
+    const i = exp / 3;
+    return (i > -1 && i <= 101)
+      ? ABBREVIATIONS[i]
+      : (i-1).toString(10);
+  }
 }
