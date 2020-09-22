@@ -9,11 +9,15 @@ export class InfixLongScaleNotation extends AbstractInfixNotation {
   }
   
   protected groupDigits = 6;
+  protected canHandleZeroExponent = false;
 
   protected formatMantissa(digit: number): string {
     return toSubscript(digit);
   }
   protected formatExponent(exp: number): string {
+    if (exp < 0) {
+      return (exp / 6).toString();
+    }
     return abbreviate(Math.floor(exp / 6));
   }
   

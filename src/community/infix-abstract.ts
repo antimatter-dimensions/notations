@@ -8,6 +8,7 @@ export abstract class AbstractInfixNotation extends Notation {
   }
   
   protected groupDigits = 3;
+  protected canHandleZeroExponent = true;
   
   protected abstract formatMantissa(digit: number): string;
   protected abstract formatExponent(digit: number): string;
@@ -15,7 +16,8 @@ export abstract class AbstractInfixNotation extends Notation {
   private nextSeparatorExponent(e: number) {
     // Get the next exponent (going down, so the highest exponent lower than e)
     // such that there is a separator at that exponent.
-    return e - e % (e < this.groupDigits ? 3 : this.groupDigits);
+    let modulus = (0 <= e && e < this.groupDigits) ? 3 : this.groupDigits;
+    return e - (e % modulus + modulus) % modulus;
   }
   
   public formatDecimal(value: Decimal, places: number): string {
@@ -41,7 +43,7 @@ export abstract class AbstractInfixNotation extends Notation {
       // and this is the last digit.
       if (i == places && anyExponent) break;
       const currentExponent = value.exponent - i;
-      if (currentExponent === 0) {
+      if (currentExponent === 0 && !this.canHandleZeroExponent) {
         result.push('.');
       } else {
         const sepExp = this.nextSeparatorExponent(currentExponent);
