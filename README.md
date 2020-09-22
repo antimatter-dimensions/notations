@@ -199,6 +199,11 @@ Thanks to the authors of community notations:
 - Binary: Suggested by [Garnet](https://github.com/garnet420), implemented by [dan-simon](https://github.com/dan-simon)
 - Hexadecimal: Suggested by [Garnet](https://github.com/garnet420), implemented by [dan-simon](https://github.com/dan-simon), independently created earlier by [Aarex](https://github.com/aarextiaokhiao)
 - Haha Funny: [Earth](https://github.com/earthernsence)
-- Nice: [Earth](https://github.com/earthernsence)
+- Nice: [Earth](https://github.com/earthernsence))
+- Long scale: [Ivan Sanchez](https://github.com/IvanSanchez)
+- Infix engineering: [Ivan Sanchez](https://github.com/IvanSanchez)
+- Reverse infix engineering: [Ivan Sanchez](https://github.com/IvanSanchez)
+- Infix standard: [Ivan Sanchez](https://github.com/IvanSanchez)
+- Infix long scale: [Ivan Sanchez](https://github.com/IvanSanchez)
 
 Additional thanks to [Omsi](https://github.com/omsi6) for the scaffolding of docs page.
