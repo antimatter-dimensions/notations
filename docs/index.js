@@ -45,9 +45,10 @@ const NotationDisplay = function NotationDisplay(notationClass) {
   const span = document.createElement("span");
   inputContainer.after(span);
   return {
-    update(value) {
+    update(value, places) {
       const decimalValue = parse(value);
-      const formatted = decimalValue === null ? "???" : notation.format(decimalValue, 2, 0);
+      const decimalPlaces = parse(places);
+      const formatted = decimalValue === null ? "???" : notation.format(decimalValue, places, 0);
       span.textContent = `${notation.name}: ${formatted}`;
     }
   };
@@ -67,6 +68,10 @@ const displays = (function() {
     N.EngineeringNotation,
     N.LettersNotation,
     N.StandardNotation,
+    N.InfixEngineeringNotation,
+    N.InfixEngineeringReverseNotation,
+    N.InfixShortScaleNotation,
+    N.InfixLongScaleNotation,
     N.CancerNotation,
     N.MixedScientificNotation,
     N.MixedEngineeringNotation,
@@ -112,9 +117,10 @@ const displays = (function() {
 
 function updateValues() {
   const input = document.getElementById("number").value;
+  const places = document.getElementById("places").value;
   ADNotations.Settings.exponentCommas.show = document.getElementById("commas").checked;
   for (const display of displays) {
-    display.update(input);
+    display.update(input, places);
   }
 }
 
