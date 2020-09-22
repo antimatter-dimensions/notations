@@ -107,8 +107,8 @@ const displays = (function() {
     CN.LongScaleNotation,
     CN.InfixEngineeringNotation,
     CN.InfixEngineeringReverseNotation,
+    CN.InfixShortScaleNotation,
     CN.InfixLongScaleNotation,
-    CN.InfixStandardNotation,
   ]
   let communityNotationsDisplay = communityNotations.reverse().map((n) => new NotationDisplay(n));
   inputContainer.after(communityHeaderSpan());

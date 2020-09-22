@@ -1,7 +1,7 @@
 import { AbstractInfixNotation } from "./infix-abstract";
 import { toSubscript, abbreviate } from "../utils";
 
-export class InfixStandardNotation extends AbstractInfixNotation {
+export class InfixShortScaleNotation extends AbstractInfixNotation {
   public get name(): string {
     return "Infix short scale";
   }
