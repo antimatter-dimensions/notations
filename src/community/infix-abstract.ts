@@ -23,7 +23,7 @@ export abstract class AbstractInfixNotation extends Notation {
   }
   
   private numberOfPlaces(value: Decimal, places: number): number {
-    return Math.min(places, Math.min(this.groupDigits - 1, value.exponent));
+    return Math.max(places, Math.min(this.groupDigits - 1, value.exponent));
   }
 
   protected formatInfix(inputValue: Decimal, inputPlaces: number): string {
