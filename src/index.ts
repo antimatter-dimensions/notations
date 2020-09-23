@@ -22,7 +22,3 @@ export * from "./shi";
 export * from "./blind";
 export * from "./all";
 export * from "./custom";
-export * from "./infix-eng";
-export * from "./infix-eng-rev";
-export * from "./infix-shortscale";
-export * from "./infix-longscale";

@@ -45,10 +45,10 @@ const NotationDisplay = function NotationDisplay(notationClass) {
   const span = document.createElement("span");
   inputContainer.after(span);
   return {
-    update(value, places) {
+    update(value, placesValue) {
       const decimalValue = parse(value);
-      const decimalPlaces = parse(places);
-      const formatted = decimalValue === null ? "???" : notation.format(decimalValue, places, 0);
+      const places = +placesValue;
+      const formatted = decimalValue === null ? "???" : notation.format(decimalValue, places, places);
       span.textContent = `${notation.name}: ${formatted}`;
     }
   };
@@ -68,10 +68,6 @@ const displays = (function() {
     N.EngineeringNotation,
     N.LettersNotation,
     N.StandardNotation,
-    N.InfixEngineeringNotation,
-    N.InfixEngineeringReverseNotation,
-    N.InfixShortScaleNotation,
-    N.InfixLongScaleNotation,
     N.CancerNotation,
     N.MixedScientificNotation,
     N.MixedEngineeringNotation,
@@ -108,6 +104,11 @@ const displays = (function() {
     CN.HexadecimalNotation,
     CN.HahaFunnyNotation,
     CN.NiceNotation,
+    CN.LongScaleNotation,
+    CN.InfixEngineeringNotation,
+    CN.InfixEngineeringReverseNotation,
+    CN.InfixShortScaleNotation,
+    CN.InfixLongScaleNotation,
   ]
   let communityNotationsDisplay = communityNotations.reverse().map((n) => new NotationDisplay(n));
   inputContainer.after(communityHeaderSpan());
@@ -116,11 +117,11 @@ const displays = (function() {
 }());
 
 function updateValues() {
-  const input = document.getElementById("number").value;
-  const places = document.getElementById("places").value;
+  const value = document.getElementById("number").value;
+  const placesValue = document.getElementById("places").value;
   ADNotations.Settings.exponentCommas.show = document.getElementById("commas").checked;
   for (const display of displays) {
-    display.update(input, places);
+    display.update(value, placesValue);
   }
 }
 

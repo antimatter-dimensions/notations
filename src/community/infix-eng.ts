@@ -1,6 +1,5 @@
-
 import { AbstractInfixNotation } from "./infix-abstract";
-// import Decimal from "break_infinity.js";
+import { toSubscript } from "../utils";
 
 export class InfixEngineeringNotation extends AbstractInfixNotation {
   public get name(): string {
@@ -11,6 +10,6 @@ export class InfixEngineeringNotation extends AbstractInfixNotation {
     return digit.toString(10);
   }
   protected formatExponent(exp: number): string {
-    return this.numberToSubscript(exp);
+    return toSubscript(exp);
   }
 }
