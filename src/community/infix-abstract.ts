@@ -1,30 +1,34 @@
 import { Notation } from "../notation";
-import Decimal, { DecimalSource } from "break_infinity.js";
-import { fixMantissaOverflow } from '../utils';
+import type { DecimalSource } from "break_infinity.js";
+import Decimal from "break_infinity.js";
+import { fixMantissaOverflow } from "../utils";
 
 export abstract class AbstractInfixNotation extends Notation {
-  public get name(): string {
-    return "Abstract Infix";
-  }
-  
+  public readonly name = "Abstract Infix";
+
   protected groupDigits = 3;
+
   protected canHandleZeroExponent = true;
-  
-  protected abstract formatMantissa(digit: number): string;
-  protected abstract formatExponent(digit: number): string;
-  
+
+  protected abstract formatMantissa (digit: number): string;
+
+  protected abstract formatExponent (digit: number): string;
+
   private nextSeparatorExponent(e: number) {
     // Get the next exponent (going down, so the highest exponent lower than e)
     // such that there is a separator at that exponent.
-    let modulus = (0 <= e && e < this.groupDigits) ? 3 : this.groupDigits;
+    const modulus = e >= 0 && e < this.groupDigits ? 3 : this.groupDigits;
     return e - (e % modulus + modulus) % modulus;
   }
-  
+
   public formatDecimal(value: Decimal, places: number): string {
-    return this.formatInfix(value, places);
+    return this.formatInfix(
+      value,
+      places
+    );
   }
-  
-  public format(value: DecimalSource, places=0, placesUnder1000=0): string {
+
+  public format(value: DecimalSource, places = 0, placesUnder1000 = 0): string {
     if (typeof value === "number" && !Number.isFinite(value)) {
       return this.infinite;
     }
@@ -32,48 +36,75 @@ export abstract class AbstractInfixNotation extends Notation {
     const decimal = Decimal.fromValue_noAlloc(value);
 
     return decimal.sign() < 0
-      ? this.formatNegativeDecimal(decimal.abs(), places)
-      : this.formatDecimal(decimal, places);
+      ? this.formatNegativeDecimal(
+        decimal.abs(),
+        places
+      )
+      : this.formatDecimal(
+        decimal,
+        places
+      );
   }
 
   private numberOfPlaces(value: Decimal, places: number): number {
-    return Math.max(places, Math.min(this.groupDigits - 1, Math.abs(value.exponent)));
+    return Math.max(
+      places,
+      Math.min(
+        this.groupDigits - 1,
+        Math.abs(value.exponent)
+      )
+    );
   }
 
   protected formatInfix(inputValue: Decimal, inputPlaces: number): string {
     // Stop numbers starting with a lot of 9s from having those 9s rounded up,
     // by potentially adding 1 to the exponent.
     const value = fixMantissaOverflow(
-      inputValue, this.numberOfPlaces(inputValue, inputPlaces), 10, 1);
-    const places = this.numberOfPlaces(value, inputPlaces);
-    const mantissaString = value.mantissa.toFixed(places).replace('.', '');
+      inputValue,
+      this.numberOfPlaces(
+        inputValue,
+        inputPlaces
+      ),
+      10,
+      1
+    );
+    const places = this.numberOfPlaces(
+      value,
+      inputPlaces
+    );
+    const mantissaString = value.mantissa.toFixed(places).replace(
+      ".",
+      ""
+    );
     const result = [];
     let anyExponent = false;
     if (value.exponent === -1) {
       if (this.canHandleZeroExponent) {
-        (this.formatExponent(0));
+        this.formatExponent(0);
       } else {
-        result.push('.');
+        result.push(".");
       }
     }
     for (let i = 0; i < places + 1; i++) {
-      result.push(this.formatMantissa(+mantissaString[i]));
+      result.push(this.formatMantissa(Number(mantissaString[i])));
       // Don't add anything for the exponent if we've already added an exponent
       // and this is the last digit.
-      if (i == places && anyExponent) break;
+      if (i == places && anyExponent) {
+        break;
+      }
       const currentExponent = value.exponent - i;
       if (currentExponent === 0 && !this.canHandleZeroExponent) {
-        result.push('.');
+        result.push(".");
       } else {
         const sepExp = this.nextSeparatorExponent(currentExponent);
         if (currentExponent === sepExp) {
           result.push(this.formatExponent(currentExponent));
           anyExponent = true;
         } else if ((currentExponent - sepExp) % 3 === 0) {
-          result.push(',');
+          result.push(",");
         }
       }
     }
-    return result.join('');
+    return result.join("");
   }
 }

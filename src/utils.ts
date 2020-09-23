@@ -1,27 +1,39 @@
 import Decimal from "break_infinity.js";
 
-function commaSection(value: string, index: number): string {
+function commaSection (value: string, index: number): string {
   if (index === 0) {
     return value.slice(-3);
-  } else {
-    return value.slice(-3 * (index + 1), -3 * index);
   }
+  return value.slice(
+    -3 * (index + 1),
+    -3 * index
+  );
 }
 
 function addCommas(value: string): string {
-  return Array.from(Array(Math.ceil(value.length / 3))).map(
-    (_, i) => commaSection(value, i)).reverse().join(",");
+  return Array.from(Array(Math.ceil(value.length / 3))).map((_, i) => commaSection(
+    value,
+    i
+  ))
+    .reverse()
+    .join(",");
 }
 
 export function formatWithCommas(value: number | string): string {
   const decimalPointSplit = value.toString().split(".");
-  decimalPointSplit[0] = decimalPointSplit[0].replace(/\d+$/g, addCommas);
+  decimalPointSplit[0] = decimalPointSplit[0].replace(
+    /\d+$/g,
+    addCommas
+  );
   return decimalPointSplit.join(".");
 }
 
 export function formatHigherBaseWithCommas(value: number | string): string {
   const decimalPointSplit = value.toString().split(".");
-  decimalPointSplit[0] = decimalPointSplit[0].replace(/[0-9A-Za-z]+$/g, addCommas);
+  decimalPointSplit[0] = decimalPointSplit[0].replace(
+    /[0-9A-Za-z]+$/g,
+    addCommas
+  );
   return decimalPointSplit.join(".");
 }
 
@@ -36,10 +48,13 @@ export function fixMantissaOverflow(
   threshold: number,
   powerOffset: number
 ): Decimal {
-  const pow10 = Math.pow(10, places);
+  const pow10 = 10 ** places;
   const isOverflowing = Math.round(value.mantissa * pow10) >= threshold * pow10;
   if (isOverflowing) {
-    return Decimal.fromMantissaExponent_noNormalize(1, value.exponent + powerOffset);
+    return Decimal.fromMantissaExponent_noNormalize(
+      1,
+      value.exponent + powerOffset
+    );
   }
   return value;
 }
@@ -52,7 +67,7 @@ export function fixMantissaOverflow(
 export function toEngineering(value: Decimal): Decimal {
   const exponentOffset = value.exponent % 3;
   return Decimal.fromMantissaExponent_noNormalize(
-    value.mantissa * Math.pow(10, exponentOffset),
+    value.mantissa * 10 ** exponentOffset,
     value.exponent - exponentOffset
   );
 }
@@ -64,33 +79,47 @@ export function toEngineering(value: Decimal): Decimal {
  */
 export function toLongScale(value: Decimal): Decimal {
   // Give numbers between a thousand and a million exponent 3.
-  let mod = value.exponent < 6 ? 3 : 6;
+  const mod = value.exponent < 6 ? 3 : 6;
   const exponentOffset = value.exponent % mod;
   return Decimal.fromMantissaExponent_noNormalize(
-    value.mantissa * Math.pow(10, exponentOffset),
+    value.mantissa * 10 ** exponentOffset,
     value.exponent - exponentOffset
   );
 }
 
 export function toFixedEngineering(value: Decimal, places: number): Decimal {
-  return fixMantissaOverflow(toEngineering(value), places, 1000, 3);
+  return fixMantissaOverflow(
+    toEngineering(value),
+    places,
+    1000,
+    3
+  );
 }
 
 export function toFixedLongScale(value: Decimal, places: number): Decimal {
-  let overflowPlaces = value.exponent < 6 ? 3 : 6;
-  return fixMantissaOverflow(toLongScale(value), places, Math.pow(10, overflowPlaces), overflowPlaces);
+  const overflowPlaces = value.exponent < 6 ? 3 : 6;
+  return fixMantissaOverflow(
+    toLongScale(value),
+    places,
+    10 ** overflowPlaces,
+    overflowPlaces
+  );
 }
 
 const SUBSCRIPT_NUMBERS = ["₀", "₁", "₂", "₃", "₄", "₅", "₆", "₇", "₈", "₉"];
 
 export function toSubscript(value: number): string {
-  return value.toFixed(0).split("").map(x => x === '-' ? '₋' : SUBSCRIPT_NUMBERS[parseInt(x)]).join("");
+  return value.toFixed(0).split("")
+    .map((x) => x === '-' ? '₋' : SUBSCRIPT_NUMBERS[parseInt(x)])
+    .join("");
 }
 
 const SUPERSCRIPT_NUMBERS = ["⁰", "¹", "²", "³", "⁴", "⁵", "⁶", "⁷", "⁸", "⁹"];
 
 export function toSuperscript(value: number): string {
-  return value.toFixed(0).split("").map(x => x === '-' ? '⁻' : SUPERSCRIPT_NUMBERS[parseInt(x)]).join("");
+  return value.toFixed(0).split("")
+    .map((x) => x === '-' ? '⁻' : SUPERSCRIPT_NUMBERS[parseInt(x)])
+    .join("");
 }
 
 const STANDARD_ABBREVIATIONS = [
@@ -132,10 +161,25 @@ export function abbreviate(e: number): string {
   while (index2 >= 0) {
     abbreviation += prefix[index2 * 3] + prefix[index2 * 3 + 1] + prefix[index2 * 3 + 2] + STANDARD_PREFIXES_2[index2--];
   }
-  abbreviation = abbreviation.replace(/-$/, "");
+  abbreviation = abbreviation.replace(
+    /-$/,
+    ""
+  );
   return abbreviation
-    .replace("UM", "M")
-    .replace("UNA", "NA")
-    .replace("UPC", "PC")
-    .replace("UFM", "FM");
+    .replace(
+      "UM",
+      "M"
+    )
+    .replace(
+      "UNA",
+      "NA"
+    )
+    .replace(
+      "UPC",
+      "PC"
+    )
+    .replace(
+      "UFM",
+      "FM"
+    );
 }
