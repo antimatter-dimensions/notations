@@ -24,8 +24,8 @@ export class InfixLongScaleNotation extends AbstractInfixNotation {
   public formatDecimal(value: Decimal, places: number): string {
     return this.formatInfix(value, places).replace(/[,.]/g, x => x === '.' ? ',' : '.');
   }
-  
-  public formatUnder1000(value: number, places: number): string {
-    return value.toFixed(places).replace('.', ',');
+
+  public formatNegativeDecimal(value: Decimal, places: number): string {
+    return `₋${this.formatDecimal(value, places)}`;
   }
 }

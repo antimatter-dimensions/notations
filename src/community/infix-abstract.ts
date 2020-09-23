@@ -1,5 +1,5 @@
 import { Notation } from "../notation";
-import Decimal from "break_infinity.js";
+import Decimal, { DecimalSource } from "break_infinity.js";
 import { fixMantissaOverflow } from '../utils';
 
 export abstract class AbstractInfixNotation extends Notation {
@@ -24,8 +24,20 @@ export abstract class AbstractInfixNotation extends Notation {
     return this.formatInfix(value, places);
   }
   
+  public format(value: DecimalSource, places=0, placesUnder1000=0): string {
+    if (typeof value === "number" && !Number.isFinite(value)) {
+      return this.infinite;
+    }
+
+    const decimal = Decimal.fromValue_noAlloc(value);
+
+    return decimal.sign() < 0
+      ? this.formatNegativeDecimal(decimal.abs(), places)
+      : this.formatDecimal(decimal, places);
+  }
+
   private numberOfPlaces(value: Decimal, places: number): number {
-    return Math.max(places, Math.min(this.groupDigits - 1, value.exponent));
+    return Math.max(places, Math.min(this.groupDigits - 1, Math.abs(value.exponent)));
   }
 
   protected formatInfix(inputValue: Decimal, inputPlaces: number): string {
@@ -37,6 +49,13 @@ export abstract class AbstractInfixNotation extends Notation {
     const mantissaString = value.mantissa.toFixed(places).replace('.', '');
     const result = [];
     let anyExponent = false;
+    if (value.exponent === -1) {
+      if (this.canHandleZeroExponent) {
+        (this.formatExponent(0));
+      } else {
+        result.push('.');
+      }
+    }
     for (let i = 0; i < places + 1; i++) {
       result.push(this.formatMantissa(+mantissaString[i]));
       // Don't add anything for the exponent if we've already added an exponent
