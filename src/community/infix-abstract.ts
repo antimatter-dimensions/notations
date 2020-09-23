@@ -4,7 +4,7 @@ import Decimal from "break_infinity.js";
 import { fixMantissaOverflow } from "../utils";
 
 export abstract class AbstractInfixNotation extends Notation {
-  public readonly name = "Abstract Infix";
+  public name = "Abstract Infix";
 
   protected groupDigits = 3;
 
@@ -14,7 +14,7 @@ export abstract class AbstractInfixNotation extends Notation {
 
   protected abstract formatExponent (digit: number): string;
 
-  private nextSeparatorExponent(e: number) {
+  private nextSeparatorExponent(e: number): number {
     // Get the next exponent (going down, so the highest exponent lower than e)
     // such that there is a separator at that exponent.
     const modulus = e >= 0 && e < this.groupDigits ? 3 : this.groupDigits;
