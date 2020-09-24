@@ -50,9 +50,9 @@ export abstract class AbstractInfixNotation extends Notation {
     return Math.max(
       places,
       Math.min(
-        this.groupDigits - 1,
+        this.groupDigits,
         Math.abs(value.exponent)
-      )
+      ) -1
     );
   }
 
@@ -80,7 +80,7 @@ export abstract class AbstractInfixNotation extends Notation {
     let anyExponent = false;
     if (value.exponent === -1) {
       if (this.canHandleZeroExponent) {
-        this.formatExponent(0);
+        result.push(this.formatExponent(0));
       } else {
         result.push(".");
       }

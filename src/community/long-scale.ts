@@ -21,10 +21,4 @@ export class LongScaleNotation extends Notation {
       (x) => x === '.' ? ',' : '.');
   }
 
-  public formatUnder1000(value: number, places: number): string {
-    return value.toFixed(places).replace(
-      ".",
-      ","
-    );
-  }
 }
