@@ -4,22 +4,7 @@ import Decimal from "break_infinity.js";
 import { fixMantissaOverflow } from "../utils";
 
 export abstract class AbstractInfixNotation extends Notation {
-  public name = "Abstract Infix";
-
-  protected groupDigits = 3;
-
-  protected canHandleZeroExponent = true;
-
-  protected abstract formatMantissa (digit: number): string;
-
-  protected abstract formatExponent (digit: number): string;
-
-  private nextSeparatorExponent(e: number): number {
-    // Get the next exponent (going down, so the highest exponent lower than e)
-    // such that there is a separator at that exponent.
-    const modulus = e >= 0 && e < this.groupDigits ? 3 : this.groupDigits;
-    return e - (e % modulus + modulus) % modulus;
-  }
+  public name: string = "Abstract Infix";
 
   public formatDecimal(value: Decimal, places: number): string {
     return this.formatInfix(
@@ -28,7 +13,7 @@ export abstract class AbstractInfixNotation extends Notation {
     );
   }
 
-  public format(value: DecimalSource, places = 0, placesUnder1000 = 0): string {
+  public format(value: DecimalSource, places: number = 0, placesUnder1000: number = 0): string {
     if (typeof value === "number" && !Number.isFinite(value)) {
       return this.infinite;
     }
@@ -46,13 +31,27 @@ export abstract class AbstractInfixNotation extends Notation {
       );
   }
 
+  protected groupDigits = 3;
+
+  protected canHandleZeroExponent = true;
+
+  protected abstract formatMantissa (digit: number): string;
+
+  protected abstract formatExponent (digit: number): string;
+
+  private nextSeparatorExponent(e: number): number {
+    // Get the next exponent (going down, so the highest exponent lower than e)
+    // such that there is a separator at that exponent.
+    const modulus = e >= 0 && e < this.groupDigits ? 3 : this.groupDigits;
+    return e - (e % modulus + modulus) % modulus;
+  }
+
   private numberOfPlaces(value: Decimal, places: number): number {
+    const exp = value.exponent;
+    const rel = exp > 0 ? exp + 1 : -exp;
     return Math.max(
       places,
-      Math.min(
-        this.groupDigits,
-        Math.abs(value.exponent)
-      ) -1
+      Math.min( this.groupDigits, rel ) -1
     );
   }
 
@@ -89,7 +88,7 @@ export abstract class AbstractInfixNotation extends Notation {
       result.push(this.formatMantissa(Number(mantissaString[i])));
       // Don't add anything for the exponent if we've already added an exponent
       // and this is the last digit.
-      if (i == places && anyExponent) {
+      if (i === places && anyExponent) {
         break;
       }
       const currentExponent = value.exponent - i;

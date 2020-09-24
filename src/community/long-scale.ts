@@ -7,7 +7,7 @@ import { toFixedLongScale, abbreviate } from "../utils";
 // is generally used rather than the comma in numbers compared to where
 // the short scale is used, and vice versa.
 export class LongScaleNotation extends Notation {
-  public readonly name = "Long scale";
+  public readonly name: string = "Long scale";
 
   public formatDecimal(value: Decimal, places: number): string {
     const longScale = toFixedLongScale(

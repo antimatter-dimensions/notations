@@ -110,7 +110,7 @@ const SUBSCRIPT_NUMBERS = ["₀", "₁", "₂", "₃", "₄", "₅", "₆", "₇
 
 export function toSubscript(value: number): string {
   return value.toFixed(0).split("")
-    .map((x) => x === '-' ? '₋' : SUBSCRIPT_NUMBERS[parseInt(x)])
+    .map((x) => x === "-" ? "₋" : SUBSCRIPT_NUMBERS[parseInt(x)])
     .join("");
 }
 
@@ -142,13 +142,14 @@ const STANDARD_PREFIXES = [
 
 const STANDARD_PREFIXES_2 = ["", "MI-", "MC-", "NA-", "PC-", "FM-"];
 
-export function abbreviate(e: number): string {
+export function abbreviate(exp: number): string {
   // Please, someone clean this code up eventually
-  if (e < STANDARD_ABBREVIATIONS.length) {
-    return STANDARD_ABBREVIATIONS[e];
+  if (exp < STANDARD_ABBREVIATIONS.length) {
+    return STANDARD_ABBREVIATIONS[exp];
   }
   let index2 = 0;
-  const prefix = [STANDARD_PREFIXES[0][e % 10]];
+  const prefix = [STANDARD_PREFIXES[0][exp % 10]];
+  let e = exp;
   while (e >= 10) {
     e = Math.floor(e / 10);
     prefix.push(STANDARD_PREFIXES[++index2 % 3][e % 10]);
@@ -159,7 +160,10 @@ export function abbreviate(e: number): string {
   }
   let abbreviation = "";
   while (index2 >= 0) {
-    abbreviation += prefix[index2 * 3] + prefix[index2 * 3 + 1] + prefix[index2 * 3 + 2] + STANDARD_PREFIXES_2[index2--];
+    abbreviation += prefix[index2 * 3] +
+                    prefix[index2 * 3 + 1] +
+                    prefix[index2 * 3 + 2] +
+                    STANDARD_PREFIXES_2[index2--];
   }
   abbreviation = abbreviation.replace(
     /-$/,

@@ -4,7 +4,14 @@ import type Decimal from "break_infinity.js";
 
 // Name comes from https://en.wikipedia.org/wiki/Long_and_short_scales
 export class InfixShortScaleNotation extends AbstractInfixNotation {
-  public readonly name = "Infix short scale";
+  public readonly name: string = "Infix short scale";
+
+  public formatNegativeDecimal(value: Decimal, places: number): string {
+    return `₋${this.formatDecimal(
+      value,
+      places
+    )}`;
+  }
 
   protected canHandleZeroExponent = false;
 
@@ -19,10 +26,4 @@ export class InfixShortScaleNotation extends AbstractInfixNotation {
     return abbreviate(exp / 3 - 1);
   }
 
-  public formatNegativeDecimal(value: Decimal, places: number): string {
-    return `₋${this.formatDecimal(
-      value,
-      places
-    )}`;
-  }
 }

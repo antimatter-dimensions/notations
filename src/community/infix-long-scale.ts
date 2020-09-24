@@ -4,7 +4,23 @@ import { toSubscript, abbreviate } from "../utils";
 
 // Name comes from https://en.wikipedia.org/wiki/Long_and_short_scales
 export class InfixLongScaleNotation extends AbstractInfixNotation {
-  public readonly name = "Infix long scale";
+  public readonly name: string = "Infix long scale";
+
+  public formatDecimal(value: Decimal, places: number): string {
+    return this.formatInfix(
+      value,
+      places
+    ).replace(
+      /[,.]/g,
+      (x) => x === "." ? "," : ".");
+  }
+
+  public formatNegativeDecimal(value: Decimal, places: number): string {
+    return `₋${this.formatDecimal(
+      value,
+      places
+    )}`;
+  }
 
   protected groupDigits = 6;
 
@@ -19,21 +35,5 @@ export class InfixLongScaleNotation extends AbstractInfixNotation {
       return (exp / 6).toString();
     }
     return abbreviate(Math.floor(exp / 6));
-  }
-
-  public formatDecimal(value: Decimal, places: number): string {
-    return this.formatInfix(
-      value,
-      places
-    ).replace(
-      /[,.]/g,
-      (x) => x === '.' ? ',' : '.');
-  }
-
-  public formatNegativeDecimal(value: Decimal, places: number): string {
-    return `₋${this.formatDecimal(
-      value,
-      places
-    )}`;
   }
 }
