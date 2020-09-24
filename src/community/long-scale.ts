@@ -18,7 +18,7 @@ export class LongScaleNotation extends Notation {
     const abbreviation = abbreviate(Math.floor(longScale.exponent / 6));
     return `${mantissa} ${abbreviation}`.replace(
       /[,.]/g,
-      (x) => x === '.' ? ',' : '.');
+      (x) => x === "." ? "," : ".");
   }
 
 }

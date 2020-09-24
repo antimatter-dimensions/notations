@@ -6,6 +6,10 @@ import { toSubscript, abbreviate } from "../utils";
 export class InfixLongScaleNotation extends AbstractInfixNotation {
   public readonly name: string = "Infix long scale";
 
+  protected groupDigits = 6;
+
+  protected canHandleZeroExponent: boolean = false;
+
   public formatDecimal(value: Decimal, places: number): string {
     return this.formatInfix(
       value,
@@ -21,10 +25,6 @@ export class InfixLongScaleNotation extends AbstractInfixNotation {
       places
     )}`;
   }
-
-  protected groupDigits = 6;
-
-  protected canHandleZeroExponent = false;
 
   protected formatMantissa(digit: number): string {
     return toSubscript(digit);

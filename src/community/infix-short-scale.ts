@@ -6,14 +6,14 @@ import type Decimal from "break_infinity.js";
 export class InfixShortScaleNotation extends AbstractInfixNotation {
   public readonly name: string = "Infix short scale";
 
+  protected canHandleZeroExponent = false;
+
   public formatNegativeDecimal(value: Decimal, places: number): string {
     return `₋${this.formatDecimal(
       value,
       places
     )}`;
   }
-
-  protected canHandleZeroExponent = false;
 
   protected formatMantissa(digit: number): string {
     return toSubscript(digit);

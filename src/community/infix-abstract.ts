@@ -6,6 +6,10 @@ import { fixMantissaOverflow } from "../utils";
 export abstract class AbstractInfixNotation extends Notation {
   public name: string = "Abstract Infix";
 
+  protected groupDigits = 3;
+
+  protected canHandleZeroExponent: boolean = true;
+
   public formatDecimal(value: Decimal, places: number): string {
     return this.formatInfix(
       value,
@@ -31,29 +35,9 @@ export abstract class AbstractInfixNotation extends Notation {
       );
   }
 
-  protected groupDigits = 3;
-
-  protected canHandleZeroExponent = true;
-
   protected abstract formatMantissa (digit: number): string;
 
   protected abstract formatExponent (digit: number): string;
-
-  private nextSeparatorExponent(e: number): number {
-    // Get the next exponent (going down, so the highest exponent lower than e)
-    // such that there is a separator at that exponent.
-    const modulus = e >= 0 && e < this.groupDigits ? 3 : this.groupDigits;
-    return e - (e % modulus + modulus) % modulus;
-  }
-
-  private numberOfPlaces(value: Decimal, places: number): number {
-    const exp = value.exponent;
-    const rel = exp > 0 ? exp + 1 : -exp;
-    return Math.max(
-      places,
-      Math.min( this.groupDigits, rel ) -1
-    );
-  }
 
   protected formatInfix(inputValue: Decimal, inputPlaces: number): string {
     // Stop numbers starting with a lot of 9s from having those 9s rounded up,
@@ -105,5 +89,21 @@ export abstract class AbstractInfixNotation extends Notation {
       }
     }
     return result.join("");
+  }
+
+  private nextSeparatorExponent(e: number): number {
+    // Get the next exponent (going down, so the highest exponent lower than e)
+    // such that there is a separator at that exponent.
+    const modulus = e >= 0 && e < this.groupDigits ? 3 : this.groupDigits;
+    return e - (e % modulus + modulus) % modulus;
+  }
+
+  private numberOfPlaces(value: Decimal, places: number): number {
+    const exp = value.exponent;
+    const rel = exp > 0 ? exp + 1 : -exp;
+    return Math.max(
+      places,
+      Math.min( this.groupDigits, rel ) -1
+    );
   }
 }
