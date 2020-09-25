@@ -44,6 +44,10 @@ export class EnglishNotation extends EngineeringNotation {
         return "negative infinity";
     }
 
+    public get infinite(): string {
+        return "positive infinity";
+    }
+
     public formatNegativeVerySmallDecimal(value: Decimal, places: number): string {
         return `negative one ${this.formatDecimal(value.reciprocal(), places)}th`;
     }
