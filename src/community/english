@@ -8,7 +8,7 @@ const UNITS = [
 ];
 
 const TENS = [
-    "", "ten", "twenty", "thirty", "forty", "fifty", "sixty", "eighty", "ninety"
+    "", "ten", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"
 ]
 
 const ABBREVIATIONS = [
@@ -21,12 +21,39 @@ const PREFIXES = [
     ["", "centi", "ducenti", "trecenti", "quadringenti", "quingenti", "sescenti", "septingenti", "octingenti", "nongenti"]
 ];
 
-const PREFIXES_2 = ["", "milli-", "micri-", "nani-", "pici-", "femti-"];
-                                        // ^ Omae wa mou shindeiru.
+const PREFIXES_2 = [
+    "", "milli-", "micri-", "nani-", "pici-", "femti-", "atti-", "zepti-", "yocti-", "xoni-",
+    "veci-", "meci-", "dueci-", "treci-", "tetreci-", "penteci-", "hexeci-", "hepteci-", "octeci-", "enneci-",
+    "icosi-", "mecosi-", "duecosi-", "trecosi-", "tetrecosi-", "pentecosi-", "hexecosi-", "heptecosi-", "octecosi-", "ennecosi-",
+    "triaconti-", "metriaconti-", "duetriaconti-", "tretriaconti-", "tetretriaconti-", "pentetriaconti-", "hexetriaconti-", "heptetriaconti-", "octtriaconti-", "ennetriaconti-",
+    "tetraconti-", "metetraconti-", "duetetraconti-", "tretetraconti-", "tetretetraconti-", "pentetetraconti-", "hexetetraconti-", "heptetetraconti-", "octetetraconti-", "ennetetraconti-",
+    "pentaconti-", "mepentaconti-", "duepentaconti-", "trepentaconti-", "tetrepentaconti-", "pentepentaconti-", "hexepentaconti-", "heptepentaconti-", "octepentaconti-", "ennepentaconti-",
+    "hexaconti-", "mehexaconti-", "duehexaconti-", "trehexaconti-", "tetrehexaconti-", "pentehexaconti-", "hexehexaconti-", "heptehexaconti-", "octehexaconti-", "ennehexaconti-",
+    "heptaconti-", "meheptaconti-", "dueheptaconti-", "treheptaconti-", "tetreheptaconti-", "penteheptaconti-", "hexeheptaconti-", "hepteheptaconti-", "octeheptaconti-", "enneheptaconti-",
+    "octaconti-", "meoctaconti-", "dueoctaconti-", "treoctaconti-", "tetreoctaconti-", "penteoctaconti-", "hexeoctaconti-", "hepteoctaconti-", "octeoctaconti-", "enneoctaconti-",
+    "ennaconti-", "mecennaconti-", "duecennaconti-", "trecennaconti-", "tetrecennaconti-", "pentecennaconti-", "hexecennaconti-", "heptecennaconti-", "octecennaconti-", "ennecennaconti-",
+    "hecti-", "mehecti-", "duhecti-",
+];
 
 export class EnglishNotation extends EngineeringNotation {
     public get name(): string {
         return "English";
+    }
+
+    public get negativeInfinite(): string {
+        return "negative infinity";
+    }
+
+    public formatNegativeVerySmallDecimal(value: Decimal, places: number): string {
+        return `negative one ${this.formatDecimal(value.reciprocal(), places)}th`;
+    }
+
+    public formatVerySmallDecimal(value: Decimal, places: number): string {
+        return `one ${this.formatDecimal(value.reciprocal(), places)}th`;
+    }
+
+    public formatNegativeUnder1000(value: number, places: number): string {
+        return `negative ${this.formatUnits(value, places)}`;
     }
 
     public formatUnder1000(value: number, places: number): string {
@@ -48,13 +75,15 @@ export class EnglishNotation extends EngineeringNotation {
 
     private formatUnits(e: number, p: number): string {
         let ans = [];
-        if (e > 100) {
+        if (e < Math.pow(10, -p))
+            ans.push("zero");
+        if (e >= 100) {
             const a = Math.floor(e / 100);
             ans.push(UNITS[a] + " hundred");
             e -= a * 100;
         }
         if (e < 20) {
-            if (e > 1 && ans.length > 0) ans.push("and");
+            if (e >= 1 && ans.length > 0) ans.push("and");
             const a = Math.floor(e);
             ans.push(UNITS[a]);
             e -= a;
@@ -62,18 +91,18 @@ export class EnglishNotation extends EngineeringNotation {
             if (ans.length > 0) ans.push("and");
             const a = Math.floor(e / 10);
             ans.push(TENS[a]);
-            e -= a / 10;
-            if (a % 10 != 0) {
+            e -= a * 10;
+            if (e % 10 != 0) {
                 const a = Math.floor(e);
                 ans.push(UNITS[a]);
                 e -= a;
             }
         }
-        if (e > Math.pow(10, -p)) {
+        if (p > 0) {
             ans.push("point");
             let a = 0;
-            while (e != 0 && a < p) {
-                ans.push(UNITS[Math.floor(e * 10)]);
+            while (a < p) {
+                ans.push(Math.floor(e * 10) == 0 ? "oh" : UNITS[Math.floor(e * 10)]);
                 e = e * 10 - Math.floor(e * 10);
                 a++;
             }
