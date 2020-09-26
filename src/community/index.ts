@@ -17,3 +17,8 @@ export * from "./binary";
 export * from "./hexadecimal";
 export * from "./haha-funny";
 export * from "./nice";
+export * from "./long-scale";
+export * from "./infix-eng";
+export * from "./infix-eng-rev";
+export * from "./infix-short-scale";
+export * from "./infix-long-scale";
