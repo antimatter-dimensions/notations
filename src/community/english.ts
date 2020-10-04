@@ -1,7 +1,6 @@
 import { EngineeringNotation } from "../engineering";
 import Decimal from "break_infinity.js";
 import { toFixedEngineering } from "../utils";
-import { Settings } from "../settings";
 
 const UNITS = [
   "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
@@ -19,17 +18,17 @@ const PREFIXES = [
 ];
 
 const PREFIXES_2 = [
-  "", "milli-", "micri-", "nani-", "pici-", "femti-", "atti-", "zepti-", "yocti-", "xoni-",
-  "veci-", "meci-", "dueci-", "treci-", "tetreci-", "penteci-", "hexeci-", "hepteci-", "octeci-", "enneci-",
-  "icosi-", "mecosi-", "duecosi-", "trecosi-", "tetrecosi-", "pentecosi-", "hexecosi-", "heptecosi-", "octecosi-", "ennecosi-",
-  "triaconti-", "metriaconti-", "duetriaconti-", "tretriaconti-", "tetretriaconti-", "pentetriaconti-", "hexetriaconti-", "heptetriaconti-", "octtriaconti-", "ennetriaconti-",
-  "tetraconti-", "metetraconti-", "duetetraconti-", "tretetraconti-", "tetretetraconti-", "pentetetraconti-", "hexetetraconti-", "heptetetraconti-", "octetetraconti-", "ennetetraconti-",
-  "pentaconti-", "mepentaconti-", "duepentaconti-", "trepentaconti-", "tetrepentaconti-", "pentepentaconti-", "hexepentaconti-", "heptepentaconti-", "octepentaconti-", "ennepentaconti-",
-  "hexaconti-", "mehexaconti-", "duehexaconti-", "trehexaconti-", "tetrehexaconti-", "pentehexaconti-", "hexehexaconti-", "heptehexaconti-", "octehexaconti-", "ennehexaconti-",
-  "heptaconti-", "meheptaconti-", "dueheptaconti-", "treheptaconti-", "tetreheptaconti-", "penteheptaconti-", "hexeheptaconti-", "hepteheptaconti-", "octeheptaconti-", "enneheptaconti-",
-  "octaconti-", "meoctaconti-", "dueoctaconti-", "treoctaconti-", "tetreoctaconti-", "penteoctaconti-", "hexeoctaconti-", "hepteoctaconti-", "octeoctaconti-", "enneoctaconti-",
-  "ennaconti-", "mecennaconti-", "duecennaconti-", "trecennaconti-", "tetrecennaconti-", "pentecennaconti-", "hexecennaconti-", "heptecennaconti-", "octecennaconti-", "ennecennaconti-",
-  "hecti-", "mehecti-", "duhecti-",
+  "", "milli-", "micro-", "nano-", "pico-", "femto-", "atto-", "zepto-", "yocto-", "xono-",
+  "veco-", "meco-", "dueco-", "treco-", "tetreco-", "penteco-", "hexeco-", "hepteco-", "octeco-", "enneco-",
+  "icoso-", "meicoso-", "dueicoso-", "trioicoso-", "tetreicoso-", "penteicoso-", "hexeicoso-", "hepteicoso-", "octeicoso-", "enneicoso-",
+  "triaconto-", "metriaconto-", "duetriaconto-", "triotriaconto-", "tetretriaconto-", "pentetriaconto-", "hexetriaconto-", "heptetriaconto-", "octtriaconto-", "ennetriaconto-",
+  "tetraconto-", "metetraconto-", "duetetraconto-", "triotetraconto-", "tetretetraconto-", "pentetetraconto-", "hexetetraconto-", "heptetetraconto-", "octetetraconto-", "ennetetraconto-",
+  "pentaconto-", "mepentaconto-", "duepentaconto-", "triopentaconto-", "tetrepentaconto-", "pentepentaconto-", "hexepentaconto-", "heptepentaconto-", "octepentaconto-", "ennepentaconto-",
+  "hexaconto-", "mehexaconto-", "duehexaconto-", "triohexaconto-", "tetrehexaconto-", "pentehexaconto-", "hexehexaconto-", "heptehexaconto-", "octehexaconto-", "ennehexaconto-",
+  "heptaconto-", "meheptaconto-", "dueheptaconto-", "trioheptaconto-", "tetreheptaconto-", "penteheptaconto-", "hexeheptaconto-", "hepteheptaconto-", "octeheptaconto-", "enneheptaconto-",
+  "octaconto-", "meoctaconto-", "dueoctaconto-", "triooctaconto-", "tetreoctaconto-", "penteoctaconto-", "hexeoctaconto-", "hepteoctaconto-", "octeoctaconto-", "enneoctaconto-",
+  "ennaconto-", "meennaconto-", "dueeennaconto-", "trioennaconto-", "tetreennaconto-", "penteennaconto-", "hexeennaconto-", "hepteennaconto-", "octeennaconto-", "enneennaconto-",
+  "hecto-", "mehecto-", "duehecto-",
 ];
 
 export class EnglishNotation extends EngineeringNotation {
@@ -46,11 +45,11 @@ export class EnglishNotation extends EngineeringNotation {
   }
 
   public formatNegativeVerySmallDecimal(value: Decimal, places: number): string {
-    return `negative one ${this.formatDecimal(value.reciprocal(), places).replace(/ /g, '-')}th`;
+      return `negative one ${this.formatDecimal(value.reciprocal(), places).replace(/ /g, '-').replace('--', '-')}th`;
   }
 
   public formatVerySmallDecimal(value: Decimal, places: number): string {
-    return `one ${this.formatDecimal(value.reciprocal(), places).replace(/ /g, '-')}th`;
+      return `one ${this.formatDecimal(value.reciprocal(), places).replace(/ /g, '-').replace('--', '-')}th`;
   }
 
   public formatNegativeUnder1000(value: number, places: number): string {
@@ -66,41 +65,40 @@ export class EnglishNotation extends EngineeringNotation {
   }
 
   public formatDecimal(value: Decimal, places: number): string {
-    // Format in the form of "one xth" when number is less than or equal 0.001
-    if (value.exponent < -3) {
+    // Format in the form of "one xth" when number is less than or equal 0.001.
+    if (value.lte(0.001)) {
       return this.formatVerySmallDecimal(value, places);
     }
+
     const engineering = toFixedEngineering(value, places);
     const precision = Math.pow(10, -places);
 
-    // Calculate the actual mantissa and exponent
+    // Prevent 0.002 from being format as "two undefined" and alike.
+    if (value.lte(0.01)) {
+        return this.formatUnits(value.toNumber() + precision / 2, places);
+    }
+
+    // Calculate the actual mantissa and exponent.
     const ceiled = engineering.mantissa + precision / 2 >= 1000;
     const mantissa = (ceiled ? 1 : engineering.mantissa + precision / 2);
     const exponent = engineering.exponent + (ceiled ? 1 : 0);
 
-    // Use the corresponding format depending on the comma setting
-    if (exponent >= 3000000003 && !Settings.exponentCommas.show) {
-      const unit = this.formatUnits(mantissa, places);
-      const abbreviation = this.formatDecimal(new Decimal(exponent), places);
-      return `${unit} multiplied by ten to the power of ${abbreviation}`;
-    } else {
-      const unit = this.formatUnits(mantissa, places);
-      const abbreviation = this.formatPrefixes(exponent);
-      return `${unit} ${abbreviation}`;
-    }
+    const unit = this.formatUnits(mantissa, places);
+    const abbreviation = this.formatPrefixes(exponent);
+    return `${unit} ${abbreviation}`;
   }
 
   private formatUnits(e: number, p: number): string {
     let ans = [];
     const origin = e;
     let precision = Math.pow(10, -p);
-    // The hundred place
+    // The hundred place.
     if (e >= 100) {
       const a = Math.floor(e / 100);
       ans.push(UNITS[a] + " hundred");
       e -= a * 100;
     }
-    // The tens and units place. Because 11-19 in English is only one word this has to be separated
+    // The tens and units place. Because 11-19 in English is only one word this has to be separated.
     if (e < 20) {
       if (e >= 1 && ans.length > 0) ans.push("and");
       const a = Math.floor(e);
@@ -117,7 +115,7 @@ export class EnglishNotation extends EngineeringNotation {
         e -= a;
       }
     }
-    // Places after the decimal point
+    // Places after the decimal point.
     if (e >= Math.pow(10, -p) && p > 0) {
       ans.push("point");
       let a = 0;
@@ -133,9 +131,8 @@ export class EnglishNotation extends EngineeringNotation {
 
   private formatPrefixes(e: number): string {
       e = Math.floor(e / 3) - 1;
-      // Quick returns
-      if (e == -1) return "";
-      if (e == 0) return "thousand";
+      // Quick returns.
+      if (e <= 3) return ["", "thousand", "million", "billion", "trillion"][e + 1];
       // I don't know how to clean this please send help
       let index2 = 0;
       const prefix = [PREFIXES[0][e % 10]];
@@ -151,6 +148,7 @@ export class EnglishNotation extends EngineeringNotation {
       while (index2 >= 0) {
         if (prefix[index2 * 3] != "un" || prefix[index2 * 3 + 1] != "" || prefix[index2 * 3 + 2] != "" || index2 == 0) {
           let abb2 = prefix[index2 * 3 + 1] + prefix[index2 * 3 + 2];
+          // Special cases.
           if (["tre", "se"].includes(prefix[index2 * 3]) && ["v", "t", "q"].includes(abb2.substr(0, 1))) {
             abb2 = "s" + abb2;
           }
@@ -171,17 +169,20 @@ export class EnglishNotation extends EngineeringNotation {
         index2--;
       }
       abbreviation = abbreviation.replace(/-$/, "");
-      // Starting with .replace("unillion", "million"), these replacements are the easiest way to stop, for example,
-      // 1e3009 from being formatted as "one milli-duillion" instead of "one milli-billion". (That is, just using "billion"
-      // for 1e9 fails.)
+      // Replacements from '.replace("unillion", "untillion")' to '.replace("trillion", "tretillion")' are made
+      // because apparently 1e3006 is formatted as "one duotillion" and not like "one duillion" or "one billion".
+      // Replacements after '.replace("quattuorillion", "quadrillion")' are the easiest way to prevent numbers like
+      // 1e3016 from being formatted like "ten milli-quattuorillion" instead of "ten milli-quadrillion". Using only
+      // "quadrillion" for 1e15 no longer works.
       return (abbreviation + "illion")
         .replace("i-illion", "illion")
         .replace("iillion", "illion")
         .replace("aillion", "illion")
         .replace("oillion", "illion")
         .replace("eillion", "illion")
-        .replace("unillion", "million")
-        .replace("duillion", "billion")
+        .replace("unillion", "untillion")
+        .replace("duillion", "duotillion")
+        .replace("trillion", "tretillion")
         .replace("quattuorillion", "quadrillion")
         .replace("quinillion", "quintillion")
         .replace("sillion", "sextillion")
