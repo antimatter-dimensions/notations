@@ -5,7 +5,8 @@
   "scripts": {
     "build": "npm run build:ad && npm run build:community",
     "build:ad": "bili --config bili.config.base.ts && cp dist/ad-notations.min.js docs/ad-notations.min.js",
-    "build:community": "bili --config bili.config.community.ts && cp dist/ad-notations.community.min.js docs/ad-notations.community.min.js"
+    "build:community": "bili --config bili.config.community.ts && cp dist/ad-notations.community.min.js docs/ad-notations.community.min.js",
+    "test": "jasmine"
   },
   "main": "dist/ad-notations.umd.js",
   "module": "dist/ad-notations.esm.js",
@@ -36,8 +37,9 @@
     "@typescript-eslint/parser": "^4.2.0",
     "bili": "^5.0.2",
     "eslint": "^7.0.0",
+    "jasmine": "^3.6.1",
     "rollup-plugin-typescript2": "^0.27.0",
-    "typescript": "^4.0.2"
+    "typescript": "^4.0.3"
   },
   "dependencies": {
     "break_infinity.js": "^1.2.0",
