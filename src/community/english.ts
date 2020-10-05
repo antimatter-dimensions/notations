@@ -53,11 +53,11 @@ export class EnglishNotation extends EngineeringNotation {
   }
 
   public formatNegativeVerySmallDecimal(value: Decimal, places: number): string {
-      return `negative one ${this.formatDecimal(value.reciprocal(), places).replace(/ /g, "-").replace("--", "-")}th`;
+    return `negative one ${this.formatDecimal(value.reciprocal(), places).replace(/ /g, "-").replace("--", "-")}th`;
   }
 
   public formatVerySmallDecimal(value: Decimal, places: number): string {
-      return `one ${this.formatDecimal(value.reciprocal(), places).replace(/ /g, "-").replace("--", "-")}th`;
+    return `one ${this.formatDecimal(value.reciprocal(), places).replace(/ /g, "-").replace("--", "-")}th`;
   }
 
   public formatNegativeUnder1000(value: number, places: number): string {
