@@ -10,11 +10,11 @@ export class BarNotation extends Notation {
   };
   
   public get negativeInfinite(): string {
-    return "";
+    return "-";
   };
 
   public get Infinite(): string {
-    return "";
+    return "";
   };
   
   public formatVerySmallNegativeDecimal(value: Decimal): string {
