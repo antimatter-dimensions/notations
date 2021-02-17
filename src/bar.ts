@@ -50,7 +50,7 @@ export class BarNotation extends Notation {
       const remainder = wholeLog % 8;
       wholeLog = (wholeLog - remainder) / 8;
       parts.push(BARS[remainder]);
-    };
+    }
     parts.push(BARS[wholeLog]);
     return parts.join("");
   }
