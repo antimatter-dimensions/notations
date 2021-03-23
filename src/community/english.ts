@@ -73,6 +73,9 @@ export class EnglishNotation extends EngineeringNotation {
   }
 
   public formatDecimal(value: Decimal, places: number): string {
+    if (value.eq(0)) {
+      return 'zero';
+    }
     // Format in the form of "one xth" when number is less than or equal 0.001.
     if (value.lte(0.001)) {
       return this.formatVerySmallDecimal(value, places);

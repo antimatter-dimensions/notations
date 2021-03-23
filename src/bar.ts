@@ -18,7 +18,7 @@ export class BarNotation extends Notation {
   }
   
   public formatVerySmallNegativeDecimal(value: Decimal): string {
-    return this.formatDecimal(value.negate());
+    return '-' + this.formatDecimal(value.negate());
   }
 
   public formatVerySmallDecimal(value: Decimal): string {
@@ -26,7 +26,7 @@ export class BarNotation extends Notation {
   }
 
   public formatNegativeUnder1000(value: number): string {
-    return this.formatDecimal(new Decimal(-value));
+    return '-' + this.formatDecimal(new Decimal(-value));
   }
 
   public formatUnder1000(value: number): string {
@@ -34,10 +34,16 @@ export class BarNotation extends Notation {
   }
 
   public formatNegativeDecimal(value: Decimal): string {
-    return this.formatDecimal(value.negate());
+    return '-' + this.formatDecimal(value.negate());
   }
   
   public formatDecimal(value: Decimal): string {
+    if (value.eq(0)) {
+      return '0';
+    }
+    if (value.lessThan(1)) {
+      return '/' + this.formatDecimal(Decimal.div(1, value));
+    }
     const log8 = Math.LN10 / LOG8 * value.log10();
     let wholeLog = Math.floor(log8);
     const decimalLog = log8 - wholeLog;
