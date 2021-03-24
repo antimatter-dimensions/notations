@@ -121,7 +121,7 @@ export class EnglishNotation extends EngineeringNotation {
       ans.push(TENS[a]);
       e -= a * 10;
       a = Math.floor(e);
-      if (a != 0) {
+      if (a !== 0) {
         ans.push(UNITS[a]);
         e -= a;
       }
@@ -159,7 +159,7 @@ export class EnglishNotation extends EngineeringNotation {
       }
       let abbreviation = "";
       while (index2 >= 0) {
-        if (prefix[index2 * 3] != "un" || prefix[index2 * 3 + 1] != "" || prefix[index2 * 3 + 2] != "" || index2 == 0) {
+        if (prefix[index2 * 3] !== "un" || prefix[index2 * 3 + 1] !== "" || prefix[index2 * 3 + 2] !== "" || index2 == 0) {
           let abb2 = prefix[index2 * 3 + 1] + prefix[index2 * 3 + 2];
           // Special cases.
           if (["tre", "se"].includes(prefix[index2 * 3]) && ["v", "t", "q"].includes(abb2.substr(0, 1))) {
@@ -176,7 +176,7 @@ export class EnglishNotation extends EngineeringNotation {
           }
           abbreviation += prefix[index2 * 3] + abb2;
         }
-        if (prefix[index2 * 3] != "" || prefix[index2 * 3 + 1] != "" || prefix[index2 * 3 + 2] != "") {
+        if (prefix[index2 * 3] !== "" || prefix[index2 * 3 + 1] !== "" || prefix[index2 * 3 + 2] !== "") {
           abbreviation += PREFIXES_2[index2];
         }
         index2--;
