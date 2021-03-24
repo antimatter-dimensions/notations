@@ -65,9 +65,9 @@ export class BarNotation extends Notation {
       return parts.join("");
   }
   public flipBars(parts: string): string {
-    let newParts = [];
-    for (let i = 0; i < parts.length; i++) {
-      newParts.push(NEGATIVE_BARS[BARS.indexOf(parts[i])])
+    const newParts = [];
+    for (let part of parts) {
+      newParts.push(NEGATIVE_BARS[BARS.indexOf(part)])
     }
     return newParts.join("");
   }
