@@ -19,7 +19,7 @@ const NUMBERS = [
   "44÷4+√4",
   "4×4-√4",
   "4×4-4÷4"
-]
+];
 
 export class FoursNotation extends Notation {
   public get name(): string {
@@ -58,7 +58,7 @@ export class FoursNotation extends Notation {
     return this.display(val);
   }
 
-  private display(val: Decimal, formatLargeNumber: boolean = true): string {
+  private display(val: Decimal, formatLargeNumber = true): string {
     if (val.equals(0)) {
       return NUMBERS[0];
     }
@@ -67,8 +67,8 @@ export class FoursNotation extends Notation {
     let abs = val.abs();
 
     if (abs.gte(1e9) && formatLargeNumber) {
-      let power = abs.log10() / LOG4;
-      let powerStr = this.display(new Decimal(power), false);
+      const power = abs.log10() / LOG4;
+      const powerStr = this.display(new Decimal(power), false);
       if (this.requiresBrackets(powerStr)) {
         str = `4^(${powerStr})`;
       } else {
@@ -77,14 +77,10 @@ export class FoursNotation extends Notation {
     } else if (abs.gte(16)) {
       abs = abs.floor();
 
-      let quotient = abs.div(16).floor();
-      let remainder = abs.minus(quotient.times(16));
-
-      if (abs.gte(1e12)) {
-        // To prevent remainder from becomes greater than 15
-        // due to the loss of precision
-        remainder = new Decimal(0);
-      }
+      const quotient = abs.div(16).floor();
+      // Remainder was set to 0 to prevent it from
+      // becoming greater than 15 due to the loss of precision
+      const remainder = abs.gte(1e12) ? new Decimal(0) : abs.minus(quotient.times(16));
 
       let pre = "";
       if (!remainder.equals(0)) {
@@ -104,15 +100,15 @@ export class FoursNotation extends Notation {
     } else if (abs.gte(1)) {
       str = NUMBERS[abs.floor().toNumber()];
     } else if (abs.gte(1e-9) && formatLargeNumber) {
-      let reciprocal = Decimal.div(1, abs);
-      let denominator = this.display(reciprocal, formatLargeNumber);
+      const reciprocal = Decimal.div(1, abs);
+      const denominator = this.display(reciprocal, formatLargeNumber);
       if (this.requiresBrackets(denominator)) {
         str = `${NUMBERS[10]}÷(${denominator})`;
       } else {
         str = `${NUMBERS[10]}÷${denominator}`;
       }
     } else {
-      let power = abs.log10() / LOG4;
+      const power = abs.log10() / LOG4;
       // Brackets are added as the power will always be negative
       str = `4^(${this.display(new Decimal(power), false)})`;
     }
