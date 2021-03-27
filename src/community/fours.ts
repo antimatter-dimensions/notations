@@ -68,11 +68,11 @@ export class FoursNotation extends Notation {
 
     if (abs.gte(1e9) && formatLargeNumber) {
       let power = abs.log10() / LOG4;
-      str = this.display(new Decimal(power), false);
-      if (this.requiresBrackets(str)) {
-        str = `4^(${str})`;
+      let powerStr = this.display(new Decimal(power), false);
+      if (this.requiresBrackets(powerStr)) {
+        str = `4^(${powerStr})`;
       } else {
-        str = `4^${str}`;
+        str = `4^${powerStr}`;
       }
     } else if (abs.gte(16)) {
       abs = abs.floor();
@@ -86,23 +86,30 @@ export class FoursNotation extends Notation {
         remainder = new Decimal(0);
       }
 
-      str = NUMBERS[remainder.toNumber()];
-
-      if (this.requiresBrackets(str)) {
-        str = `${str}+4*4*(${this.display(quotient)})`;
-      } else {
-        str = `${str}+4*4*${this.display(quotient)}`;
+      let pre = "";
+      if (!remainder.equals(0)) {
+          pre =`${NUMBERS[remainder.toNumber()]}+`;
       }
 
+      let suf = "";
+      if (!quotient.equals(1)) {
+          suf = this.display(quotient);
+        if (this.requiresBrackets(suf)) {
+          suf = `*(${suf})`;
+        } else {
+          suf = `*${suf}`;
+        }
+      }
+      str = `${pre}4*4${suf}`;
     } else if (abs.gte(1)) {
       str = NUMBERS[abs.floor().toNumber()];
     } else if (abs.gte(1e-9) && formatLargeNumber) {
       let reciprocal = Decimal.div(1, abs);
-      str = this.display(reciprocal, false);
-      if (this.requiresBrackets(str)) {
-        str = `${NUMBERS[10]}/(${str})`;
+      let denominator = this.display(reciprocal, false);
+      if (this.requiresBrackets(denominator)) {
+        str = `${NUMBERS[10]}÷(${denominator})`;
       } else {
-        str = `${NUMBERS[10]}/${str}`;
+        str = `${NUMBERS[10]}÷${denominator}`;
       }
     } else {
       let power = abs.log10() / LOG4;
