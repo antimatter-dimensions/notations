@@ -93,19 +93,19 @@ export class FoursNotation extends Notation {
 
       let suf = "";
       if (!quotient.equals(1)) {
-          suf = this.display(quotient);
+          suf = this.display(quotient, formatLargeNumber);
         if (this.requiresBrackets(suf)) {
-          suf = `*(${suf})`;
+          suf = `×(${suf})`;
         } else {
-          suf = `*${suf}`;
+          suf = `×${suf}`;
         }
       }
-      str = `${pre}4*4${suf}`;
+      str = `${pre}4×4${suf}`;
     } else if (abs.gte(1)) {
       str = NUMBERS[abs.floor().toNumber()];
     } else if (abs.gte(1e-9) && formatLargeNumber) {
       let reciprocal = Decimal.div(1, abs);
-      let denominator = this.display(reciprocal, false);
+      let denominator = this.display(reciprocal, formatLargeNumber);
       if (this.requiresBrackets(denominator)) {
         str = `${NUMBERS[10]}÷(${denominator})`;
       } else {
@@ -114,7 +114,7 @@ export class FoursNotation extends Notation {
     } else {
       let power = abs.log10() / LOG4;
       // Brackets are added as the power will always be negative
-      str = `4^(${this.display(new Decimal(power))})`;
+      str = `4^(${this.display(new Decimal(power), false)})`;
     }
 
     if (val.lt(0)) {
