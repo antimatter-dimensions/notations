@@ -70,7 +70,7 @@ export class FoursNotation extends Notation {
       return NUMBERS[0];
     }
 
-    const exponent = val.log10()
+    const exponent = val.log10();
     const absoluteExponent = Math.abs(exponent);
 
     if (absoluteExponent >= 24) {
@@ -88,7 +88,7 @@ export class FoursNotation extends Notation {
     return this.formatAsInteger(val.toNumber());
   }
 
-  private formatAsPow(val:Decimal): string {
+  private formatAsPow(val: Decimal): string {
     const power = val.log10() / LOG4;
     const powerStr = this.formatDecimal(new Decimal(power));
     if (this.requiresBrackets(powerStr)) {
@@ -109,7 +109,7 @@ export class FoursNotation extends Notation {
       const quotient = Math.floor(val / 16);
       const remainder = Math.floor(Math.max(0, Math.min(15, val - quotient * 16)));
 
-      let pre = remainder === 0 ? "" : `${NUMBERS[remainder]}+`
+      const pre = remainder === 0 ? "" : `${NUMBERS[Math.floor(remainder)]}+`;
 
       let suf = "";
       if (quotient !== 1) {
