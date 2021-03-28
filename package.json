@@ -6,6 +6,7 @@
     "build": "npm run build:ad && npm run build:community",
     "build:ad": "bili --config bili.config.base.ts && cp dist/ad-notations.min.js docs/ad-notations.min.js",
     "build:community": "bili --config bili.config.community.ts && cp dist/ad-notations.community.min.js docs/ad-notations.community.min.js",
+    "lint": "eslint .",
     "test": "jasmine"
   },
   "main": "dist/ad-notations.umd.js",

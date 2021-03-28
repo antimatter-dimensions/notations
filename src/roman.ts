@@ -1,5 +1,5 @@
-import { Notation } from "./notation";
 import Decimal from "break_infinity.js";
+import { Notation } from "./notation";
 
 const ROMAN_NUMBERS: [number, string][] = [
   [1000000, "M̄"],
@@ -51,7 +51,7 @@ export class RomanNotation extends Notation {
     }
     const log10 = value.log10();
     const maximums = log10 / MAX_LOG_10;
-    const current = Math.pow(MAXIMUM, maximums - Math.floor(maximums));
+    const current = MAXIMUM ** (maximums - Math.floor(maximums));
     return `${this.romanize(current)}↑${this.formatDecimal(new Decimal(maximums))}`;
   }
 

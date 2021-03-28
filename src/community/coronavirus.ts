@@ -1,12 +1,10 @@
+import type Decimal from "break_infinity.js";
 import { Notation } from "../notation";
-import Decimal from "break_infinity.js";
 import { ScientificNotation } from "../scientific";
 
 const scientific = new ScientificNotation();
 
-const CANCER = [
-  "🎂", "🎄", "💀", "👪", "🌈", "💯", "🎃", "💋", "😂", "🌙",
-];
+const CANCER = ["🎂", "🎄", "💀", "👪", "🌈", "💯", "🎃", "💋", "😂", "🌙"];
 
 export class CoronavirusNotation extends Notation {
   public get name(): string {
@@ -22,16 +20,16 @@ export class CoronavirusNotation extends Notation {
   }
 
   public infect(formatted: string): string {
-    const characters = formatted.split('');
+    const characters = formatted.split("");
     const seenDigits: number[] = [];
     for (let i = 0; i < characters.length; i++) {
-      if ('0123456789'.includes(characters[i])) {
-        if (seenDigits.map(x => x % 5).includes(+characters[i] % 5)) {
-          const cancerIndex = seenDigits.map(x => x % 5).indexOf(+characters[i] % 5) +
-            5 * ((+!seenDigits.includes(+characters[i]) + i) % 2);
+      if ("0123456789".includes(characters[i])) {
+        if (seenDigits.map((x) => x % 5).includes(Number(characters[i]) % 5)) {
+          const cancerIndex = seenDigits.map((x) => x % 5).indexOf(Number(characters[i]) % 5) +
+            5 * ((Number(!seenDigits.includes(Number(characters[i]))) + i) % 2);
           characters[i] = CANCER[cancerIndex];
         } else {
-          seenDigits.push(+characters[i]);
+          seenDigits.push(Number(characters[i]));
         }
       }
     }

@@ -1,5 +1,5 @@
-import { Notation } from "./notation";
 import type Decimal from "break_infinity.js";
+import { Notation } from "./notation";
 import { toFixedEngineering, abbreviate } from "./utils";
 
 export class StandardNotation extends Notation {

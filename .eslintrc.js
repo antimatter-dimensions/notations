@@ -11,11 +11,13 @@ module.exports = {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"
   },
+  "ignorePatterns": ["spec/**/*.js", "docs/**/*.js", ".eslintrc.js"],
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint"],
   "parserOptions": {
     "ecmaVersion": 2018,
     "sourceType": "module",
+    "tsconfigRootDir": __dirname,
     "project": "./tsconfig.json"
   },
   "rules": {
@@ -46,10 +48,6 @@ module.exports = {
     "quote-props": [
       "error",
       "as-needed"
-    ],
-    "object-curly-spacing": [
-      "error",
-      "always"
     ],
     "no-underscore-dangle": [
       "error",
@@ -90,6 +88,10 @@ module.exports = {
       "error",
       "always-multiline"
     ],
+    "function-call-argument-newline": [
+      "error",
+      "consistent"
+    ],
     "@typescript-eslint/indent": [
       "error",
       2
@@ -127,6 +129,12 @@ module.exports = {
     "array-element-newline": "off",
     "prefer-destructuring": "off",
     "prefer-named-capture-group": "off",
-    "@typescript-eslint/no-magic-numbers": "off"
+    "no-confusing-arrow": "off",
+    "curly": "off",
+    "@typescript-eslint/class-literal-property-style": "off",
+    "@typescript-eslint/object-curly-spacing": "off",
+    "@typescript-eslint/no-magic-numbers": "off",
+    "@typescript-eslint/prefer-readonly-parameter-types": "off",
+    "@typescript-eslint/space-before-function-paren": "off"
   }
 };
