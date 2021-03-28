@@ -37,34 +37,79 @@ export class FoursNotation extends Notation {
   }
 
   public formatVerySmallNegativeDecimal(val: Decimal): string {
-    return `-${this.formatVerySmallDecimal(val)}`;
+    return this.formatNegativeDecimal(val);
   }
 
   public formatVerySmallDecimal(val: Decimal): string {
     return this.formatDecimal(val);
   }
 
+
   public formatNegativeUnder1000(val: number): string {
-    let str = this.formatUnder1000(val);
+    return this.formatNegativeDecimal(new Decimal(val));
+  }
+
+  public formatUnder1000(val: number): string {
+    return this.formatDecimal(new Decimal(val));
+  }
+
+  public formatNegativeDecimal(val: Decimal): string {
+    const str = this.formatDecimal(val);
     if (this.requiresBrackets(str)) {
       return `-(${str})`;
     }
     return `-${str}`;
   }
 
-  public formatUnder1000(val: number): string {
-    if (val === 0) {
+  public formatDecimal(val: Decimal): string {
+    if (val.sign() < 0) {
+      return this.formatNegativeDecimal(Decimal.minus(0, val));
+    }
+
+    if (val.equals(0)) {
       return NUMBERS[0];
     }
 
+    const exponent = val.log10()
+    const absoluteExponent = Math.abs(exponent);
+
+    if (absoluteExponent >= 24) {
+      return this.formatAsPow(val);
+    }
+
+    if (absoluteExponent >= 3) {
+      return this.formatAsRoot(val);
+    }
+
+    if (exponent < 0) {
+      return this.formatAsFraction(val.toNumber());
+    }
+
+    return this.formatAsInteger(val.toNumber());
+  }
+
+  private formatAsPow(val:Decimal): string {
+    const power = val.log10() / LOG4;
+    const powerStr = this.formatDecimal(new Decimal(power));
+    if (this.requiresBrackets(powerStr)) {
+      return `4^(${powerStr})`;
+    }
+    return `4^${powerStr}`;
+  }
+
+  private formatAsRoot(val: Decimal): string {
+    const root = Decimal.sqrt(val);
+    const str = this.formatDecimal(root);
+    // str will never be 4 or 4^(x), so it always requires a bracket
+    return `(${str})^${NUMBERS[2]}`;
+  }
+
+  private formatAsInteger(val: number): string {
     if (val >= 16) {
       const quotient = Math.floor(val / 16);
-      const remainder = Math.max(0, Math.min(15, Math.floor(val - quotient * 16)));
+      const remainder = Math.floor(Math.max(0, Math.min(15, val - quotient * 16)));
 
-      let pre = "";
-      if (remainder !== 0) {
-        pre =`${NUMBERS[remainder]}+`;
-      }
+      let pre = remainder === 0 ? "" : `${NUMBERS[remainder]}+`
 
       let suf = "";
       if (quotient !== 1) {
@@ -79,54 +124,17 @@ export class FoursNotation extends Notation {
       return `${pre}4×4${suf}`;
     }
 
-    if (val >= 1) {
-      return NUMBERS[Math.floor(val)];
-    }
-
-    if (val > 1e-3) {
-      const reciprocal = 1 / val;
-      const denominator = this.formatUnder1000(reciprocal);
-      if (this.requiresBrackets(denominator)) {
-        return `${NUMBERS[1]}÷(${denominator})`;
-      } else {
-        return `${NUMBERS[1]}÷${denominator}`;
-      }
-    }
-
-    return this.formatDecimal(new Decimal(val));
+    return NUMBERS[Math.floor(val)];
   }
 
-  public formatNegativeDecimal(val: Decimal): string {
-    let str = this.formatDecimal(val);
-    if (this.requiresBrackets(str)) {
-      return `-(${str})`;
+  private formatAsFraction(val: number): string {
+    const reciprocal = 1 / val;
+    const denominator = this.formatUnder1000(reciprocal);
+    if (this.requiresBrackets(denominator)) {
+      return `${NUMBERS[1]}÷(${denominator})`;
+    } else {
+      return `${NUMBERS[1]}÷${denominator}`;
     }
-    return `-${str}`;
-  }
-
-  public formatDecimal(val: Decimal): string {
-    if (val.sign() < 0) {
-      return this.formatNegativeDecimal(Decimal.minus(0, val));
-    }
-    // Precision is lost if the number is too small,
-    // so a different formatting is used instead
-    if (val.gte(1e24) || val.lte(1e-24)) {
-      const power = val.log10() / LOG4;
-      const powerStr = this.formatDecimal(new Decimal(power));
-      if (this.requiresBrackets(powerStr)) {
-        return `4^(${powerStr})`;
-      }
-      return `4^${powerStr}`;
-    }
-
-    if (val.gte(1e3) || val.lte(1e-3)) {
-      const root = Decimal.sqrt(val);
-      const str = this.formatDecimal(root);
-      // str will never be 4 or 4^(x), so it always requires a bracket
-      return `(${str})^${NUMBERS[2]}`;
-    }
-
-    return this.formatUnder1000(val.toNumber());
   }
 
   private requiresBrackets(str: string): boolean {
