@@ -7,8 +7,6 @@ const NUMBERS = [
   "4+4+4÷4", "(44-4)÷4", "44÷4", "(44+4)÷4", "44÷4+√4", "4×4-√4", "4×4-4÷4"
 ];
 
-// TODO: Big refactor (actually use the format under 1000 shits etc)
-
 export class FoursNotation extends Notation {
   public get name(): string {
     return "Fours";
