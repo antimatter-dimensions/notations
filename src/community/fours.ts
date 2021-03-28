@@ -3,22 +3,8 @@ import Decimal from "break_infinity.js";
 
 const LOG4 = Math.log10(4);
 const NUMBERS = [
-  "4-4",
-  "4÷4",
-  "√4",
-  "4-4÷4",
-  "4",
-  "4+4÷4",
-  "4!÷4",
-  "4+4-4÷4",
-  "4+4",
-  "4+4+4÷4",
-  "(44-4)÷4",
-  "44÷4",
-  "(44+4)÷4",
-  "44÷4+√4",
-  "4×4-√4",
-  "4×4-4÷4"
+  "4-4", "4÷4", "√4", "4-4÷4", "4", "4+4÷4", "4!÷4", "4+4-4÷4", "4+4",
+  "4+4+4÷4", "(44-4)÷4", "44÷4", "(44+4)÷4", "44÷4+√4", "4×4-√4", "4×4-4÷4"
 ];
 
 // TODO: Big refactor (actually use the format under 1000 shits etc)
@@ -29,11 +15,11 @@ export class FoursNotation extends Notation {
   }
 
   public get negativeInfinite(): string {
-    return "-4÷(4-4)";
+    return "-∞";
   }
 
   public get infinite(): string {
-    return "4÷(4-4)";
+    return "∞";
   }
 
   public formatVerySmallNegativeDecimal(val: Decimal): string {
@@ -46,28 +32,31 @@ export class FoursNotation extends Notation {
 
 
   public formatNegativeUnder1000(val: number): string {
-    return this.formatNegativeDecimal(new Decimal(val));
+    const str = this.formatUnder1000(val);
+    return `-${this.bracketify(str)}`;
   }
 
   public formatUnder1000(val: number): string {
-    return this.formatDecimal(new Decimal(val));
+    const exponent = Math.log10(val);
+    if (val === 0) {
+      return NUMBERS[0];
+    }
+
+    if (exponent < 0) {
+      return this.formatAsFraction(val);
+    }
+
+    return this.formatAsInteger(val);
   }
 
   public formatNegativeDecimal(val: Decimal): string {
     const str = this.formatDecimal(val);
-    if (this.requiresBrackets(str)) {
-      return `-(${str})`;
-    }
-    return `-${str}`;
+    return `-${this.bracketify(str)}`;
   }
 
   public formatDecimal(val: Decimal): string {
     if (val.sign() < 0) {
       return this.formatNegativeDecimal(Decimal.minus(0, val));
-    }
-
-    if (val.equals(0)) {
-      return NUMBERS[0];
     }
 
     const exponent = val.log10();
@@ -81,20 +70,13 @@ export class FoursNotation extends Notation {
       return this.formatAsRoot(val);
     }
 
-    if (exponent < 0) {
-      return this.formatAsFraction(val.toNumber());
-    }
-
-    return this.formatAsInteger(val.toNumber());
+    return this.formatUnder1000(val.toNumber());
   }
 
   private formatAsPow(val: Decimal): string {
     const power = val.log10() / LOG4;
     const powerStr = this.formatDecimal(new Decimal(power));
-    if (this.requiresBrackets(powerStr)) {
-      return `4^(${powerStr})`;
-    }
-    return `4^${powerStr}`;
+    return `4^${this.bracketify(powerStr)}`;
   }
 
   private formatAsRoot(val: Decimal): string {
@@ -110,16 +92,7 @@ export class FoursNotation extends Notation {
       const remainder = Math.floor(Math.max(0, Math.min(15, val - quotient * 16)));
 
       const pre = remainder === 0 ? "" : `${NUMBERS[Math.floor(remainder)]}+`;
-
-      let suf = "";
-      if (quotient !== 1) {
-        suf = this.formatUnder1000(quotient);
-        if (this.requiresBrackets(suf)) {
-          suf = `×(${suf})`;
-        } else {
-          suf = `×${suf}`;
-        }
-      }
+      const suf = quotient === 1 ? "" : `×${this.bracketify(this.formatAsInteger(quotient))}`;
 
       return `${pre}4×4${suf}`;
     }
@@ -130,15 +103,14 @@ export class FoursNotation extends Notation {
   private formatAsFraction(val: number): string {
     const reciprocal = 1 / val;
     const denominator = this.formatUnder1000(reciprocal);
-    if (this.requiresBrackets(denominator)) {
-      return `${NUMBERS[1]}÷(${denominator})`;
-    } else {
-      return `${NUMBERS[1]}÷${denominator}`;
-    }
+    return `${NUMBERS[1]}÷${this.bracketify(denominator)}`;
   }
 
-  private requiresBrackets(str: string): boolean {
+  private bracketify(str: string): string {
     // contains +, -, × or ÷, and the first operator is not ^
-    return (str.match(/[\+\-\×÷\^]/) || ["^"])[0] !== "^";
+    if ((str.match(/[\+\-\×÷\^]/) || ["^"])[0] !== "^") {
+      return `(${str})`;
+    }
+    return str;
   }
 }
