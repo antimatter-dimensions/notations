@@ -123,14 +123,20 @@ export class FoursNotation extends Notation {
       if ((char === "+" || char === "-") && bracketLayer === 0) {
         return `(${str})`;
       }
-      if (char === "(") {
-        bracketLayer++;
-      }
-      if (char === ")") {
-        bracketLayer--;
-      }
+      bracketLayer += this.bracket(char);
       charPos++;
     }
     return str;
+  }
+
+  private bracket(char: string): number {
+    switch (char) {
+      case "(":
+        return 1;
+      case ")":
+        return -1;
+      default:
+        return 0;
+    }
   }
 }
