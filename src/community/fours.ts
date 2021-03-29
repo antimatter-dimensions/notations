@@ -90,7 +90,7 @@ export class FoursNotation extends Notation {
       const remainder = Math.floor(Math.max(0, Math.min(15, val - quotient * 16)));
 
       const pre = remainder === 0 ? "" : `${NUMBERS[Math.floor(remainder)]}+`;
-      const suf = quotient === 1 ? "" : `×${this.bracketify(this.formatAsInteger(quotient))}`;
+      const suf = quotient === 1 ? "" : `×${this.multiBracketify(this.formatAsInteger(quotient))}`;
 
       return `${pre}4×4${suf}`;
     }
@@ -108,6 +108,28 @@ export class FoursNotation extends Notation {
     // contains +, -, × or ÷, and the first operator is not ^
     if ((str.match(/[\+\-\×÷\^]/) || ["^"])[0] !== "^") {
       return `(${str})`;
+    }
+    return str;
+  }
+
+  private multiBracketify(str: string): string {
+    let charPos = 0;
+    // store the current bracket layer
+    // Brackets are only needed if there is a + or - in layer 0
+    // str will never contain ^, so the character is ignored
+    let bracketLayer = 0;
+    while (charPos < str.length) {
+      const char = str.charAt(charPos);
+      if ((char === "+" || char === "-") && bracketLayer === 0) {
+        return `(${str})`;
+      }
+      if (char === "(") {
+        bracketLayer++;
+      }
+      if (char === ")") {
+        bracketLayer--;
+      }
+      charPos++;
     }
     return str;
   }
