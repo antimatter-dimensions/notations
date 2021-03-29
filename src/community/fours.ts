@@ -113,18 +113,16 @@ export class FoursNotation extends Notation {
   }
 
   private multiBracketify(str: string): string {
-    let charPos = 0;
     // store the current bracket layer
     // Brackets are only needed if there is a + or - in layer 0
     // str will never contain ^, so the character is ignored
     let bracketLayer = 0;
-    while (charPos < str.length) {
-      const char = str.charAt(charPos);
-      if ((char === "+" || char === "-") && bracketLayer === 0) {
+    for (let i = 0; i < str.length; i++) {
+      const char = str.charAt(i);
+      if (["+", "-"].includes(char) && bracketLayer === 0) {
         return `(${str})`;
       }
       bracketLayer += this.bracket(char);
-      charPos++;
     }
     return str;
   }
