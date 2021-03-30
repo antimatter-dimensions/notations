@@ -1,4 +1,4 @@
-import { InfixEngineeringNotation } from '../community/infix-eng';
+import { InfixEngineeringNotation } from "../community/infix-eng";
 
 describe("Infix engineering notation", () => {
   const notation = new InfixEngineeringNotation();
