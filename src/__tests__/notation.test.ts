@@ -2,12 +2,9 @@ import Decimal from "break_infinity.js";
 import { Notation } from "../notation";
 
 describe("Abstract Notation", () => {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   class TestNotation extends Notation {
     public readonly name = "Test";
 
-    // eslint-disable-next-line max-len
-    // eslint-disable-next-line @typescript-eslint/space-before-function-paren, @typescript-eslint/prefer-readonly-parameter-types
     public formatDecimal(value: Decimal, places: number): string {
       return value.toStringWithDecimalPlaces(places);
     }
