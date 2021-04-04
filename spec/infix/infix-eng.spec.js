@@ -35,9 +35,9 @@ describe("Infix engineering notation", function() {
 		expect(notation.format(0.345, 0)).toBe("₀3");
 		expect(notation.format(0.3456, 0)).toBe("₀3");
 		expect(notation.format(0.01, 0)).toBe("10₋₃");
-		expect(notation.format(0.001, 0)).toBe("1₋₃00");	/// FIXME Is this one right? Should be 1₋₃
+		expect(notation.format(0.001, 0)).toBe("1₋₃");
 		expect(notation.format(0.0001, 0)).toBe("100₋₆");
-		expect(notation.format(0.00001, 0)).toBe("10₋₆0");	/// FIXME Is this one right? Should be 10₋₆
+		expect(notation.format(0.00001, 0)).toBe("10₋₆");
 	});
 	it(" less than 1, 2 places", function() {
 		expect(notation.format(0.3, 2)).toBe("₀300₋₃");
