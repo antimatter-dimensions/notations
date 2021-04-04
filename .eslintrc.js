@@ -11,7 +11,7 @@ module.exports = {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"
   },
-  "ignorePatterns": ["spec/**/*.js", "docs/**/*.js", ".eslintrc.js"],
+  "ignorePatterns": ["spec/**/*.js", "docs/**/*.js", ".eslintrc.js", "jest.config.js"],
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint"],
   "parserOptions": {

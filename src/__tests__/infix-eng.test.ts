@@ -9,8 +9,9 @@ describe("Infix engineering notation", () => {
     expect(notation.format(345, 0)).toBe("345₀");
     expect(notation.format(3.45, 0)).toBe("3₀");
     expect(notation.format(34.6, 0)).toBe("35₀");
-    expect(notation.format(34.5, 0)).toBe("35₀"); // Is the rounding right??
-    expect(notation.format(33.5, 0)).toBe("34₀"); // Is the rounding right??
+    // Is the rounding right in the next two tests??
+    expect(notation.format(34.5, 0)).toBe("35₀");
+    expect(notation.format(33.5, 0)).toBe("34₀");
     expect(notation.format(34.4, 0)).toBe("34₀");
   });
 
@@ -36,9 +37,9 @@ describe("Infix engineering notation", () => {
     expect(notation.format(0.345, 0)).toBe("₀3");
     expect(notation.format(0.3456, 0)).toBe("₀3");
     expect(notation.format(0.01, 0)).toBe("10₋₃");
-    expect(notation.format(0.001, 0)).toBe("1₋₃00");	/// FIXME Is this one right? Should be 1₋₃
+    expect(notation.format(0.001, 0)).toBe("1₋₃");
     expect(notation.format(0.0001, 0)).toBe("100₋₆");
-    expect(notation.format(0.00001, 0)).toBe("10₋₆0");	/// FIXME Is this one right? Should be 10₋₆
+    expect(notation.format(0.00001, 0)).toBe("10₋₆");
   });
 
   it("should format less than 1 to 2 places", () => {

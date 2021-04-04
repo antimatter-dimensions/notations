@@ -101,7 +101,14 @@ export abstract class AbstractInfixNotation extends Notation {
 
   private numberOfPlaces(value: Decimal, places: number): number {
     const exp = value.exponent;
-    const rel = exp > 0 ? exp + 1 : -exp;
-    return Math.max(places, Math.min(this.groupDigits, rel) - 1);
+    let minPlaces = 0;
+    if (exp >= 0) {
+      minPlaces = Math.min(exp, exp < this.groupDigits ? 3 : this.groupDigits - 1);
+    } else if (exp === -1) {
+      minPlaces = 0;
+    } else {
+      minPlaces = exp - this.nextSeparatorExponent(exp);
+    }
+    return Math.max(places, minPlaces);
   }
 }
