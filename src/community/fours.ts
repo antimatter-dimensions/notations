@@ -41,7 +41,7 @@ export class FoursNotation extends Notation {
     }
 
     if (exponent < 0) {
-      return this.formatAsFraction(val);
+      return this.formatAsFraction(new Decimal(val));
     }
 
     return this.formatAsInteger(val);
@@ -98,9 +98,9 @@ export class FoursNotation extends Notation {
     return NUMBERS[Math.floor(val)];
   }
 
-  private formatAsFraction(val: number): string {
-    const reciprocal = 4 / val;
-    const denominator = this.formatUnder1000(reciprocal);
+  private formatAsFraction(val: Decimal): string {
+    const reciprocal = Decimal.div(4, val);
+    const denominator = this.formatDecimal(reciprocal);
     return `4÷${this.bracketify(denominator)}`;
   }
 
