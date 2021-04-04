@@ -99,9 +99,9 @@ export class FoursNotation extends Notation {
   }
 
   private formatAsFraction(val: number): string {
-    const reciprocal = 1 / val;
+    const reciprocal = 4 / val;
     const denominator = this.formatUnder1000(reciprocal);
-    return `${NUMBERS[1]}÷${this.bracketify(denominator)}`;
+    return `4÷${this.bracketify(denominator)}`;
   }
 
   private bracketify(str: string): string {
