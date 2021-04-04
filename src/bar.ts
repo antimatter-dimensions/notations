@@ -1,7 +1,7 @@
-import { Notation } from "./notation";
 import Decimal from "break_infinity.js";
+import { Notation } from "./notation";
 
-// The reason these have to be these unicode boxes and not their escape characters 
+// The reason these have to be these unicode boxes and not their escape characters
 // is beyond me. However, you can trust that these will render correctly, as they
 // are part of the font found in docs/MonospaceTypewriter.ttf
 const BARS = ["", "", "", "", "", "", "", ""];
@@ -12,15 +12,15 @@ export class BarNotation extends Notation {
   public get name(): string {
     return "Bar";
   }
-  
+
   public get negativeInfinite(): string {
     return "";
   }
 
-  public get Infinite(): string {
+  public get infinite(): string {
     return "";
   }
-  
+
   public formatVerySmallNegativeDecimal(value: Decimal): string {
     return this.flipBars(this.formatDecimal(value));
   }
@@ -40,13 +40,13 @@ export class BarNotation extends Notation {
   public formatNegativeDecimal(value: Decimal): string {
     return this.flipBars(this.formatDecimal(value));
   }
-  
+
   public formatDecimal(value: Decimal): string {
     if (value.eq(0)) {
-      return '0';
+      return "0";
     }
     if (value.lessThan(1) && value.greaterThan(0)) {
-      return '/' + this.formatDecimal(Decimal.div(1, value));
+      return `/${this.formatDecimal(Decimal.div(1, value))}`;
     }
     const log8 = Math.LN10 / LOG8 * value.log10();
     let wholeLog = Math.floor(log8);
@@ -64,6 +64,7 @@ export class BarNotation extends Notation {
     parts.push(BARS[wholeLog]);
     return parts.join("");
   }
+
   public flipBars(parts: string): string {
     const newParts = [];
     for (const part of parts) {

@@ -1,5 +1,5 @@
-import { Notation } from "./notation";
 import Decimal from "break_infinity.js";
+import { Notation } from "./notation";
 import { ScientificNotation } from "./scientific";
 import { LettersNotation } from "./letters";
 import { StandardNotation } from "./standard";
@@ -33,8 +33,8 @@ const notationList = [
   new PrimeNotation(),
   new BarNotation(),
   new ShiNotation(),
-  new BlindNotation(),
-]
+  new BlindNotation()
+];
 
 export class AllNotation extends Notation {
   public get name(): string {
@@ -54,6 +54,7 @@ export class AllNotation extends Notation {
   }
 
   public formatDecimal(value: Decimal, places: number): string {
+    // eslint-disable-next-line newline-per-chained-call
     const index = Math.floor(Math.log2(value.abs().plus(2).log2()));
     const notation = notationList[index % notationList.length];
     return notation.format(value, places, places);

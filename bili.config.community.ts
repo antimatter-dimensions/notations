@@ -1,4 +1,4 @@
-import { Config } from "bili";
+import type { Config } from "bili";
 
 const config: Config = {
   plugins: {

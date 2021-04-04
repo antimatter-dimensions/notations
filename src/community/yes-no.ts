@@ -1,5 +1,5 @@
+import type Decimal from "break_infinity.js";
 import { Notation } from "../notation";
-import Decimal from "break_infinity.js";
 
 export class YesNoNotation extends Notation {
   public get name(): string {
@@ -23,10 +23,12 @@ export class YesNoNotation extends Notation {
   }
 
   public formatNegativeUnder1000(x: number): string {
+    // eslint-disable-next-line no-negated-condition
     return x !== 0 ? "YES" : "NO";
   }
 
   public formatUnder1000(x: number): string {
+    // eslint-disable-next-line no-negated-condition
     return x !== 0 ? "YES" : "NO";
   }
 

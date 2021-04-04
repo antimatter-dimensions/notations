@@ -1,5 +1,5 @@
-import { Notation } from "./notation";
 import Decimal from "break_infinity.js";
+import { Notation } from "./notation";
 
 // The maximum number we can reliably find all prime factors for.
 const MAX_INT = 10006;
@@ -8,7 +8,7 @@ const MAX_INT_LOG_10 = Math.log10(MAX_INT);
 
 // List of primes from 2-9973, because that's how many we check for.
 const PRIMES: number[] = [];
-const visitedMarks: boolean[] = new Array(MAX_INT).fill(false);
+const visitedMarks: boolean[] = new Array<boolean>(MAX_INT).fill(false);
 const sieveLimit = Math.ceil(Math.sqrt(MAX_INT));
 for (let number = 2; number < sieveLimit; number++) {
   if (visitedMarks[number]) {
@@ -75,14 +75,14 @@ export class PrimeNotation extends Notation {
       return this.formatFromList(this.primesFromInt(floored));
     }
     let exp = value.log10() / MAX_INT_LOG_10;
-    let base = Math.pow(MAX_INT, exp / Math.ceil(exp));
+    let base = MAX_INT ** (exp / Math.ceil(exp));
     if (exp <= MAX_INT) {
       return this.formatBaseExp(base, exp);
     }
     const exp2 = Math.log10(exp) / Math.log10(MAX_INT);
     const exp2Ceil = Math.ceil(exp2);
-    exp = Math.pow(MAX_INT, exp2 / exp2Ceil);
-    base = Math.pow(MAX_INT, exp / Math.ceil(exp));
+    exp = MAX_INT ** (exp2 / exp2Ceil);
+    base = MAX_INT ** (exp / Math.ceil(exp));
     const exp2List = this.primesFromInt(exp2Ceil);
     const formatedExp2 = exp2List.length === 1
       ? EXPONENT_CHARACTERS[exp2List[0]]
@@ -164,6 +164,7 @@ export class PrimeNotation extends Notation {
       // all greater values won't be factors anyway
       const halfFactoring = factoringValue / 2;
       let primeIndex = this.findGreatestLtePrimeIndex(halfFactoring);
+      // eslint-disable-next-line @typescript-eslint/init-declarations
       let factor;
       while (factor === undefined) {
         const prime = PRIMES[primeIndex--];

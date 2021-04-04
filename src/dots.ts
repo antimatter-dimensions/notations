@@ -1,5 +1,5 @@
+import type Decimal from "break_infinity.js";
 import { Notation } from "./notation";
-import Decimal from "break_infinity.js";
 
 const DOT_DIGITS =
   "⠀⠁⠂⠃⠄⠅⠆⠇⠈⠉⠊⠋⠌⠍⠎⠏⠐⠑⠒⠓⠔⠕⠖⠗⠘⠙⠚⠛⠜⠝⠞⠟⠠⠡⠢⠣⠤⠥⠦⠧⠨⠩⠪⠫⠬⠭⠮⠯⠰⠱⠲⠳⠴⠵⠶⠷⠸⠹⠺⠻⠼⠽⠾⠿" +
@@ -26,11 +26,11 @@ export class DotsNotation extends Notation {
     }
     const log = value.log(254);
     const exponent = Math.floor(log - 2);
-    const mantissa = Math.pow(254, log - exponent);
+    const mantissa = 254 ** (log - exponent);
     return `${this.dotify(exponent)}⣿${this.dotify(mantissa * 254)}`;
   }
 
-  private dotify(rawValue: number, pad=false): string {
+  private dotify(rawValue: number, pad = false): string {
     const value = Math.round(rawValue);
     if (!pad && value < 254) {
       return DOT_DIGITS[value + 1];

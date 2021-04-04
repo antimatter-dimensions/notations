@@ -1,11 +1,12 @@
-import Decimal, { DecimalSource } from "break_infinity.js";
+import Decimal from "break_infinity.js";
+import type { DecimalSource } from "break_infinity.js";
 import { Settings } from "./settings";
 import { formatWithCommas } from "./utils";
 
 export abstract class Notation {
   public abstract get name(): string;
 
-  public format(value: DecimalSource, places=0, placesUnder1000=0): string {
+  public format(value: DecimalSource, places = 0, placesUnder1000 = 0): string {
     if (typeof value === "number" && !Number.isFinite(value)) {
       return this.infinite;
     }
@@ -26,7 +27,7 @@ export abstract class Notation {
     }
 
     if (Settings.isInfinite(decimal.abs())) {
-      return decimal.sign() < 0 ?  this.negativeInfinite : this.infinite;
+      return decimal.sign() < 0 ? this.negativeInfinite : this.infinite;
     }
 
     return decimal.sign() < 0
@@ -43,7 +44,7 @@ export abstract class Notation {
   }
 
   public formatVerySmallNegativeDecimal(value: Decimal, places: number): string {
-     return `-${this.formatVerySmallDecimal(value, places)}`;
+    return `-${this.formatVerySmallDecimal(value, places)}`;
   }
 
   public formatVerySmallDecimal(value: Decimal, places: number): string {
@@ -75,7 +76,7 @@ export abstract class Notation {
     }
     return this.formatDecimal(new Decimal(exponent), 3);
   }
-  
+
   protected noSpecialFormatting(exponent: number): boolean {
     return exponent < Settings.exponentCommas.min;
   }

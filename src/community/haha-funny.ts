@@ -1,5 +1,5 @@
-import { Notation } from "../notation";
 import Decimal from "break_infinity.js";
+import { Notation } from "../notation";
 
 const LOG69 = Math.log(69);
 
@@ -13,10 +13,12 @@ export class HahaFunnyNotation extends Notation {
       return "42069";
     }
     if (value.lt(1)) {
-      return this.formatDecimal(value.pow(-1)).split("").reverse().join("");
+      return this.formatDecimal(value.pow(-1)).split("")
+        .reverse()
+        .join("");
     }
     const log69 = Math.LN10 / LOG69 * value.log10();
-    let log = Math.floor(log69 * Math.pow(69, 2));
+    let log = Math.floor(log69 * 69 ** 2);
     const parts = [];
     while (log > 0 || parts.length < 3) {
       const remainder = log % 69;

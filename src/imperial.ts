@@ -1,5 +1,5 @@
-import { Notation } from "./notation";
 import Decimal from "break_infinity.js";
+import { Notation } from "./notation";
 
 // eslint-disable-next-line @typescript-eslint/no-type-alias
 type VolumeUnit = [number, string, number];
@@ -59,7 +59,7 @@ export class ImperialNotation extends Notation {
       adjectiveIndex++;
       logValue /= REDUCE_RATIO;
     }
-    return this.convertToVolume(Math.pow(10, logValue) * MINIMS[0], VOLUME_ADJECTIVES[adjectiveIndex]);
+    return this.convertToVolume(10 ** logValue * MINIMS[0], VOLUME_ADJECTIVES[adjectiveIndex]);
   }
 
   private convertToVolume(x: number, adjective: string): string {
@@ -182,7 +182,7 @@ export class ImperialNotation extends Notation {
   private findVolumeUnit(x: number): number {
     let low = 0;
     let high = VOLUME_UNITS.length;
-    let guess;
+    let guess = 0;
     while (high - low > 1) {
       guess = Math.floor((low + high) / 2);
       if (VOLUME_UNITS[guess][0] > x) {

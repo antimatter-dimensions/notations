@@ -1,6 +1,6 @@
+import type Decimal from "break_infinity.js";
 import { AbstractInfixNotation } from "./infix-abstract";
 import { toSubscript } from "../utils";
-import type Decimal from "break_infinity.js";
 
 export class InfixEngineeringReverseNotation extends AbstractInfixNotation {
   public readonly name: string = "Reverse infix engineering";

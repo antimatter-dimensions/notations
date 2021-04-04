@@ -1,5 +1,5 @@
-import { Notation } from "../notation";
 import Decimal from "break_infinity.js";
+import { Notation } from "../notation";
 
 export class TritetratedNotation extends Notation {
   public get name(): string {
@@ -7,7 +7,7 @@ export class TritetratedNotation extends Notation {
   }
 
   public get infinite(): string {
-    return 'Infinity';
+    return "Infinity";
   }
 
   public formatUnder1000(value: number): string {
@@ -23,12 +23,12 @@ export class TritetratedNotation extends Notation {
     let high = 16;
     while (high - low > 1e-7) {
       const mid = (low + high) / 2;
-      if (Decimal.pow(mid, Math.pow(mid, mid)).lt(value)) {
+      if (Decimal.pow(mid, mid ** mid).lt(value)) {
         low = mid;
       } else {
         high = mid;
       }
     }
-    return low.toFixed(4) + '↑↑3';
+    return `${low.toFixed(4)}↑↑3`;
   }
 }

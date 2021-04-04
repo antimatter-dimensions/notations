@@ -1,6 +1,6 @@
+import type Decimal from "break_infinity.js";
 import { Notation } from "./notation";
 import { formatWithCommas } from "./utils";
-import Decimal from "break_infinity.js";
 
 export class LogarithmNotation extends Notation {
   public get name(): string {

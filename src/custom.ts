@@ -1,13 +1,15 @@
+import type Decimal from "break_infinity.js";
 import { EngineeringNotation } from "./engineering";
-import Decimal from "break_infinity.js";
 import { toEngineering } from "./utils";
 
 export class CustomNotation extends EngineeringNotation {
-  private letters: string | string[];
-  private mantissaExponentSeparator: string;
-  private separator: string;
-  
-  constructor(letters: string | string[], mantissaExponentSeparator = "", separator = "") {
+  private readonly letters: string[] | string;
+
+  private readonly mantissaExponentSeparator: string;
+
+  private readonly separator: string;
+
+  public constructor(letters: string[] | string, mantissaExponentSeparator = "", separator = "") {
     if (letters.length < 2) {
       throw new Error("The supplied letter sequence must contain at least 2 letters");
     }
@@ -20,13 +22,13 @@ export class CustomNotation extends EngineeringNotation {
   public get name(): string {
     return "Custom";
   }
-  
+
   public formatDecimal(value: Decimal, places: number): string {
     const engineering = toEngineering(value);
     const mantissa = engineering.mantissa.toFixed(places);
     return mantissa + this.mantissaExponentSeparator + this.transcribe(engineering.exponent).join(this.separator);
   }
-  
+
   private transcribe(exponent: number): string[] {
     // In engineering format, exponent has a step of 3
     // (i.e. the progression looks like this: 1e3 => 10e3 => 100e3 => 1e6 => ...)
