@@ -110,6 +110,7 @@ const displays = (function() {
     CN.InfixShortScaleNotation,
     CN.InfixLongScaleNotation,
     CN.EnglishNotation,
+    CN.FoursNotation
   ]
   let communityNotationsDisplay = communityNotations.reverse().map((n) => new NotationDisplay(n));
   inputContainer.after(communityHeaderSpan());
