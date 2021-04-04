@@ -1,7 +1,7 @@
+import type Decimal from "break_infinity.js";
 import { Notation } from "./notation";
-import Decimal from "break_infinity.js";
-import { formatWithCommas } from "./utils";
 import { Settings } from "./settings";
+import { formatWithCommas } from "./utils";
 
 const LOG10_MAX_VALUE = Math.log10(Number.MAX_VALUE);
 

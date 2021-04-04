@@ -1,5 +1,5 @@
-import { Notation } from "./notation";
 import Decimal from "break_infinity.js";
+import { Notation } from "./notation";
 import { formatWithCommas } from "./utils";
 
 const ZALGO_CHARS = [
@@ -36,7 +36,7 @@ export class ZalgoNotation extends Notation {
     // Eternity seems to happen around e66666 antimatter, who would've thought? Scaled down to 1000.
     const scaled = value.plus(1).log10() / 66666 * 1000;
     const displayPart = Number(scaled.toFixed(2));
-    const zalgoPart = Math.floor(Math.abs(Math.pow(2, 30) * (scaled - displayPart)));
+    const zalgoPart = Math.floor(Math.abs(2 ** 30 * (scaled - displayPart)));
 
     const displayChars = Array.from(formatWithCommas(displayPart));
     const zalgoIndices = Array.from(zalgoPart.toString() + scaled.toFixed(0));

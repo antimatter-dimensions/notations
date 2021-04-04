@@ -1,5 +1,5 @@
-import { Notation } from "../notation";
 import Decimal from "break_infinity.js";
+import { Notation } from "../notation";
 
 export class NiceNotation extends Notation {
   public get name(): string {
@@ -7,7 +7,8 @@ export class NiceNotation extends Notation {
   }
 
   public formatDecimal(value: Decimal, places: number): string {
-    return value.log(69).toFixed(Math.max(2, places)).replace("-", "^");
+    return value.log(69).toFixed(Math.max(2, places))
+      .replace("-", "^");
   }
 
   public get infinite(): string {

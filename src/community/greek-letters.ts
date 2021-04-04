@@ -1,5 +1,5 @@
-import { Notation } from "../notation";
 import Decimal from "break_infinity.js";
+import { Notation } from "../notation";
 
 export class GreekLettersNotation extends Notation {
   public get name(): string {
@@ -12,7 +12,7 @@ export class GreekLettersNotation extends Notation {
 
   public formatDecimal(value: Decimal, places: number): string {
     let exp = Math.floor(value.e / 3);
-    let step = Math.pow(this.greek.length, Math.floor(Math.log(exp) / Math.log(this.greek.length)));
+    let step = this.greek.length ** Math.floor(Math.log(exp) / Math.log(this.greek.length));
     let suffix = "";
     while (step >= 1) {
       const ordinal = Math.floor(exp / step);
@@ -21,6 +21,6 @@ export class GreekLettersNotation extends Notation {
       step /= this.greek.length;
     }
     const mantissa = Decimal.pow(10, Decimal.log10(value) % 3).toFixed(places);
-    return mantissa + " " + suffix;
+    return `${mantissa} ${suffix}`;
   }
 }

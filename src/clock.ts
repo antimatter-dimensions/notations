@@ -1,5 +1,5 @@
-import { Notation } from "./notation";
 import Decimal from "break_infinity.js";
+import { Notation } from "./notation";
 
 const HOURS = ["🕛", "🕐", "🕑", "🕒", "🕓", "🕔", "🕕", "🕖", "🕗", "🕘", "🕙", "🕚"];
 const LOG12 = Math.log10(12);
@@ -43,7 +43,7 @@ export class ClockNotation extends Notation {
     const log = value.log10() / LOG12;
     let exponent = Math.floor(log);
     if (log < 301) {
-      const clockLow = (Math.pow(12, log - exponent + 1) - 12) / 11;
+      const clockLow = (12 ** (log - exponent + 1) - 12) / 11;
       if (exponent < 13) {
         return this.hour(exponent - 1) + this.hour(clockLow);
       }

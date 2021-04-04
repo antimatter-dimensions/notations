@@ -3,10 +3,11 @@ import { Notation } from "../notation";
 import { formatHigherBaseWithCommas } from "../utils";
 
 export class CustomBaseNotation extends Notation {
-  private base: number;
-  private digits: string;
-  
-  constructor(digits: string) {
+  private readonly base: number;
+
+  private readonly digits: string;
+
+  public constructor(digits: string) {
     if (digits.length < 2) {
       throw new Error("The supplied digits must contain at least 2 digits");
     }
@@ -14,26 +15,26 @@ export class CustomBaseNotation extends Notation {
     this.base = digits.length;
     this.digits = digits;
   }
-  
+
   public get name(): string {
     return "Custom Base";
   }
-  
+
   public formatUnder1000(valueIn: number, places: number): string {
-    let value = Math.round(valueIn * Math.pow(this.base, places));
+    let value = Math.round(valueIn * this.base ** places);
     const digits = [];
     while (value > 0 || digits.length === 0) {
-      digits.push(this.digits[value % this.base])
+      digits.push(this.digits[value % this.base]);
       value = Math.floor(value / this.base);
     }
     let result = digits.reverse().join("");
     if (places > 0) {
       result = result.padStart(places + 1, "0");
-      result = result.slice(0, -places) + "." + result.slice(-places);
+      result = `${result.slice(0, -places)}.${result.slice(-places)}`;
     }
     return result;
   }
-  
+
   public formatExponent(exponent: number): string {
     if (this.noSpecialFormatting(exponent)) {
       return this.formatUnder1000(exponent, 0);
@@ -47,7 +48,7 @@ export class CustomBaseNotation extends Notation {
   public formatDecimal(value: Decimal, places: number): string {
     let exponent = Math.floor(value.log(this.base));
     let mantissa = value.div(Decimal.pow(this.base, exponent)).toNumber();
-    if (mantissa >= this.base - Math.pow(this.base, -places) / 2) {
+    if (mantissa >= this.base - this.base ** -places / 2) {
       mantissa = 1;
       exponent++;
     }

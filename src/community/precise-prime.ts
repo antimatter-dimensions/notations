@@ -1,5 +1,5 @@
-import { Notation } from "../notation";
 import Decimal from "break_infinity.js";
+import { Notation } from "../notation";
 import { toSuperscript } from "../utils";
 
 // The maximum number we can reliably find prime factors for.
@@ -50,14 +50,14 @@ export class PrecisePrimeNotation extends Notation {
       return this.formatFromList(this.primesFromInt(floored));
     }
     let exp = value.log10() / MAX_INT_LOG_10;
-    let base = Math.pow(MAX_INT, exp / Math.ceil(exp));
+    let base = MAX_INT ** (exp / Math.ceil(exp));
     if (exp <= MAX_INT) {
       return this.formatPowerTower([Math.round(base), Math.ceil(exp)]);
     }
     const exp2 = Math.log10(exp) / Math.log10(MAX_INT);
     const exp2Ceil = Math.ceil(exp2);
-    exp = Math.pow(MAX_INT, exp2 / exp2Ceil);
-    base = Math.pow(MAX_INT, exp / Math.ceil(exp));
+    exp = MAX_INT ** (exp2 / exp2Ceil);
+    base = MAX_INT ** (exp / Math.ceil(exp));
     return this.formatPowerTower([Math.round(base), Math.ceil(exp), exp2Ceil]);
   }
 
@@ -66,19 +66,16 @@ export class PrecisePrimeNotation extends Notation {
   }
 
   private formatPowerTower(exps: number[]): string {
-    const factorizations = exps.map(x => this.primesFromInt(x));
+    const factorizations = exps.map((x) => this.primesFromInt(x));
     const superscriptLastExponent = factorizations[exps.length - 1].length === 1;
-    const parenthesize = factorizations.map(
-      (x, i) => x[0] !== x[x.length - 1]
-        || (i === exps.length - 2 && x.length > 1 && superscriptLastExponent)
-    )
-    const formattedExps = factorizations.map(
-      (x, i) => this.maybeParenthesize(
-        (i === exps.length - 1 && superscriptLastExponent)
-          ? toSuperscript(x[0]) : this.formatFromList(x),
-        parenthesize[i]
-      )
-    )
+    const parenthesize = factorizations.map((x, i) => x[0] !== x[x.length - 1] ||
+      i === exps.length - 2 && x.length > 1 && superscriptLastExponent);
+    const formattedExps = factorizations.map((x, i) => this.maybeParenthesize(
+      i === exps.length - 1 && superscriptLastExponent
+        ? toSuperscript(x[0])
+        : this.formatFromList(x),
+      parenthesize[i]
+    ));
     if (superscriptLastExponent) {
       const superscript = formattedExps.pop();
       formattedExps[exps.length - 2] += superscript;
@@ -129,11 +126,11 @@ export class PrecisePrimeNotation extends Notation {
 
     // All primes > 3 are of the form 6+-1
     for (let a = 5; a <= lim && a < n;) {
-      for (; n % a == 0; n /= a) {
+      for (; n % a === 0; n /= a) {
         l.push(a);
       }
       a += 2;
-      for (; n % a == 0; n /= a) {
+      for (; n % a === 0; n /= a) {
         l.push(a);
       }
       a += 4;

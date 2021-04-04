@@ -1,14 +1,14 @@
-import { Notation } from "../notation";
-import type { DecimalSource } from "break_infinity.js";
 import Decimal from "break_infinity.js";
+import type { DecimalSource } from "break_infinity.js";
+import { Notation } from "../notation";
 import { fixMantissaOverflow } from "../utils";
 
 export abstract class AbstractInfixNotation extends Notation {
-  public name: string = "Abstract Infix";
+  public name = "Abstract Infix";
 
   protected groupDigits = 3;
 
-  protected canHandleZeroExponent: boolean = true;
+  protected canHandleZeroExponent = true;
 
   public formatDecimal(value: Decimal, places: number): string {
     return this.formatInfix(
@@ -17,7 +17,8 @@ export abstract class AbstractInfixNotation extends Notation {
     );
   }
 
-  public format(value: DecimalSource, places: number = 0, placesUnder1000: number = 0): string {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public format(value: DecimalSource, places = 0, _placesUnder1000 = 0): string {
     if (typeof value === "number" && !Number.isFinite(value)) {
       return this.infinite;
     }
@@ -101,9 +102,6 @@ export abstract class AbstractInfixNotation extends Notation {
   private numberOfPlaces(value: Decimal, places: number): number {
     const exp = value.exponent;
     const rel = exp > 0 ? exp + 1 : -exp;
-    return Math.max(
-      places,
-      Math.min( this.groupDigits, rel ) -1
-    );
+    return Math.max(places, Math.min(this.groupDigits, rel) - 1);
   }
 }
