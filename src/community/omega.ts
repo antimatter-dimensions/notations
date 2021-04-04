@@ -1,5 +1,5 @@
-import { Notation } from "../notation";
 import Decimal from "break_infinity.js";
+import { Notation } from "../notation";
 import { toSubscript } from "../utils";
 
 export class OmegaNotation extends Notation {
@@ -7,11 +7,11 @@ export class OmegaNotation extends Notation {
     return "Omega";
   }
 
-  get greek(): string {
+  public get greek(): string {
     return "βζλψΣΘΨω";
   }
 
-  get infinite(): string {
+  public get infinite(): string {
     return "Ω";
   }
 
@@ -23,6 +23,7 @@ export class OmegaNotation extends Notation {
     const step = Decimal.floor(value.div(1000));
     const omegaAmount = Decimal.floor(step.div(this.greek.length));
     let lastLetter = this.greek[step.toNumber() % this.greek.length] + toSubscript(value.toNumber() % 1000);
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     const beyondGreekArrayBounds = this.greek[step.toNumber() % this.greek.length] === undefined;
     if (beyondGreekArrayBounds || step.toNumber() > Number.MAX_SAFE_INTEGER) {
       lastLetter = "ω";
@@ -35,19 +36,18 @@ export class OmegaNotation extends Notation {
       for (let i = 0; i < omegaAmount.toNumber(); i++) {
         omegas.push("ω");
       }
-      return omegas.join("^") + "^" + lastLetter;
+      return `${omegas.join("^")}^"${lastLetter}`;
     } else if (omegaAmount.gt(3) && omegaAmount.lt(10)) {
-      return "ω(" + omegaAmount.toFixed(0) + ")^" + lastLetter;
+      return `ω(${omegaAmount.toFixed(0)})^${lastLetter}`;
     } else if (omegaOrder < 3) {
-      return "ω(" + this.formatDecimal(omegaAmount) + ")^" + lastLetter;
+      return `ω(${this.formatDecimal(omegaAmount)})^${lastLetter}`;
     } else if (omegaOrder < 6) {
-      return "ω(" + this.formatDecimal(omegaAmount) + ")";
-    } else {
-      const val = Decimal.pow(8000, omegaOrder % 1);
-      const orderStr = omegaOrder < 100
-        ? Math.floor(omegaOrder).toFixed(0)
-        : this.formatDecimal(Decimal.floor(omegaOrder));
-      return "ω[" + orderStr + "](" + this.formatDecimal(val) + ")";
+      return `ω(${this.formatDecimal(omegaAmount)})`;
     }
+    const val = Decimal.pow(8000, omegaOrder % 1);
+    const orderStr = omegaOrder < 100
+      ? Math.floor(omegaOrder).toFixed(0)
+      : this.formatDecimal(Decimal.floor(omegaOrder));
+    return `ω[${orderStr}](${this.formatDecimal(val)})`;
   }
 }

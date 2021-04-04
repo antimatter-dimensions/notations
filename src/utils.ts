@@ -1,6 +1,6 @@
 import Decimal from "break_infinity.js";
 
-function commaSection (value: string, index: number): string {
+function commaSection(value: string, index: number): string {
   if (index === 0) {
     return value.slice(-3);
   }
@@ -110,7 +110,7 @@ const SUBSCRIPT_NUMBERS = ["₀", "₁", "₂", "₃", "₄", "₅", "₆", "₇
 
 export function toSubscript(value: number): string {
   return value.toFixed(0).split("")
-    .map((x) => x === "-" ? "₋" : SUBSCRIPT_NUMBERS[parseInt(x)])
+    .map((x) => x === "-" ? "₋" : SUBSCRIPT_NUMBERS[parseInt(x, 10)])
     .join("");
 }
 
@@ -118,7 +118,7 @@ const SUPERSCRIPT_NUMBERS = ["⁰", "¹", "²", "³", "⁴", "⁵", "⁶", "⁷"
 
 export function toSuperscript(value: number): string {
   return value.toFixed(0).split("")
-    .map((x) => x === '-' ? '⁻' : SUPERSCRIPT_NUMBERS[parseInt(x)])
+    .map((x) => x === "-" ? "⁻" : SUPERSCRIPT_NUMBERS[parseInt(x, 10)])
     .join("");
 }
 

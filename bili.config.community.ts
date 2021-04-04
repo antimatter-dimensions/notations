@@ -1,6 +1,14 @@
-import { Config } from "bili";
+import type { Config } from "bili";
 
 const config: Config = {
+  plugins: {
+    typescript2: {
+      tsconfigOverride: {
+        include: ["src"],
+        exclude: ["**/*.test.ts"]
+      }
+    }
+  },
   input: "src/community/index.ts",
   output: {
     format: ["umd", "umd-min", "esm"],

@@ -1,5 +1,5 @@
+import type Decimal from "break_infinity.js";
 import { Notation } from "./notation";
-import Decimal from "break_infinity.js";
 import { StandardNotation } from "./standard";
 import { fixMantissaOverflow } from "./utils";
 

@@ -11,51 +11,34 @@ module.exports = {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"
   },
+  "ignorePatterns": ["spec/**/*.js", "docs/**/*.js", ".eslintrc.js", "jest.config.js"],
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint"],
   "parserOptions": {
     "ecmaVersion": 2018,
     "sourceType": "module",
+    "tsconfigRootDir": __dirname,
     "project": "./tsconfig.json"
   },
   "rules": {
+    "capitalized-comments": [
+      "error",
+      "always",
+      {
+        "ignoreConsecutiveComments": true
+      }
+    ],
+    "dot-location": [
+      "error",
+      "property"
+    ],
+    "function-call-argument-newline": [
+      "error",
+      "consistent"
+    ],
     "linebreak-style": [
       "error",
       "windows"
-    ],
-    "quotes": [
-      "error",
-      "double"
-    ],
-    "semi": [
-      "error",
-      "always"
-    ],
-    "padded-blocks": [
-      "error",
-      "never"
-    ],
-    "space-before-function-paren": [
-      "error",
-      "never"
-    ],
-    "one-var": [
-      "error",
-      "never"
-    ],
-    "quote-props": [
-      "error",
-      "as-needed"
-    ],
-    "object-curly-spacing": [
-      "error",
-      "always"
-    ],
-    "no-underscore-dangle": [
-      "error",
-      {
-        "allowAfterThis": true
-      }
     ],
     "lines-between-class-members": [
       "error",
@@ -71,28 +54,43 @@ module.exports = {
         "comments": 120
       }
     ],
-    "capitalized-comments": [
-      "error",
-      "always",
-      {
-        "ignoreConsecutiveComments": true
-      }
-    ],
     "multiline-comment-style": [
       "error",
       "separate-lines"
-    ],
-    "dot-location": [
-      "error",
-      "property"
     ],
     "multiline-ternary": [
       "error",
       "always-multiline"
     ],
-    "@typescript-eslint/indent": [
+    "no-underscore-dangle": [
       "error",
-      2
+      {
+        "allowAfterThis": true
+      }
+    ],
+    "one-var": [
+      "error",
+      "never"
+    ],
+    "padded-blocks": [
+      "error",
+      "never"
+    ],
+    "quote-props": [
+      "error",
+      "as-needed"
+    ],
+    "quotes": [
+      "error",
+      "double"
+    ],
+    "semi": [
+      "error",
+      "always"
+    ],
+    "space-before-function-paren": [
+      "error",
+      "never"
     ],
     "@typescript-eslint/explicit-function-return-type": [
       "error",
@@ -102,31 +100,43 @@ module.exports = {
         "allowHigherOrderFunctions": true
       }
     ],
+    "@typescript-eslint/indent": [
+      "error",
+      2
+    ],
     "@typescript-eslint/no-type-alias": [
       "error",
       {
         "allowAliases": "in-unions-and-intersections"
       }
     ],
-    "@typescript-eslint/member-ordering": "off",
+
+    // Disabled rules
+    "array-element-newline": "off",
+    "class-methods-use-this": "off",
+    "curly": "off",
     "func-style": "off",
-    "no-ternary": "off",
     "id-length": "off",
-    "sort-keys": "off",
-    "no-continue": "off",
-    "no-undefined": "off",
-    "sort-imports": "off",
-    "no-plusplus": "off",
     "init-declarations": "off",
-    "max-statements": "off",
     "max-lines-per-function": "off",
+    "max-statements": "off",
+    "no-confusing-arrow": "off",
+    "no-continue": "off",
     "no-mixed-operators": "off",
     "no-param-reassign": "off",
-    "class-methods-use-this": "off",
-    "require-unicode-regexp": "off",
-    "array-element-newline": "off",
+    "no-plusplus": "off",
+    "no-ternary": "off",
+    "no-undefined": "off",
     "prefer-destructuring": "off",
     "prefer-named-capture-group": "off",
-    "@typescript-eslint/no-magic-numbers": "off"
+    "require-unicode-regexp": "off",
+    "sort-keys": "off",
+    "sort-imports": "off",
+    "@typescript-eslint/class-literal-property-style": "off",
+    "@typescript-eslint/member-ordering": "off",
+    "@typescript-eslint/no-magic-numbers": "off",
+    "@typescript-eslint/object-curly-spacing": "off",
+    "@typescript-eslint/prefer-readonly-parameter-types": "off",
+    "@typescript-eslint/space-before-function-paren": "off"
   }
 };

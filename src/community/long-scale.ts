@@ -1,5 +1,5 @@
-import { Notation } from "../notation";
 import type Decimal from "break_infinity.js";
+import { Notation } from "../notation";
 import { toFixedLongScale, abbreviate } from "../utils";
 
 // Name comes from https://en.wikipedia.org/wiki/Long_and_short_scales
@@ -18,7 +18,7 @@ export class LongScaleNotation extends Notation {
     const abbreviation = abbreviate(Math.floor(longScale.exponent / 6));
     return `${mantissa} ${abbreviation}`.replace(
       /[,.]/g,
-      (x) => x === "." ? "," : ".");
+      (x) => x === "." ? "," : "."
+    );
   }
-
 }

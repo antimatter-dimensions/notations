@@ -1,5 +1,5 @@
-import { Notation } from "./notation";
 import Decimal from "break_infinity.js";
+import { Notation } from "./notation";
 
 // https://en.wikipedia.org/wiki/Lion-Eating_Poet_in_the_Stone_Den
 const SHI = "世使侍勢十史嗜士始室實屍市恃拭拾施是時氏濕獅矢石視試詩誓識逝適釋食";
@@ -26,10 +26,10 @@ export class ShiNotation extends Notation {
   }
 
   private shi(value: Decimal): string {
-    const scaled = Math.pow(value.plus(1).log10() * 1000, 0.08);
+    const scaled = (value.plus(1).log10() * 1000) ** 0.08;
     let shi = "";
     for (let i = 0; i < 3; i++) {
-      shi += this.getShiCharacter(scaled * Math.pow(SHI.length, i));
+      shi += this.getShiCharacter(scaled * SHI.length ** i);
     }
     return shi;
   }

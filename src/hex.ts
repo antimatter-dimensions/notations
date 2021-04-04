@@ -1,9 +1,9 @@
-import { Notation } from "./notation";
 import Decimal from "break_infinity.js";
+import { Notation } from "./notation";
 
 const SIGNS = {
-  POSITIVE: 0,
-  NEGATIVE: 1
+  positive: 0,
+  negative: 1
 };
 
 export class HexNotation extends Notation {
@@ -29,7 +29,7 @@ export class HexNotation extends Notation {
 
   public formatNegativeUnder1000(value: number): string {
     return this.formatDecimal(new Decimal(-value));
-  };
+  }
 
   public formatUnder1000(value: number): string {
     return this.formatDecimal(new Decimal(value));
@@ -37,7 +37,7 @@ export class HexNotation extends Notation {
 
   public formatNegativeDecimal(value: Decimal): string {
     return this.formatDecimal(value.negate());
-  };
+  }
 
   public formatDecimal(value: Decimal): string {
     // The `this.rawValue(x, 32)` returns an integer between 0 and 2^32,
@@ -58,7 +58,7 @@ export class HexNotation extends Notation {
     return floorOfLog + fractionToNextPowerOfTwo;
   }
 
-  private isFinite(x: number | Decimal): boolean {
+  private isFinite(x: Decimal | number): boolean {
     if (typeof x === "number") {
       return isFinite(x);
     }
@@ -73,21 +73,21 @@ export class HexNotation extends Notation {
         break;
       }
       if (Decimal.lt(value, 0)) {
-        signs.push(SIGNS.NEGATIVE);
+        signs.push(SIGNS.negative);
         value = -this.modifiedLogarithm(Decimal.times(value, -1));
       } else {
-        signs.push(SIGNS.POSITIVE);
+        signs.push(SIGNS.positive);
         value = this.modifiedLogarithm(value as Decimal);
       }
     }
     // Convert the signs to a number, adding zeros at the end
     // in case the above loop breaks early.
-    let resultValue = parseInt(signs.map(x => (x === SIGNS.POSITIVE) ? 1 : 0)
+    let resultValue = parseInt(signs.map((x) => x === SIGNS.positive ? 1 : 0)
       .join("")
       .padEnd(numberOfBits, "0"), 2);
     // This conditional is just here for correct rounding.
-    if (resultValue !== Math.pow(2, numberOfBits) - 1
-      && (value > 0 || (value === 0 && resultValue % 2 === 1))) {
+    if (resultValue !== 2 ** numberOfBits - 1 &&
+      (value > 0 || value === 0 && resultValue % 2 === 1)) {
       resultValue += 1;
     }
     return resultValue;

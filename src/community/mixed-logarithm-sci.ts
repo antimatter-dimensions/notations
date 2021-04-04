@@ -1,5 +1,5 @@
-import { Notation } from "../notation";
 import Decimal from "break_infinity.js";
+import { Notation } from "../notation";
 import { ScientificNotation } from "../scientific";
 import { Settings } from "../settings";
 import { formatWithCommas } from "../utils";
@@ -12,7 +12,9 @@ export class MixedLogarithmSciNotation extends Notation {
   }
 
   public formatDecimal(value: Decimal, places: number): string {
-    if (value.exponent < 33) return scientific.formatDecimal(value, places);
+    if (value.exponent < 33) {
+      return scientific.formatDecimal(value, places);
+    }
     return `e${this.formatLog(value.log10(), places)}`;
   }
 

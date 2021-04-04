@@ -1,14 +1,14 @@
-import { AbstractInfixNotation } from "./infix-abstract";
 import type Decimal from "break_infinity.js";
+import { AbstractInfixNotation } from "./infix-abstract";
 import { toSubscript, abbreviate } from "../utils";
 
 // Name comes from https://en.wikipedia.org/wiki/Long_and_short_scales
 export class InfixLongScaleNotation extends AbstractInfixNotation {
-  public readonly name: string = "Infix long scale";
+  public readonly name = "Infix long scale";
 
   protected groupDigits = 6;
 
-  protected canHandleZeroExponent: boolean = false;
+  protected canHandleZeroExponent = false;
 
   public formatDecimal(value: Decimal, places: number): string {
     return this.formatInfix(
@@ -16,7 +16,8 @@ export class InfixLongScaleNotation extends AbstractInfixNotation {
       places
     ).replace(
       /[,.]/g,
-      (x) => x === "." ? "," : ".");
+      (x) => x === "." ? "," : "."
+    );
   }
 
   public formatNegativeDecimal(value: Decimal, places: number): string {
