@@ -74,7 +74,7 @@ export class BlobsNotation extends Notation {
       suffix = `-${size - 1}`;
     }
 
-    return this.blobConstructor(prefix + PREFIXES[pre], SUFFIXES[suf] + suffix);
+    return this.blobConstructor(prefix + PREFIXES[Math.floor(pre)], SUFFIXES[Math.floor(suf)] + suffix);
   }
 
   public blobConstructor(prefix: string, suffix: string): string {
