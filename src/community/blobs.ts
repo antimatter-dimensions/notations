@@ -11,7 +11,7 @@ const SUFFIXES = [
   EMPTY,
   // Actions
   // "ble" stands for "blobble"
-  "think", "wave", "morning", "night", "hug", "nom", "shrug", "pat", "sadpat", "ble",
+  "think", "wave", "morning", "night", "hug", "hugcat", "nom", "shrug", "pat", "sadpat", "ble",
   "peek", "sleep", "doubt",
   // Emotions
   "sad", "ping", "woke", "neutral", "angry", "cry", "blush",
@@ -20,9 +20,8 @@ const SUFFIXES = [
   // Objects
   "popcorn", "heart", "ban",
   // Variations
-  "cat", "hugcat", "catping", "dog", "cheese", "chess", "creeper"
-]
-const LOG_SUFFIX = Math.log10(SUFFIXES.length);
+  "cat", "catping", "cheese", "chess", "creeper", "dog"
+];
 
 export class BlobsNotation extends Notation {
   public get name(): string {
@@ -62,17 +61,53 @@ export class BlobsNotation extends Notation {
     if (num.sign() === -1) {
       prefix = NEGATIVE;
     }
-    // 0 => 0, 1 => 1, 3 => 2, 7 => 3...
-    let log = num.abs().add(1).log10() / LOG2;
-    const pre = Math.floor(Math.log10(log) / LOG_SUFFIX);
-    prefix += PREFIXES[pre % PREFIXES.length];
-    if (pre >= PREFIXES.length) {
-      suffix = `-${Math.floor(pre / 4) + 1}`;
+
+    // const exp = Math.floor(num.abs().add(1).log10() / LOG2);
+    // let pre, suf;
+    // // The exponent is converted to base X, where X is the size of suffixes.
+    // // The numerical prefix is the number of digits of converted num, minus one.
+    // // The numerical suffix is the first digit of converted num.
+    //
+    // if (exp === 0) {
+    //   pre = 0;
+    //   suf = 0;
+    // } else {
+    //   pre = Math.floor(Math.log10(exp) / Math.log10(SUFFIXES.length));
+    //
+    //   if (pre === 0) {
+    //     suf = exp;
+    //   } else {
+    //     suf = Math.floor(exp / Math.pow(SUFFIXES.length, pre));
+    //   }
+    // }
+    //
+    // if (pre >= PREFIXES.length) {
+    //   suffix = `-${Math.floor(pre / 4) + 1}`;
+    // }
+
+    const exp = Math.floor(num.abs().add(1).log10() / LOG2);
+    const base = PREFIXES.length * SUFFIXES.length;
+    let size, pre, suf;
+    // The exponent is converted to base X, where X is the number of prefixes * suffixes
+    // The numerical prefix and suffixes are based on the size of converted number.
+    // -X is added to represent the number of digits of converted number, minus 1.
+
+    if (exp === 0) {
+      size = 0;
+      pre = 0;
+      suf = 0;
+    } else {
+      size = Math.floor(Math.log10(exp) / Math.log10(base));
+      let digit = Math.floor(exp / Math.pow(base, size));
+      pre = Math.floor(digit / SUFFIXES.length);
+      suf = digit - pre * SUFFIXES.length;
     }
-    log -= Math.pow(SUFFIXES.length, pre);
-    const suf = Math.min(Math.floor(Math.log10(log) / LOG_SUFFIX), SUFFIXES.length - 1);
-    suffix = SUFFIXES[suf] + suffix;
-    return this.blobConstructor(prefix, suffix);
+
+    if (size > 0) {
+      suffix = `-${size + 1}`;
+    }
+
+    return this.blobConstructor(prefix + PREFIXES[pre], SUFFIXES[suf] + suffix);
   }
 
   public blobConstructor(prefix: string, suffix: string) {
