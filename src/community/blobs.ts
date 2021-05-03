@@ -45,15 +45,16 @@ export class BlobsNotation extends Notation {
 
   public blobify(num: Decimal): string {
     let prefix = "", suffix = "";
+    let number = num;
     if (num.sign() === -1) {
       prefix = NEGATIVE;
       // To allow the combination :notlikeblob: to appear
-      num = Decimal.min(0, num.add(1))
+      number = Decimal.min(0, num.add(1));
     }
 
-    let exp = Math.floor(num.abs().add(1).log10() / LOG2);
+    let exp = Math.floor(number.abs().add(1).log10() / LOG2);
     const base = Math.min(PREFIXES.length, SUFFIXES.length);
-    let size, pre, suf;
+    let size = 0, pre = 0, suf = 0;
 
     // The exponent is converted to base X, where X is the number of prefixes / suffixes
     // The numerical prefix and suffixes are the first and second digit
@@ -61,21 +62,12 @@ export class BlobsNotation extends Notation {
     // -X is added to represent the number of digits of converted number, minus 1.
     // It will appear once the size reaches 3.
 
-    if (exp === 0) {
-      size = 0;
-      pre = 0;
-      suf = 0;
-    } else {
-      size = Math.floor(Math.log10(exp) / Math.log10(base)) + 1;
+    if (exp !== 0) {
+      size = Math.max(Math.floor(Math.log10(exp) / Math.log10(base)) + 1, 2);
 
-      if (size === 1) {
-        pre = 0;
-        suf = exp;
-      } else {
-        pre = Math.floor(exp / Math.pow(base, size - 1));
-        exp -= pre * Math.pow(base, size - 1);
-        suf = Math.floor(exp / Math.pow(base, size - 2));
-      }
+      pre = Math.floor(exp / Math.pow(base, size - 1));
+      exp -= pre * Math.pow(base, size - 1);
+      suf = Math.floor(exp / Math.pow(base, size - 2));
     }
 
     if (size >= 3) {
@@ -85,7 +77,7 @@ export class BlobsNotation extends Notation {
     return this.blobConstructor(prefix + PREFIXES[pre], SUFFIXES[suf] + suffix);
   }
 
-  public blobConstructor(prefix: string, suffix: string) {
+  public blobConstructor(prefix: string, suffix: string): string {
     return `:${prefix}blob${suffix}:`;
   }
 }
