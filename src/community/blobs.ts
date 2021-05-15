@@ -50,7 +50,7 @@ export class BlobsNotation extends Notation {
       number = Math.max(0, number - 1);
     }
 
-    let indexes = [0, 0, 0];
+    const indexes = [0, 0, 0];
 
     indexes[2] = number % SUFFIXES.length;
     number = (number - indexes[2]) / SUFFIXES.length;
@@ -66,7 +66,9 @@ export class BlobsNotation extends Notation {
   }
 
   public reduceNumber(num: Decimal): number {
-    if (num.lt(1000)) return num.toNumber();
+    if (num.lt(1000)) {
+      return num.toNumber();
+    }
     return 1000 + num.minus(1000).plus(1).log10() / LOG2;
   }
 
