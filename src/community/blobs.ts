@@ -5,10 +5,8 @@ const LOG2 = Math.log10(2);
 const EMPTY = "";
 const NEGATIVE = "notlike";
 const INFINITY = "finity";
-// IMPORTANT: The size of PREFIXES and SUFFIXES should be the SAME!
-// some of them WILL NOT APPEAR if the size of the lists are different.
-const PREFIXES = [EMPTY, "big", "large", "great", "huge", "super", "ultra", "mega", "giga", "omega"];
-const SUFFIXES = [EMPTY, "think", "wave", "hug", "nom", "sad", "pats", "yes", "no", "heart"];
+const PREFIXES = [EMPTY, "big", "large", "great", "grand", "huge", "super", "ultra", "mega", "giga", "omega"];
+const SUFFIXES = [EMPTY, "think", "wave", "hug", "nom", "sad", "pats", "yes", "no", "heart", "sleep"];
 
 export class BlobsNotation extends Notation {
   public get name(): string {
@@ -45,36 +43,31 @@ export class BlobsNotation extends Notation {
 
   public blobify(num: Decimal): string {
     let prefix = "", suffix = "";
-    let number = num;
+    let number = this.reduceNumber(num.abs());
     if (num.sign() === -1) {
       prefix = NEGATIVE;
       // To allow the combination :notlikeblob: to appear
-      number = Decimal.min(0, num.add(1));
+      number = Math.max(0, number - 1);
     }
 
-    let exp = Math.floor(number.abs().add(1).log10() / LOG2);
-    const base = Math.min(PREFIXES.length, SUFFIXES.length);
-    let size = 0, pre = 0, suf = 0;
+    let indexes = [0, 0, 0];
 
-    // The exponent is converted to base X, where X is the number of prefixes / suffixes
-    // The numerical prefix and suffixes are the first and second digit
-    // of the converted number respectively.
-    // -X is added to represent the number of digits of converted number, minus 1.
-    // It will appear once the size reaches 3.
+    indexes[2] = number % SUFFIXES.length;
+    number = (number - indexes[2]) / SUFFIXES.length;
+    indexes[1] = number % PREFIXES.length;
+    indexes[0] = (number - indexes[1]) / PREFIXES.length;
 
-    if (exp !== 0) {
-      size = Math.max(Math.floor(Math.log10(exp) / Math.log10(base)) + 1, 2);
-
-      pre = Math.floor(exp / Math.pow(base, size - 1));
-      exp -= pre * Math.pow(base, size - 1);
-      suf = Math.floor(exp / Math.pow(base, size - 2));
+    if (indexes[0] >= 1) {
+      suffix = `-${indexes[0] - 1}`;
     }
 
-    if (size >= 3) {
-      suffix = `-${size - 1}`;
-    }
+    return this.blobConstructor(prefix + PREFIXES[Math.floor(indexes[1])],
+                                SUFFIXES[Math.floor(indexes[2])] + suffix);
+  }
 
-    return this.blobConstructor(prefix + PREFIXES[Math.floor(pre)], SUFFIXES[Math.floor(suf)] + suffix);
+  public reduceNumber(num: Decimal): number {
+    if (num.lt(1000)) return num.toNumber();
+    return 1000 + num.minus(1000).plus(1).log10() / LOG2;
   }
 
   public blobConstructor(prefix: string, suffix: string): string {
