@@ -1,16 +1,16 @@
 import { CustomNotation } from "./custom";
 
-const CANCER = [
+const EMOJI = [
   "😠", "🎂", "🎄", "💀", "🍆", "👪", "🌈", "💯", "🍦", "🎃", "💋", "😂", "🌙",
   "⛔", "🐙", "💩", "❓", "☢", "🙈", "👍", "☂", "✌", "⚠", "❌", "😋", "⚡"
 ];
 
-export class CancerNotation extends CustomNotation {
+export class EmojiNotation extends CustomNotation {
   public constructor() {
-    super(CANCER);
+    super(EMOJI);
   }
 
   public get name(): string {
-    return "Cancer";
+    return "Emoji";
   }
 }

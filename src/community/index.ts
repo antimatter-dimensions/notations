@@ -10,7 +10,7 @@ export * from "./tritetrated";
 export * from "./flags";
 export * from "./yes-no";
 export * from "./evil";
-export * from "./coronavirus";
+export * from "./emojier";
 export * from "./chinese";
 export * from "./elemental";
 export * from "./binary";

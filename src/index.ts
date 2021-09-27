@@ -3,7 +3,7 @@ export * from "./notation";
 export * from "./scientific";
 export * from "./engineering";
 export * from "./letters";
-export * from "./cancer";
+export * from "./emoji";
 export * from "./standard";
 export * from "./mixed-scientific";
 export * from "./mixed-engineering";

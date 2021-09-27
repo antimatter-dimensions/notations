@@ -105,7 +105,7 @@ class SimpleNotation extends ADNotations.Notation {
 }
 ```
 
-You can also extend existing notations (like `CancerNotation` does) and override
+You can also extend existing notations (like `EmojiNotation` does) and override
 other methods, but this is a more advanced case which you can figure out by
 looking at the source code of existing notations.
 
@@ -165,7 +165,7 @@ Special thanks to the authors of notations:
 - Engineering: [iblobtouch](https://github.com/iblobtouch)
 - Letters: [iblobtouch](https://github.com/iblobtouch)
 - Standard: [Slabdrill](https://github.com/1234abcdcba4321)
-- Cancer: haha hevi screw u 😂😂😂
+- Emoji: haha hevi screw u 😂😂😂
 - Mixed Scientific: [Hevipelle](https://github.com/IvarK)
 - Mixed Engineering: [Hevipelle](https://github.com/IvarK)
 - Logarithm: [Hevipelle](https://github.com/IvarK)
@@ -194,7 +194,7 @@ Thanks to the authors of community notations:
 - Flags: [Kajfik](https://github.com/kajfik000)
 - YesNo: [Kaedenn](https://github.com/Kaedenn)
 - Evil: [dan-simon](https://github.com/dan-simon)
-- Coronavirus: [dan-simon](https://github.com/dan-simon)
+- Emojier: [dan-simon](https://github.com/dan-simon)
 - Chinese: [ducdat0507](https://github.com/ducdat0507)
 - Binary: Suggested by [Garnet](https://github.com/garnet420), implemented by [dan-simon](https://github.com/dan-simon)
 - Hexadecimal: Suggested by [Garnet](https://github.com/garnet420), implemented by [dan-simon](https://github.com/dan-simon), independently created earlier by [Aarex](https://github.com/aarextiaokhiao)
