@@ -1,7 +1,7 @@
 import { Notation } from "../notation";
 import Decimal from "break_infinity.js";
 
-const LOG2 = Math.log10(2);
+const LOG3 = Math.log10(3);
 const EMPTY = "";
 const NEGATIVE = "notlike";
 const INFINITY = "finity";
@@ -41,7 +41,7 @@ export class BlobsNotation extends Notation {
     return this.blobify(num);
   }
 
-  public blobify(num: Decimal): string {
+  private blobify(num: Decimal): string {
     let prefix = "", suffix = "";
     let number = this.reduceNumber(num.abs());
     if (num.sign() === -1) {
@@ -65,14 +65,16 @@ export class BlobsNotation extends Notation {
                                 SUFFIXES[Math.floor(indexes[2])] + suffix);
   }
 
-  public reduceNumber(num: Decimal): number {
-    if (num.lt(1000)) {
+  private reduceNumber(num: Decimal): number {
+    if (num.lte(1000)) {
+      // 0 - 1000: increment by 1
       return num.toNumber();
     }
-    return 1000 + num.minus(1000).plus(1).log10() / LOG2;
+    // 1001 and above: previous number ^ 1.001
+    return (Math.log10(num.log10()) - LOG3) / Math.log10(1.001) + 1000;
   }
 
-  public blobConstructor(prefix: string, suffix: string): string {
+  private blobConstructor(prefix: string, suffix: string): string {
     return `:${prefix}blob${suffix}:`;
   }
 }
