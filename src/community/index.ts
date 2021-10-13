@@ -25,3 +25,4 @@ export * from "./infix-long-scale";
 export * from "./english";
 export * from "./fours";
 export * from "./blobs";
+export * from "./blobs-short";

@@ -41,7 +41,7 @@ export class BlobsNotation extends Notation {
     return this.blobify(num);
   }
 
-  private blobify(num: Decimal): string {
+  protected blobify(num: Decimal): string {
     let prefix = "", suffix = "";
     let number = this.reduceNumber(num.abs());
     if (num.sign() === -1) {
@@ -65,7 +65,7 @@ export class BlobsNotation extends Notation {
                                 SUFFIXES[Math.floor(indexes[2])] + suffix);
   }
 
-  private reduceNumber(num: Decimal): number {
+  protected reduceNumber(num: Decimal): number {
     if (num.lte(1000)) {
       // 0 - 1000: increment by 1
       return num.toNumber();
@@ -74,7 +74,7 @@ export class BlobsNotation extends Notation {
     return (Math.log10(num.log10()) - LOG3) / Math.log10(1.001) + 1000;
   }
 
-  private blobConstructor(prefix: string, suffix: string): string {
+  protected blobConstructor(prefix: string, suffix: string): string {
     return `:${prefix}blob${suffix}:`;
   }
 }
