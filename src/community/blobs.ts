@@ -16,20 +16,20 @@ export class BlobsNotation extends Notation {
     return ["", "think", "wave", "hug", "nom", "sad", "pats", "yes", "no", "heart", "sleep"];
   }
 
-  protected get prefix_negative(): string {
+  protected get prefixNegative(): string {
     return "notlike";
   }
 
-  protected get suffix_infinity(): string {
+  protected get suffixInfinity(): string {
     return "finity";
   }
 
   public get negativeInfinite(): string {
-    return this.blobConstructor(this.prefix_negative, this.suffix_infinity);
+    return this.blobConstructor(this.prefixNegative, this.suffixInfinity);
   }
 
   public get infinite(): string {
-    return this.blobConstructor("", this.suffix_infinity);
+    return this.blobConstructor("", this.suffixInfinity);
   }
 
   public formatVerySmallNegativeDecimal(num: Decimal): string {
@@ -56,18 +56,17 @@ export class BlobsNotation extends Notation {
     let prefix = "", suffix = "";
     let number = this.reduceNumber(num.abs());
     if (num.sign() === -1) {
-      prefix = this.prefix_negative;
+      prefix = this.prefixNegative;
       // To allow the combination :notlikeblob: to appear
       number = Math.max(0, number - 1);
     }
 
-    const indexes = [0, 0, 0];
-
-    indexes[2] = number % this.suffixes.length;
-    number = (number - indexes[2]) / this.suffixes.length;
-    indexes[1] = number % this.prefixes.length;
-    indexes[0] = (number - indexes[1]) / this.prefixes.length;
-
+    const indexes = [
+      Math.floor(number / (this.suffixes.length * this.prefixes.length)),
+      Math.floor(number / this.suffixes.length) % this.prefixes.length,
+      number % this.suffixes.length
+    ];
+    
     if (indexes[0] >= 1) {
       suffix = `-${indexes[0] + 1}`;
     }
