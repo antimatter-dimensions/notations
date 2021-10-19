@@ -6,7 +6,7 @@ export class BlobsShortNotation extends BlobsNotation {
     return "Blobs (Short)";
   }
 
-  protected get prefix_negative(): string {
+  protected get prefixNegative(): string {
     return "un";
   }
 
@@ -14,15 +14,15 @@ export class BlobsShortNotation extends BlobsNotation {
     let prefix = "", suffix = "";
     let number = this.reduceNumber(num.abs());
     if (num.sign() === -1) {
-      prefix = this.prefix_negative;
-      // To allow the combination :notlikeblob: to appear
+      prefix = this.prefixNegative;
+      // To allow the combination :unblob: to appear
       number = Math.max(0, number - 1);
     }
-
-    const indexes = [0, 0];
-
-    indexes[1] = number % this.suffixes.length;
-    indexes[0] = (number - indexes[1]) / this.suffixes.length;
+    
+    const indexes = [
+      Math.floor(number / this.suffixes.length),
+      number % this.suffixes.length
+    ];
 
     if (indexes[0] >= 1) {
       suffix = `-${indexes[0] + 1}`;
