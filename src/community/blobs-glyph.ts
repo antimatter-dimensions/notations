@@ -3,9 +3,9 @@ import {BlobsNotation} from "./blobs";
 
 // This notation works by using a font that replaces some characters with blobs.
 
-// Minimum value is 3
+// Number of letters in the alphabet
 const LEN = 10;
-// This will be the first character of the alphabet
+// This will be the first character of the alphabet.
 const START = "A";
 const START_HEX = START.codePointAt(0) || 65;
 
@@ -16,9 +16,9 @@ for (let i = 0; i < LEN; i++) {
 }
 
 
-export class BlobGlyphNotation extends BlobsNotation {
+export class BlobsGlyphNotation extends BlobsNotation {
   public get name(): string {
-    return BLOBS[0];
+    return "Blobs (Glyph)";
   }
 
   public get infinite(): string {

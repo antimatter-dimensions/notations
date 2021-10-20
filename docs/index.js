@@ -113,7 +113,7 @@ const displays = (function() {
     CN.FoursNotation,
     CN.BlobsNotation,
     CN.BlobsShortNotation,
-    CN.BlobGlyphNotation
+    CN.BlobsGlyphNotation
   ]
   let communityNotationsDisplay = communityNotations.reverse().map((n) => new NotationDisplay(n));
   inputContainer.after(communityHeaderSpan());

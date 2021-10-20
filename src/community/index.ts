@@ -26,4 +26,4 @@ export * from "./english";
 export * from "./fours";
 export * from "./blobs";
 export * from "./blobs-short";
-export * from "./blob-glyph";
+export * from "./blobs-glyph";
