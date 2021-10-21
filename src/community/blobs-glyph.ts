@@ -3,7 +3,7 @@ import {BlobsNotation} from "./blobs";
 
 // This notation works by using a font that replaces some characters with blobs.
 
-// Number of letters in the alphabet
+// Number of characters in the alphabet
 const LEN = 10;
 // This will be the first character of the alphabet.
 const START = "A";
