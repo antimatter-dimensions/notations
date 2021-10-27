@@ -11,8 +11,8 @@ const START_HEX = START.codePointAt(0) || 65;
 
 const BLOBS: Array<string> = [];
 for (let i = 0; i < LEN; i++) {
-  const hex = String.fromCharCode(START_HEX + i);
-  BLOBS.push(hex);
+  const char = String.fromCharCode(START_HEX + i);
+  BLOBS.push(char);
 }
 
 
