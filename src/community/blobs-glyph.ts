@@ -6,7 +6,7 @@ import {BlobsNotation} from "./blobs";
 // Number of characters in the alphabet
 const LEN = 10;
 // This will be the first character of the alphabet.
-const START = "A";
+const START = "\uE000";
 const START_HEX = START.codePointAt(0) || 65;
 
 const BLOBS: Array<string> = [];
@@ -22,7 +22,8 @@ export class BlobsGlyphNotation extends BlobsNotation {
   }
 
   public get infinite(): string {
-    return `${BLOBS[0]} ${BLOBS[0]}`;
+    // Because kaj thinks that blob distinction doesn't matter :blobthink:
+    return `${BLOBS[0]}`;
   }
 
   protected blobify(num: Decimal): string {

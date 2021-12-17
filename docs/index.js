@@ -49,7 +49,11 @@ const NotationDisplay = function NotationDisplay(notationClass) {
       const decimalValue = parse(value);
       const places = +placesValue;
       const formatted = decimalValue === null ? "???" : notation.format(decimalValue, places, places);
-      span.textContent = `${notation.name}: ${formatted}`;
+      if (notation instanceof ADCommunityNotations.BlobsGlyphNotation) {
+        span.innerHTML = `${notation.name}: <span class="blob">${formatted}</span>`;
+      } else {
+        span.textContent = `${notation.name}: ${formatted}`;
+      }
     }
   };
 };

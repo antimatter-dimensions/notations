@@ -2,6 +2,12 @@
   font-family: Typewriter;
   src: url('MonospaceTypewriter.ttf');
 }
+
+@font-face {
+  font-family: Blob;
+  src: url('blob_font_regular.ttf');
+}
+
 html {
   font-size: 62.5%;
   box-sizing: border-box;
@@ -26,6 +32,10 @@ body {
 .number-input {
   margin-right: .5rem;
   margin-bottom: 1.5rem;
+}
+
+.blob {
+  font-family: Blob;
 }
 
 .footer {
