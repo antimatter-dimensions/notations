@@ -3,11 +3,12 @@ import {BlobsNotation} from "./blobs";
 
 // This notation works by using a font that replaces some characters with blobs.
 
-// Number of characters in the alphabet
-const LEN = 10;
+// Number of characters in the alphabet, excluding infinity
+const LEN = 23;
 // This will be the first character of the alphabet.
-const START = "\uE000";
+const START = "\uE010";
 const START_HEX = START.codePointAt(0) || 65;
+const INFINITY = "\uE027"
 
 const BLOBS: Array<string> = [];
 for (let i = 0; i < LEN; i++) {
@@ -23,7 +24,7 @@ export class BlobsGlyphNotation extends BlobsNotation {
 
   public get infinite(): string {
     // Because kaj thinks that blob distinction doesn't matter :blobthink:
-    return `${BLOBS[0]}`;
+    return `${INFINITY}`;
   }
 
   protected blobify(num: Decimal): string {
