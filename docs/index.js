@@ -49,7 +49,11 @@ const NotationDisplay = function NotationDisplay(notationClass) {
       const decimalValue = parse(value);
       const places = +placesValue;
       const formatted = decimalValue === null ? "???" : notation.format(decimalValue, places, places);
-      span.textContent = `${notation.name}: ${formatted}`;
+      if (notation instanceof ADCommunityNotations.BlobsGlyphNotation) {
+        span.innerHTML = `${notation.name}: <span class="blob">${formatted}</span>`;
+      } else {
+        span.textContent = `${notation.name}: ${formatted}`;
+      }
     }
   };
 };
@@ -112,7 +116,8 @@ const displays = (function() {
     CN.EnglishNotation,
     CN.FoursNotation,
     CN.BlobsNotation,
-    CN.BlobsShortNotation
+    CN.BlobsShortNotation,
+    CN.BlobsGlyphNotation
   ]
   let communityNotationsDisplay = communityNotations.reverse().map((n) => new NotationDisplay(n));
   inputContainer.after(communityHeaderSpan());
