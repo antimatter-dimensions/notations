@@ -8,8 +8,10 @@ export class CustomBaseNotation extends Notation {
   private readonly digits: string;
   
   private readonly exponentBase: number;
+  
+  private readonly useLogIfExponentIsFormatted: boolean;
 
-  public constructor(digits: string, exponentBase: number) {
+  public constructor(digits: string, exponentBase: number, useLogIfExponentIsFormatted: boolean) {
     if (digits.length < 2) {
       throw new Error("The supplied digits must contain at least 2 digits");
     }
@@ -17,6 +19,7 @@ export class CustomBaseNotation extends Notation {
     this.formatBase = digits.length;
     this.digits = digits;
     this.exponentBase = exponentBase;
+    this.useLogIfExponentIsFormatted = useLogIfExponentIsFormatted;
   }
 
   public get name(): string {
@@ -30,6 +33,6 @@ export class CustomBaseNotation extends Notation {
   public formatDecimal(value: Decimal, places: number): string {
     return formatMantissaWithExponent(formatMantissa(this.formatBase, this.digits),
     (n, p) => this.formatExponent(n, p, (n, _) => formatMantissa(this.formatBase, this.digits)(n, 0)),
-    this.exponentBase, 1, false)(value, places);
+    this.exponentBase, 1, this.useLogIfExponentIsFormatted)(value, places);
   }
 }
