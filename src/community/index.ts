@@ -13,6 +13,7 @@ export * from "./evil";
 export * from "./emojier";
 export * from "./chinese";
 export * from "./elemental";
+export * from "./custom-base";
 export * from "./binary";
 export * from "./hexadecimal";
 export * from "./haha-funny";
