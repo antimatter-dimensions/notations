@@ -1,8 +1,6 @@
 import Decimal from "break_infinity.js";
 import { Notation } from "../notation";
 import { ScientificNotation } from "../scientific";
-import { Settings } from "../settings";
-import { formatWithCommas } from "../utils";
 
 const scientific = new ScientificNotation();
 
@@ -15,16 +13,8 @@ export class MixedLogarithmSciNotation extends Notation {
     if (value.exponent < 33) {
       return scientific.formatDecimal(value, places);
     }
-    return `e${this.formatLog(value.log10(), places)}`;
-  }
-
-  protected formatLog(exponent: number, places: number): string {
-    if (exponent < Settings.exponentCommas.min) {
-      return exponent.toFixed(places);
-    }
-    if (this.showCommas(exponent)) {
-      return formatWithCommas(exponent.toFixed(places));
-    }
-    return scientific.formatDecimal(new Decimal(exponent), 3);
+    // This doesn't use a default precision of at least 1 on small numbers
+    // (since for sufficiently small numbers it uses scientific).
+    return `e${this.formatExponent(value.log10(), places)}`;
   }
 }

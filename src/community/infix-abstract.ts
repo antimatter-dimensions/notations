@@ -43,6 +43,9 @@ export abstract class AbstractInfixNotation extends Notation {
   protected formatInfix(inputValue: Decimal, inputPlaces: number): string {
     // Stop numbers starting with a lot of 9s from having those 9s rounded up,
     // by potentially adding 1 to the exponent.
+    // This function is old and may be broken but TBH I don't care too much
+    // about maintaining the infix notations right now, possibly at some point
+    // this should be updated to the general sci handling method.
     const value = fixMantissaOverflow(
       inputValue,
       this.numberOfPlaces(
