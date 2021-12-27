@@ -8,6 +8,7 @@ export class EngineeringNotation extends Notation {
   }
 
   public formatDecimal(value: Decimal, places: number): string {
-    return formatMantissaWithExponent(formatMantissaBaseTen, this.formatExponent.bind(this), 10, 3, false)(value, places);
+    return formatMantissaWithExponent(formatMantissaBaseTen, this.formatExponent.bind(this),
+    10, 3, false)(value, places);
   }
 }

@@ -179,24 +179,39 @@ export function abbreviate(exp: number): string {
       "UFM",
       "FM"
     );
+}
+
+// So much of this file is a mess and I'm not sure where's best to add stuff
+// (stuff being from a refactoring of scientific and related notations).
+export function noSpecialFormatting(exponent: number): boolean {
+  return exponent < Settings.exponentCommas.min;
 };
 
-// So much of this file is a mess and I'm not sure where's best to add stuff.
+export function showCommas(exponent: number): boolean {
+  return Settings.exponentCommas.show && exponent < Settings.exponentCommas.max;
+};
+
+export function isExponentFullyShown(exponent: number): boolean {
+  return noSpecialFormatting(exponent) || showCommas(exponent);
+}
+
 // The whole thing where we first format the mantissa, then check if we needed to is from the edge case of
 // 9.999e99999 with a 100000 exponent threshold; formatting the mantissa rounds and pushes the exponent
 // to the threshold, meaning in some cases that the exponent will have its own exponent and that we don't
 // want to show the mantissa.
-export function formatMantissaWithExponent(mantissaFormatting: (n: number, precision: number) => string, exponentFormatting: (n: number, precision: number) => string, base: number, steps: number, useLogIfExponentIsFormatted: boolean): ((n: Decimal, precision: number) => string) {
-  return function (n: Decimal, precision: number) {
-    let realBase = base ** steps;
+export function formatMantissaWithExponent(mantissaFormatting: (n: number, precision: number) => string,
+exponentFormatting: (n: number, precision: number) => string, base: number, steps: number,
+useLogIfExponentIsFormatted: boolean): ((n: Decimal, precision: number) => string) {
+  return function (n: Decimal, precision: number): string {
+    const realBase = base ** steps;
     let exponent = Math.floor(n.log(realBase)) * steps;
-    let mantissa = n.div(Decimal.pow(base, exponent)).toNumber();
+    const mantissa = n.div(Decimal.pow(base, exponent)).toNumber();
     let m = mantissaFormatting(mantissa, precision);
     if (m === mantissaFormatting(realBase, precision)) {
       m = mantissaFormatting(1, precision);
       exponent += steps;
     }
-    let e = exponentFormatting(exponent, precision);
+    const e = exponentFormatting(exponent, precision);
     if (useLogIfExponentIsFormatted && !isExponentFullyShown(exponent)) {
       m = '';
     }
@@ -209,7 +224,7 @@ export function formatMantissaBaseTen(n: number, precision: number): string {
 };
 
 export function formatMantissa(base: number, digits: string):  ((n: number, precision: number) => string) {
-  return function (n, precision) {
+  return function (n: number, precision: number): string {
     let value = Math.round(n * base ** precision);
     const d = [];
     while (value > 0 || d.length === 0) {
@@ -223,16 +238,4 @@ export function formatMantissa(base: number, digits: string):  ((n: number, prec
     }
     return result;
   }
-};
-
-export function isExponentFullyShown(exponent: number) {
-  return noSpecialFormatting(exponent) || showCommas(exponent);
-};
-
-export function noSpecialFormatting(exponent: number): boolean {
-  return exponent < Settings.exponentCommas.min;
-};
-
-export function showCommas(exponent: number): boolean {
-  return Settings.exponentCommas.show && exponent < Settings.exponentCommas.max;
 }
