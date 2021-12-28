@@ -211,6 +211,10 @@ useLogIfExponentIsFormatted: boolean): ((n: Decimal, precision: number) => strin
       m = mantissaFormatting(1, precision);
       exponent += steps;
     }
+    // This can happen in some cases with a high exponent (either due to high real base or high steps).
+    if (exponent === 0) {
+      return m;
+    }
     const e = exponentFormatting(exponent, precision);
     if (useLogIfExponentIsFormatted && !isExponentFullyShown(exponent)) {
       m = "";
