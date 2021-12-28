@@ -67,7 +67,7 @@ export abstract class Notation {
 
   abstract formatDecimal(value: Decimal, places: number): string;
 
-  protected formatExponent(exponent: number, precision = 3,
+  protected formatExponent(exponent: number, precision: number = 3,
     specialFormat: (n: number, p: number) => string = ((n, _) => n.toString())): string {
     // This is for log notation, which wants a digit of precision on all small exponents.
     if (noSpecialFormatting(exponent)) {

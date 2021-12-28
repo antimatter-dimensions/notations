@@ -237,5 +237,5 @@ export function formatMantissa(base: number, digits: string): ((n: number, preci
       result = `${result.slice(0, -precision)}.${result.slice(-precision)}`;
     }
     return result;
-  }
+  };
 }
