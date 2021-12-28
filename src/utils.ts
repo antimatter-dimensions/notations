@@ -185,11 +185,11 @@ export function abbreviate(exp: number): string {
 // (stuff being from a refactoring of scientific and related notations).
 export function noSpecialFormatting(exponent: number): boolean {
   return exponent < Settings.exponentCommas.min;
-};
+}
 
 export function showCommas(exponent: number): boolean {
   return Settings.exponentCommas.show && exponent < Settings.exponentCommas.max;
-};
+}
 
 export function isExponentFullyShown(exponent: number): boolean {
   return noSpecialFormatting(exponent) || showCommas(exponent);
@@ -213,17 +213,17 @@ useLogIfExponentIsFormatted: boolean): ((n: Decimal, precision: number) => strin
     }
     const e = exponentFormatting(exponent, precision);
     if (useLogIfExponentIsFormatted && !isExponentFullyShown(exponent)) {
-      m = '';
+      m = "";
     }
     return `${m}e${e}`;
-  }
-};
+  };
+}
 
 export function formatMantissaBaseTen(n: number, precision: number): string {
   return n.toFixed(precision);
-};
+}
 
-export function formatMantissa(base: number, digits: string):  ((n: number, precision: number) => string) {
+export function formatMantissa(base: number, digits: string): ((n: number, precision: number) => string) {
   return function (n: number, precision: number): string {
     let value = Math.round(n * base ** precision);
     const d = [];
