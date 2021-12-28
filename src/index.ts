@@ -22,3 +22,4 @@ export * from "./shi";
 export * from "./blind";
 export * from "./all";
 export * from "./custom";
+export { formatMantissaWithExponent, formatMantissaBaseTen, formatMantissa } from "./utils";

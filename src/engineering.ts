@@ -1,6 +1,6 @@
 import type Decimal from "break_infinity.js";
 import { Notation } from "./notation";
-import { toFixedEngineering } from "./utils";
+import { formatMantissaWithExponent, formatMantissaBaseTen } from "./utils";
 
 export class EngineeringNotation extends Notation {
   public get name(): string {
@@ -8,9 +8,7 @@ export class EngineeringNotation extends Notation {
   }
 
   public formatDecimal(value: Decimal, places: number): string {
-    const engineering = toFixedEngineering(value, places);
-    const mantissa = engineering.mantissa.toFixed(places);
-    const exponent = this.formatExponent(engineering.exponent);
-    return `${mantissa}e${exponent}`;
+    return formatMantissaWithExponent(formatMantissaBaseTen, this.formatExponent.bind(this),
+    10, 3, false)(value, places);
   }
 }

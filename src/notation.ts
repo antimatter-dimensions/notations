@@ -1,7 +1,7 @@
 import Decimal from "break_infinity.js";
 import type { DecimalSource } from "break_infinity.js";
 import { Settings } from "./settings";
-import { formatWithCommas } from "./utils";
+import { formatWithCommas, noSpecialFormatting, showCommas } from "./utils";
 
 export abstract class Notation {
   public abstract get name(): string;
@@ -67,21 +67,16 @@ export abstract class Notation {
 
   abstract formatDecimal(value: Decimal, places: number): string;
 
-  protected formatExponent(exponent: number): string {
-    if (this.noSpecialFormatting(exponent)) {
-      return exponent.toString();
+  protected formatExponent(exponent: number, precision: number = 3,
+    specialFormat: (n: number, p: number) => string = ((n, _) => n.toString())): string {
+    // This is for log notation, which wants a digit of precision on all small exponents.
+    if (noSpecialFormatting(exponent)) {
+      return specialFormat(exponent, Math.max(precision, 1));
     }
-    if (this.showCommas(exponent)) {
-      return formatWithCommas(exponent);
+    if (showCommas(exponent)) {
+      // need this to use specialformat first
+      return formatWithCommas(specialFormat(exponent, 0));
     }
-    return this.formatDecimal(new Decimal(exponent), 3);
-  }
-
-  protected noSpecialFormatting(exponent: number): boolean {
-    return exponent < Settings.exponentCommas.min;
-  }
-
-  protected showCommas(exponent: number): boolean {
-    return Settings.exponentCommas.show && exponent < Settings.exponentCommas.max;
+    return this.formatDecimal(new Decimal(exponent), precision);
   }
 }

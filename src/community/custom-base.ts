@@ -1,57 +1,38 @@
 import Decimal from "break_infinity.js";
 import { Notation } from "../notation";
-import { formatHigherBaseWithCommas } from "../utils";
+import { formatMantissaWithExponent, formatMantissa } from "../utils";
 
 export class CustomBaseNotation extends Notation {
-  private readonly base: number;
+  private readonly formatBase: number;
 
   private readonly digits: string;
+  
+  private readonly exponentBase: number;
+  
+  private readonly useLogIfExponentIsFormatted: boolean;
 
-  public constructor(digits: string) {
+  public constructor(digits: string, exponentBase: number, useLogIfExponentIsFormatted: boolean) {
     if (digits.length < 2) {
       throw new Error("The supplied digits must contain at least 2 digits");
     }
     super();
-    this.base = digits.length;
+    this.formatBase = digits.length;
     this.digits = digits;
+    this.exponentBase = exponentBase;
+    this.useLogIfExponentIsFormatted = useLogIfExponentIsFormatted;
   }
 
   public get name(): string {
     return "Custom Base";
   }
-
-  public formatUnder1000(valueIn: number, places: number): string {
-    let value = Math.round(valueIn * this.base ** places);
-    const digits = [];
-    while (value > 0 || digits.length === 0) {
-      digits.push(this.digits[value % this.base]);
-      value = Math.floor(value / this.base);
-    }
-    let result = digits.reverse().join("");
-    if (places > 0) {
-      result = result.padStart(places + 1, "0");
-      result = `${result.slice(0, -places)}.${result.slice(-places)}`;
-    }
-    return result;
-  }
-
-  public formatExponent(exponent: number): string {
-    if (this.noSpecialFormatting(exponent)) {
-      return this.formatUnder1000(exponent, 0);
-    }
-    if (this.showCommas(exponent)) {
-      return formatHigherBaseWithCommas(this.formatUnder1000(exponent, 0));
-    }
-    return this.formatDecimal(new Decimal(exponent), Math.floor(Decimal.log(1000, this.base)));
+  
+  public formatUnder1000(value: number, places: number): string {
+    return formatMantissa(this.formatBase, this.digits)(value, places);
   }
 
   public formatDecimal(value: Decimal, places: number): string {
-    let exponent = Math.floor(value.log(this.base));
-    let mantissa = value.div(Decimal.pow(this.base, exponent)).toNumber();
-    if (mantissa >= this.base - this.base ** -places / 2) {
-      mantissa = 1;
-      exponent++;
-    }
-    return `${this.formatUnder1000(mantissa, places)}e${this.formatExponent(exponent)}`;
+    return formatMantissaWithExponent(formatMantissa(this.formatBase, this.digits),
+    (n, p) => this.formatExponent(n, p, (n, _) => formatMantissa(this.formatBase, this.digits)(n, 0)),
+    this.exponentBase, 1, this.useLogIfExponentIsFormatted)(value, places);
   }
 }

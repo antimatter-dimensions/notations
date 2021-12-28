@@ -1,4 +1,5 @@
 import Decimal from "break_infinity.js";
+import { Settings } from "./settings.js";
 
 function commaSection(value: string, index: number): string {
   if (index === 0) {
@@ -21,17 +22,9 @@ function addCommas(value: string): string {
 
 export function formatWithCommas(value: number | string): string {
   const decimalPointSplit = value.toString().split(".");
+  // Handles higher bases without additional complexity while still removing the decimal point.
   decimalPointSplit[0] = decimalPointSplit[0].replace(
-    /\d+$/g,
-    addCommas
-  );
-  return decimalPointSplit.join(".");
-}
-
-export function formatHigherBaseWithCommas(value: number | string): string {
-  const decimalPointSplit = value.toString().split(".");
-  decimalPointSplit[0] = decimalPointSplit[0].replace(
-    /[0-9A-Za-z]+$/g,
+    /\w+$/g,
     addCommas
   );
   return decimalPointSplit.join(".");
@@ -186,4 +179,63 @@ export function abbreviate(exp: number): string {
       "UFM",
       "FM"
     );
+}
+
+// So much of this file is a mess and I'm not sure where's best to add stuff
+// (stuff being from a refactoring of scientific and related notations).
+export function noSpecialFormatting(exponent: number): boolean {
+  return exponent < Settings.exponentCommas.min;
+}
+
+export function showCommas(exponent: number): boolean {
+  return Settings.exponentCommas.show && exponent < Settings.exponentCommas.max;
+}
+
+export function isExponentFullyShown(exponent: number): boolean {
+  return noSpecialFormatting(exponent) || showCommas(exponent);
+}
+
+// The whole thing where we first format the mantissa, then check if we needed to is from the edge case of
+// 9.999e99999 with a 100000 exponent threshold; formatting the mantissa rounds and pushes the exponent
+// to the threshold, meaning in some cases that the exponent will have its own exponent and that we don't
+// want to show the mantissa.
+export function formatMantissaWithExponent(mantissaFormatting: (n: number, precision: number) => string,
+exponentFormatting: (n: number, precision: number) => string, base: number, steps: number,
+useLogIfExponentIsFormatted: boolean): ((n: Decimal, precision: number) => string) {
+  return function (n: Decimal, precision: number): string {
+    const realBase = base ** steps;
+    let exponent = Math.floor(n.log(realBase)) * steps;
+    const mantissa = n.div(Decimal.pow(base, exponent)).toNumber();
+    let m = mantissaFormatting(mantissa, precision);
+    if (m === mantissaFormatting(realBase, precision)) {
+      m = mantissaFormatting(1, precision);
+      exponent += steps;
+    }
+    const e = exponentFormatting(exponent, precision);
+    if (useLogIfExponentIsFormatted && !isExponentFullyShown(exponent)) {
+      m = "";
+    }
+    return `${m}e${e}`;
+  };
+}
+
+export function formatMantissaBaseTen(n: number, precision: number): string {
+  return n.toFixed(precision);
+}
+
+export function formatMantissa(base: number, digits: string): ((n: number, precision: number) => string) {
+  return function (n: number, precision: number): string {
+    let value = Math.round(n * base ** precision);
+    const d = [];
+    while (value > 0 || d.length === 0) {
+      d.push(digits[value % base]);
+      value = Math.floor(value / base);
+    }
+    let result = d.reverse().join("");
+    if (precision > 0) {
+      result = result.padStart(precision + 1, "0");
+      result = `${result.slice(0, -precision)}.${result.slice(-precision)}`;
+    }
+    return result;
+  };
 }
