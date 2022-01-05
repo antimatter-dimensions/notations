@@ -1,14 +1,15 @@
 import Decimal from "break_infinity.js";
 import { Notation } from "./notation";
 
-// This notation works by using a font that replaces some characters with blobs.
+// This notation works by using a font that replaces some characters with blobs
 
-// Number of characters in the alphabet, excluding infinity
+// Number of characters in the alphabet, excluding infinity and negative
 const LEN = 23;
-// This will be the first character of the alphabet.
+// This will be the first character of the alphabet
 const START = "\uE010";
 const START_HEX = START.codePointAt(0) || 65;
 const INFINITY = "\uE027";
+const NEGATIVE = "\uE028";
 
 const BLOBS: Array<string> = [];
 for (let i = 0; i < LEN; i++) {
@@ -26,15 +27,19 @@ export class BlobsNotation extends Notation {
   }
 
   public get infinite(): string {
-    // Because kaj thinks that blob distinction doesn't matter :blobthink:
     return `${INFINITY}`;
   }
-  
-  // Use default negative formatting; leave special negative formatting to the text-based notations.
 
-  // IDK if this is ever relevant but it was here and I'm not going to be the one to remove it.
-  public formatVerySmallDecimal(num: Decimal): string {
-    return this.blobify(num);
+  public get negativeInfinite(): string {
+    return `${NEGATIVE}${INFINITY}`;
+  }
+
+  public formatNegativeUnder1000(num: number): string {
+    return `${NEGATIVE}${this.blobify(new Decimal(num - 1))}`
+  }
+
+  public formatNegativeDecimal(num: Decimal): string {
+    return `${NEGATIVE}${this.blobify(num.minus(1))}`
   }
 
   public formatUnder1000(num: number): string {
@@ -61,7 +66,7 @@ export class BlobsNotation extends Notation {
       // 0 - 1000: increment by 1
       return num.toNumber();
     }
-    // 1001 and above: previous number ^ 1.001
-    return (Math.log10(num.log10()) - LOG3) / Math.log10(1.001) + 1000;
+    // 1001 and above: previous number ^ 1.0002
+    return (Math.log10(num.log10()) - LOG3) / Math.log10(1.0002) + 1000;
   }
 }
