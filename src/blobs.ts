@@ -1,11 +1,11 @@
 import Decimal from "break_infinity.js";
 import { Notation } from "./notation";
 
-// This notation works by using a font that replaces some characters with blobs.
+// This notation works by using a font that replaces some characters with blobs
 
-// Number of characters in the alphabet, excluding infinity
+// Number of characters in the alphabet, excluding infinity and negative
 const LEN = 23;
-// This will be the first character of the alphabet.
+// This will be the first character of the alphabet
 const START = "\uE010";
 const START_HEX = START.codePointAt(0) || 65;
 const INFINITY = "\uE027";
