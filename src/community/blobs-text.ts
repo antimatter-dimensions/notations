@@ -1,11 +1,9 @@
-import { Notation } from "../notation";
+import { BlobsNotation } from "../blobs";
 import Decimal from "break_infinity.js";
 
-const LOG3 = Math.log10(3);
-
-export class BlobsNotation extends Notation {
+export class BlobsTextNotation extends BlobsNotation {
   public get name(): string {
-    return "Blobs";
+    return "Blobs (Text)";
   }
 
   protected get prefixes(): Array<string> {
@@ -31,7 +29,7 @@ export class BlobsNotation extends Notation {
   public get infinite(): string {
     return this.blobConstructor("", this.suffixInfinity);
   }
-
+  
   public formatVerySmallNegativeDecimal(num: Decimal): string {
     return this.blobify(Decimal.sub(0, num));
   }
@@ -40,16 +38,8 @@ export class BlobsNotation extends Notation {
     return this.blobify(new Decimal(-num));
   }
 
-  public formatUnder1000(num: number): string {
-    return this.blobify(new Decimal(num));
-  }
-
   public formatNegativeDecimal(num: Decimal): string {
     return this.blobify(Decimal.sub(0, num));
-  }
-
-  public formatDecimal(num: Decimal): string {
-    return this.blobify(num);
   }
 
   protected blobify(num: Decimal): string {
@@ -73,15 +63,6 @@ export class BlobsNotation extends Notation {
 
     return this.blobConstructor(prefix + this.prefixes[Math.floor(indexes[1])],
                                 this.suffixes[Math.floor(indexes[2])] + suffix);
-  }
-
-  protected reduceNumber(num: Decimal): number {
-    if (num.lte(1000)) {
-      // 0 - 1000: increment by 1
-      return num.toNumber();
-    }
-    // 1001 and above: previous number ^ 1.001
-    return (Math.log10(num.log10()) - LOG3) / Math.log10(1.001) + 1000;
   }
 
   protected blobConstructor(prefix: string, suffix: string): string {

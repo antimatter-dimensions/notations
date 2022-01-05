@@ -1,9 +1,9 @@
-import { BlobsNotation } from "./blobs";
+import { BlobsTextNotation } from "./blobs-text";
 import Decimal from "break_infinity.js";
 
-export class BlobsShortNotation extends BlobsNotation {
+export class BlobsShortTextNotation extends BlobsTextNotation {
   public get name(): string {
-    return "Blobs (Short)";
+    return "Blobs (Short Text)";
   }
 
   protected get prefixNegative(): string {
