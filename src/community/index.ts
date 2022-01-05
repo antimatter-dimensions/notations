@@ -25,6 +25,5 @@ export * from "./infix-short-scale";
 export * from "./infix-long-scale";
 export * from "./english";
 export * from "./fours";
-export * from "./blobs";
-export * from "./blobs-short";
-export * from "./blobs-glyph";
+export * from "./blobs-text";
+export * from "./blobs-short-text";

@@ -15,6 +15,7 @@ import { ClockNotation } from "./clock";
 import { PrimeNotation } from "./prime";
 import { BarNotation } from "./bar";
 import { ShiNotation } from "./shi";
+import { BlobsNotation } from "./blobs";
 import { BlindNotation } from "./blind";
 
 const notationList = [
@@ -33,6 +34,7 @@ const notationList = [
   new PrimeNotation(),
   new BarNotation(),
   new ShiNotation(),
+  new BlobsNotation(),
   new BlindNotation()
 ];
 
