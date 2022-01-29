@@ -127,6 +127,8 @@ const STANDARD_PREFIXES = [
 
 const STANDARD_PREFIXES_2 = ["", "MI-", "MC-", "NA-", "PC-", "FM-", "AT-", "ZP-"];
 
+// This is still considered high complexity, but it's a lot simpler than
+// the mess that was here before.
 export function abbreviateStandard(rawExp: number): string {
   const exp = rawExp - 1;
   // This is a special case for zero exponent.
@@ -138,7 +140,7 @@ export function abbreviateStandard(rawExp: number): string {
   if (exp < STANDARD_ABBREVIATIONS.length) {
     return STANDARD_ABBREVIATIONS[exp];
   }
-  let prefix = [];
+  const prefix = [];
   let e = exp;
   while (e > 0) {
     prefix.push(STANDARD_PREFIXES[prefix.length % 3][e % 10]);
@@ -149,7 +151,7 @@ export function abbreviateStandard(rawExp: number): string {
   }
   let abbreviation = "";
   for (let i = prefix.length / 3 - 1; i >= 0; i--) {
-    abbreviation += prefix.slice(i * 3, i * 3 + 3).join('') + STANDARD_PREFIXES_2[i];
+    abbreviation += prefix.slice(i * 3, i * 3 + 3).join("") + STANDARD_PREFIXES_2[i];
   }
   return abbreviation.replace(/-[A-Z]{2}-/g, "-").replace(/U([A-Z]{2}-)/g, "$1").replace(/-$/, "");
 }
