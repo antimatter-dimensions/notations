@@ -1,6 +1,6 @@
 import type Decimal from "break_infinity.js";
 import { AbstractInfixNotation } from "./infix-abstract";
-import { toSubscript, abbreviate } from "../utils";
+import { toSubscript, abbreviateStandard } from "../utils";
 
 // Name comes from https://en.wikipedia.org/wiki/Long_and_short_scales
 export class InfixLongScaleNotation extends AbstractInfixNotation {
@@ -35,6 +35,6 @@ export class InfixLongScaleNotation extends AbstractInfixNotation {
     if (exp < 0) {
       return (exp / 6).toString();
     }
-    return abbreviate(Math.floor(exp / 6));
+    return abbreviateStandard(Math.floor(exp / 6) + 1);
   }
 }
