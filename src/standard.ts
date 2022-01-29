@@ -7,6 +7,6 @@ export class StandardNotation extends Notation {
 
   public formatDecimal(value: Decimal, places: number): string {
     return formatMantissaWithExponent(formatMantissaBaseTen, abbreviateStandard,
-      1000, 1, false, " ")(value, places);
+      1000, 1, false, " ", true)(value, places);
   }
 }
