@@ -115,6 +115,18 @@ export function toSuperscript(value: number): string {
     .join("");
 }
 
+const STANDARD_ABBREVIATIONS_OLD = [
+  "K", "M", "B", "T", "Qa", "Qt", "Sx", "Sp", "Oc", "No", "Dc", "UDc", "DDc",
+  "TDc", "QaDc", "QtDc", "SxDc", "SpDc", "ODc", "NDc", "Vg", "UVg", "DVg", "TVg",
+  "QaVg", "QtVg", "SxVg", "SpVg", "OVg", "NVg", "Tg", "UTg", "DTg", "TTg", "QaTg",
+  "QtTg", "SxTg", "SpTg", "OTg", "NTg", "Qd", "UQd", "DQd", "TQd", "QaQd", "QtQd",
+  "SxQd", "SpQd", "OQd", "NQd", "Qi", "UQi", "DQi", "TQi", "QaQi", "QtQi", "SxQi",
+  "SpQi", "OQi", "NQi", "Se", "USe", "DSe", "TSe", "QaSe", "QtSe", "SxSe", "SpSe",
+  "OSe", "NSe", "St", "USt", "DSt", "TSt", "QaSt", "QtSt", "SxSt", "SpSt", "OSt",
+  "NSt", "Og", "UOg", "DOg", "TOg", "QaOg", "QtOg", "SxOg", "SpOg", "OOg", "NOg",
+  "Nn", "UNn", "DNn", "TNn", "QaNn", "QtNn", "SxNn", "SpNn", "ONn", "NNn", "Ce"
+];
+
 const STANDARD_ABBREVIATIONS = [
   "K", "M", "B", "T", "Qa", "Qt", "Sx", "Sp", "Oc", "No", "Dc", "UDc", "DDc",
   "TDc", "QaDc", "QtDc", "SxDc", "SpDc", "ODc", "NDc", "Vg", "UVg", "DVg", "TVg",
@@ -133,12 +145,13 @@ const STANDARD_PREFIXES = [
   ["", "Ce", "Dn", "Tc", "Qe", "Qu", "Sc", "Si", "Oe", "Ne"]
 ];
 
-const STANDARD_PREFIXES_2 = ["", "MI-", "MC-", "NA-", "PC-", "FM-"];
+const STANDARD_PREFIXES_2 = ["", "MI-", "MC-", "NA-", "PC-", "FM-", "AT-", "ZP-"];
 
-export function abbreviate(exp: number): string {
+export function abbreviateStandard(rawExp: number): string {
+  const exp = rawExp - 1;
   // Please, someone clean this code up eventually
-  if (exp < STANDARD_ABBREVIATIONS.length) {
-    return STANDARD_ABBREVIATIONS[exp];
+  if (exp < STANDARD_ABBREVIATIONS_OLD.length) {
+    return STANDARD_ABBREVIATIONS_OLD[exp];
   }
   let index2 = 0;
   const prefix = [STANDARD_PREFIXES[0][exp % 10]];
@@ -178,7 +191,59 @@ export function abbreviate(exp: number): string {
     .replace(
       "UFM",
       "FM"
+    )
+    .replace(
+      "UAT",
+      "AT"
+    )
+    .replace(
+      "UZP",
+      "ZP"
     );
+}
+
+export function abbreviateStandardNewBroken(rawExp: number): string {
+  const exp = rawExp - 1;
+  if (exp < STANDARD_ABBREVIATIONS.length) {
+    return STANDARD_ABBREVIATIONS[exp];
+  }
+  let prefix = [];
+  let e = exp;
+  while (e > 0) {
+    prefix.push(STANDARD_PREFIXES[prefix.length % 3][e % 10]);
+    e = Math.floor(e / 10);
+  }
+  while (prefix.length % 3 !== 0) {
+    prefix.push("");
+  }
+  let abbreviation = "";
+  for (let i = prefix.length / 3 - 1; i >= 0; i--) {
+    abbreviation += prefix.slice(i * 3, i * 3 + 3).join('') + STANDARD_PREFIXES_2[i];
+  }
+  return abbreviation.replace(/U([A-Z]{2}-)/g, "$1").replace(/-$/, "");
+}
+
+export function abbreviateStandardNew(rawExp: number): string {
+  const exp = rawExp - 1;
+  // This is a special case for values below Dc, which have special
+  // two-letter versions (e.g., Oc instead of O).
+  if (exp < STANDARD_ABBREVIATIONS.length) {
+    return STANDARD_ABBREVIATIONS[exp];
+  }
+  let prefix = [];
+  let e = exp;
+  while (e > 0) {
+    prefix.push(STANDARD_PREFIXES[prefix.length % 3][e % 10]);
+    e = Math.floor(e / 10);
+  }
+  while (prefix.length % 3 !== 0) {
+    prefix.push("");
+  }
+  let abbreviation = "";
+  for (let i = prefix.length / 3 - 1; i >= 0; i--) {
+    abbreviation += prefix.slice(i * 3, i * 3 + 3).join('') + STANDARD_PREFIXES_2[i];
+  }
+  return abbreviation.replace(/-[A-Z]{2}-/g, "-").replace(/U([A-Z]{2}-)/g, "$1").replace(/-$/, "");
 }
 
 // So much of this file is a mess and I'm not sure where's best to add stuff
