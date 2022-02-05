@@ -6,7 +6,13 @@ import { formatWithCommas, noSpecialFormatting, showCommas } from "./utils";
 export abstract class Notation {
   public abstract get name(): string;
 
-  public format(value: DecimalSource, places = 0, placesUnder1000 = 0): string {
+  public get canHandleNegativePlaces(): boolean {
+    return false;
+  }
+
+  public format(value: DecimalSource, rawPlaces: number = -1, rawPlacesUnder1000: number = -1): string {
+    const places = this.canHandleNegativePlaces ? rawPlaces : Math.max(0, rawPlaces);
+    const placesUnder1000 = this.canHandleNegativePlaces ? rawPlacesUnder1000 : Math.max(0, rawPlacesUnder1000);
     if (typeof value === "number" && !Number.isFinite(value)) {
       return this.infinite;
     }
@@ -67,8 +73,11 @@ export abstract class Notation {
 
   abstract formatDecimal(value: Decimal, places: number): string;
 
-  protected formatExponent(exponent: number, precision: number = 3,
+  protected formatExponent(exponent: number, rawPrecision: number = 3,
     specialFormat: (n: number, p: number) => string = ((n, _) => n.toString())): string {
+    // This is because we're treating -1 as a sentinal default value. We also allow undefined,
+    // for backwards compatibility in case anyone calls this directly.
+    const precision = (rawPrecision === -1) ? 3 : rawPrecision;
     // This is for log notation, which wants a digit of precision on all small exponents.
     if (noSpecialFormatting(exponent)) {
       return specialFormat(exponent, Math.max(precision, 1));

@@ -7,6 +7,10 @@ export class ScientificNotation extends Notation {
     return "Scientific";
   }
 
+  public get canHandleNegativePlaces(): boolean {
+    return true;
+  }
+
   public formatDecimal(value: Decimal, places: number): string {
     return formatMantissaWithExponent(formatMantissaBaseTen, this.formatExponent.bind(this),
     10, 1, false)(value, places);

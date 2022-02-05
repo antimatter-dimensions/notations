@@ -6,6 +6,10 @@ export class LogarithmNotation extends Notation {
     return "Logarithm";
   }
 
+  public get canHandleNegativePlaces(): boolean {
+    return true;
+  }
+
   public formatDecimal(value: Decimal, places: number): string {
     const log10 = value.log10();
     return `e${this.formatExponent(log10, places, (n, p) => n.toFixed(p))}`;
