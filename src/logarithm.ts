@@ -6,7 +6,7 @@ export class LogarithmNotation extends Notation {
     return "Logarithm";
   }
 
-  public get canHandleNegativePlaces() {
+  public get canHandleNegativePlaces(): boolean {
     return true;
   }
 

@@ -10,7 +10,7 @@ export class MixedEngineeringNotation extends Notation {
     return "Mixed engineering";
   }
 
-  public get canHandleNegativePlaces() {
+  public get canHandleNegativePlaces(): boolean {
     return true;
   }
 

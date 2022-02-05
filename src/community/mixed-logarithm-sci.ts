@@ -9,7 +9,7 @@ export class MixedLogarithmSciNotation extends Notation {
     return "Mixed Logarithm (Sci)";
   }
 
-  public get canHandleNegativePlaces() {
+  public get canHandleNegativePlaces(): boolean {
     return true;
   }
 

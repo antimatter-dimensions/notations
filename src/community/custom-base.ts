@@ -11,7 +11,7 @@ export class CustomBaseNotation extends Notation {
   
   private readonly useLogIfExponentIsFormatted: boolean;
 
-  public get canHandleNegativePlaces() {
+  public get canHandleNegativePlaces(): boolean {
     return true;
   }
 

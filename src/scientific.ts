@@ -7,7 +7,7 @@ export class ScientificNotation extends Notation {
     return "Scientific";
   }
 
-  public get canHandleNegativePlaces() {
+  public get canHandleNegativePlaces(): boolean {
     return true;
   }
 

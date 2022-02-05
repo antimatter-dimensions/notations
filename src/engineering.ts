@@ -7,7 +7,7 @@ export class EngineeringNotation extends Notation {
     return "Engineering";
   }
 
-  public get canHandleNegativePlaces() {
+  public get canHandleNegativePlaces(): boolean {
     return true;
   }
 

@@ -10,7 +10,7 @@ export class MixedScientificNotation extends Notation {
     return "Mixed scientific";
   }
 
-  public get canHandleNegativePlaces() {
+  public get canHandleNegativePlaces(): boolean {
     return true;
   }
 
