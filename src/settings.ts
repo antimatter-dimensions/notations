@@ -7,5 +7,6 @@ export const Settings = {
     show: true,
     min: 100000,
     max: 1000000000
-  }
+  },
+  exponentDefaultPlaces: 3
 };
