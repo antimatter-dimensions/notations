@@ -73,11 +73,11 @@ export abstract class Notation {
 
   abstract formatDecimal(value: Decimal, places: number): string;
 
-  protected formatExponent(exponent: number, rawPrecision: number = 3,
+  protected formatExponent(exponent: number, rawPrecision: number = Settings.exponentDefaultPlaces,
     specialFormat: (n: number, p: number) => string = ((n, _) => n.toString())): string {
     // This is because we're treating -1 as a sentinal default value. We also allow undefined,
     // for backwards compatibility in case anyone calls this directly.
-    const precision = (rawPrecision === -1) ? 3 : rawPrecision;
+    const precision = (rawPrecision === -1) ? Settings.exponentDefaultPlaces : rawPrecision;
     // This is for log notation, which wants a digit of precision on all small exponents.
     if (noSpecialFormatting(exponent)) {
       return specialFormat(exponent, Math.max(precision, 1));
