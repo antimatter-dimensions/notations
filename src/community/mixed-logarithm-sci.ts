@@ -9,6 +9,10 @@ export class MixedLogarithmSciNotation extends Notation {
     return "Mixed Logarithm (Sci)";
   }
 
+  public get canHandleNegativePlaces() {
+    return true;
+  }
+
   public formatDecimal(value: Decimal, places: number): string {
     if (value.exponent < 33) {
       return scientific.formatDecimal(value, places);

@@ -203,18 +203,24 @@ useLogIfExponentIsFormatted: boolean, separator: string = "e", forcePositiveExpo
 }
 
 export function formatMantissaBaseTen(n: number, precision: number): string {
-  return n.toFixed(precision);
+  // Note: .toFixed may throw RangeError for precision < 0, according to MDN.
+  // So, because we want to use -1 as a sentinal undefined value, we make sure
+  // that we're not in that case.
+  return n.toFixed(Math.max(0, precision));
 }
 
 export function formatMantissa(base: number, digits: string): ((n: number, precision: number) => string) {
   return function (n: number, precision: number): string {
-    let value = Math.round(n * base ** precision);
+    // We use -1 as a sentinal undefined value for formatExponent in some cases,
+    // so we max with zero to avoid strange results.
+    let value = Math.round(n * base ** Math.max(0, precision));
     const d = [];
     while (value > 0 || d.length === 0) {
       d.push(digits[value % base]);
       value = Math.floor(value / base);
     }
     let result = d.reverse().join("");
+    // This only happens for positive values so if precision is negative it's not a concern.
     if (precision > 0) {
       result = result.padStart(precision + 1, "0");
       result = `${result.slice(0, -precision)}.${result.slice(-precision)}`;

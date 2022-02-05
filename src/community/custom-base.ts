@@ -11,6 +11,10 @@ export class CustomBaseNotation extends Notation {
   
   private readonly useLogIfExponentIsFormatted: boolean;
 
+  public get canHandleNegativePlaces() {
+    return true;
+  }
+
   public constructor(digits: string, exponentBase: number, useLogIfExponentIsFormatted: boolean) {
     if (digits.length < 2) {
       throw new Error("The supplied digits must contain at least 2 digits");
