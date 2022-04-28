@@ -86,6 +86,8 @@ export abstract class Notation {
       // need this to use specialformat first
       return formatWithCommas(specialFormat(exponent, 0));
     }
-    return this.formatDecimal(new Decimal(exponent), precision);
+    // We want at least two Decimal points on exponents- Numbers like 1e1.5e12 should still get formatted as 1e1.50e12,
+    // not 1e2e12 even if the precision specified is 0. Exponents are needed in more precision than mantissas.
+    return this.formatDecimal(new Decimal(exponent), Math.max(precision, 2));
   }
 }
