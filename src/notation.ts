@@ -74,7 +74,8 @@ export abstract class Notation {
   abstract formatDecimal(value: Decimal, places: number): string;
 
   protected formatExponent(exponent: number, rawPrecision: number = Settings.exponentDefaultPlaces,
-    specialFormat: (n: number, p: number) => string = ((n, _) => n.toString())): string {
+    specialFormat: (n: number, p: number) => string = ((n, _) => n.toString()),
+    minimumLargeExponentPrecision: number = 2): string {
     // This is because we're treating -1 as a sentinal default value. We also allow undefined,
     // for backwards compatibility in case anyone calls this directly.
     const precision = (rawPrecision === -1) ? Settings.exponentDefaultPlaces : rawPrecision;
@@ -86,6 +87,6 @@ export abstract class Notation {
       // need this to use specialformat first
       return formatWithCommas(specialFormat(exponent, 0));
     }
-    return this.formatDecimal(new Decimal(exponent), precision);
+    return this.formatDecimal(new Decimal(exponent), Math.max(minimumLargeExponentPrecision, precision));
   }
 }
