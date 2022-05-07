@@ -32,7 +32,8 @@ export class CustomBaseNotation extends Notation {
 
   public formatDecimal(value: Decimal, places: number, placesExponent: number): string {
     return formatMantissaWithExponent(formatMantissa(this.formatBase, this.digits),
-    (n, p) => this.formatExponent(n, p, (n, _) => formatMantissa(this.formatBase, this.digits)(n, 0)),
-    this.exponentBase, 1, this.useLogIfExponentIsFormatted)(value, places, placesExponent);
+      (n, p) => this.formatExponent(n, p, (n2, _) => formatMantissa(this.formatBase, this.digits)(n2, 0)),
+      this.exponentBase, 1, this.useLogIfExponentIsFormatted
+      )(value, places, placesExponent);
   }
 }

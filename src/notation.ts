@@ -6,7 +6,9 @@ import { formatWithCommas, noSpecialFormatting, showCommas } from "./utils";
 export abstract class Notation {
   public abstract get name(): string;
 
-  public format(value: DecimalSource, places: number = 0, placesUnder1000: number = 0, placesExponent: number = places): string {
+  public format(
+    value: DecimalSource, places: number = 0, placesUnder1000: number = 0,
+    placesExponent: number = places): string {
     if (typeof value === "number" && !Number.isFinite(value)) {
       return this.infinite;
     }
@@ -65,11 +67,13 @@ export abstract class Notation {
     return `-${this.formatDecimal(value, places, placesExponent)}`;
   }
 
-  abstract formatDecimal(value: Decimal, places: number, placesExponent: number): string;
+  public abstract formatDecimal(value: Decimal, places: number, placesExponent: number): string;
 
-  protected formatExponent(exponent: number, precision: number = Settings.exponentDefaultPlaces,
+  protected formatExponent(
+    exponent: number, precision: number = Settings.exponentDefaultPlaces,
     specialFormat: (n: number, p: number) => string = ((n, _) => n.toString()),
-    largeExponentPrecision: number = Math.min(2, precision)): string {
+    largeExponentPrecision: number = Math.min(2, precision)
+    ): string {
     // This is for log notation, which wants a digit of precision on all small exponents.
     if (noSpecialFormatting(exponent)) {
       return specialFormat(exponent, Math.max(precision, 1));

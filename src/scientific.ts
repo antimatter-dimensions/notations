@@ -9,6 +9,7 @@ export class ScientificNotation extends Notation {
 
   public formatDecimal(value: Decimal, places: number, placesExponent: number): string {
     return formatMantissaWithExponent(formatMantissaBaseTen, this.formatExponent.bind(this),
-    10, 1, false)(value, places, placesExponent);
+      10, 1, false
+      )(value, places, placesExponent);
   }
 }
