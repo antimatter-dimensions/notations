@@ -7,12 +7,9 @@ export class EngineeringNotation extends Notation {
     return "Engineering";
   }
 
-  public get canHandleNegativePlaces(): boolean {
-    return true;
-  }
-
-  public formatDecimal(value: Decimal, places: number): string {
+  public formatDecimal(value: Decimal, places: number, placesExponent: number): string {
     return formatMantissaWithExponent(formatMantissaBaseTen, this.formatExponent.bind(this),
-    10, 3, false)(value, places);
+      10, 3, false
+    )(value, places, placesExponent);
   }
 }

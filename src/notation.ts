@@ -6,13 +6,10 @@ import { formatWithCommas, noSpecialFormatting, showCommas } from "./utils";
 export abstract class Notation {
   public abstract get name(): string;
 
-  public get canHandleNegativePlaces(): boolean {
-    return false;
-  }
-
-  public format(value: DecimalSource, rawPlaces: number = -1, rawPlacesUnder1000: number = -1): string {
-    const places = this.canHandleNegativePlaces ? rawPlaces : Math.max(0, rawPlaces);
-    const placesUnder1000 = this.canHandleNegativePlaces ? rawPlacesUnder1000 : Math.max(0, rawPlacesUnder1000);
+  public format(
+    value: DecimalSource, places: number = 0, placesUnder1000: number = 0,
+    placesExponent: number = places
+  ): string {
     if (typeof value === "number" && !Number.isFinite(value)) {
       return this.infinite;
     }
@@ -37,8 +34,8 @@ export abstract class Notation {
     }
 
     return decimal.sign() < 0
-      ? this.formatNegativeDecimal(decimal.abs(), places)
-      : this.formatDecimal(decimal, places);
+      ? this.formatNegativeDecimal(decimal.abs(), places, placesExponent)
+      : this.formatDecimal(decimal, places, placesExponent);
   }
 
   public get negativeInfinite(): string {
@@ -67,18 +64,17 @@ export abstract class Notation {
     return value.toFixed(places);
   }
 
-  public formatNegativeDecimal(value: Decimal, places: number): string {
-    return `-${this.formatDecimal(value, places)}`;
+  public formatNegativeDecimal(value: Decimal, places: number, placesExponent: number): string {
+    return `-${this.formatDecimal(value, places, placesExponent)}`;
   }
 
-  abstract formatDecimal(value: Decimal, places: number): string;
+  public abstract formatDecimal(value: Decimal, places: number, placesExponent: number): string;
 
-  protected formatExponent(exponent: number, rawPrecision: number = Settings.exponentDefaultPlaces,
+  protected formatExponent(
+    exponent: number, precision: number = Settings.exponentDefaultPlaces,
     specialFormat: (n: number, p: number) => string = ((n, _) => n.toString()),
-    minimumLargeExponentPrecision: number = 2): string {
-    // This is because we're treating -1 as a sentinal default value. We also allow undefined,
-    // for backwards compatibility in case anyone calls this directly.
-    const precision = (rawPrecision === -1) ? Settings.exponentDefaultPlaces : rawPrecision;
+    largeExponentPrecision: number = Math.max(2, precision)
+  ): string {
     // This is for log notation, which wants a digit of precision on all small exponents.
     if (noSpecialFormatting(exponent)) {
       return specialFormat(exponent, Math.max(precision, 1));
@@ -87,6 +83,6 @@ export abstract class Notation {
       // need this to use specialformat first
       return formatWithCommas(specialFormat(exponent, 0));
     }
-    return this.formatDecimal(new Decimal(exponent), Math.max(minimumLargeExponentPrecision, precision));
+    return this.formatDecimal(new Decimal(exponent), largeExponentPrecision, largeExponentPrecision);
   }
 }

@@ -11,10 +11,6 @@ export class CustomBaseNotation extends Notation {
   
   private readonly useLogIfExponentIsFormatted: boolean;
 
-  public get canHandleNegativePlaces(): boolean {
-    return true;
-  }
-
   public constructor(digits: string, exponentBase: number, useLogIfExponentIsFormatted: boolean) {
     if (digits.length < 2) {
       throw new Error("The supplied digits must contain at least 2 digits");
@@ -34,9 +30,10 @@ export class CustomBaseNotation extends Notation {
     return formatMantissa(this.formatBase, this.digits)(value, places);
   }
 
-  public formatDecimal(value: Decimal, places: number): string {
+  public formatDecimal(value: Decimal, places: number, placesExponent: number): string {
     return formatMantissaWithExponent(formatMantissa(this.formatBase, this.digits),
-    (n, p) => this.formatExponent(n, p, (n, _) => formatMantissa(this.formatBase, this.digits)(n, 0), 2),
-    this.exponentBase, 1, this.useLogIfExponentIsFormatted)(value, places);
+      (n, p) => this.formatExponent(n, p, (n2, _) => formatMantissa(this.formatBase, this.digits)(n2, 0)),
+      this.exponentBase, 1, this.useLogIfExponentIsFormatted
+    )(value, places, placesExponent);
   }
 }

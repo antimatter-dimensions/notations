@@ -177,8 +177,8 @@ export function isExponentFullyShown(exponent: number): boolean {
 export function formatMantissaWithExponent(mantissaFormatting: (n: number, precision: number) => string,
 exponentFormatting: (n: number, precision: number) => string, base: number, steps: number,
 useLogIfExponentIsFormatted: boolean, separator: string = "e", forcePositiveExponent: boolean = false):
-((n: Decimal, precision: number) => string) {
-  return function (n: Decimal, precision: number): string {
+((n: Decimal, precision: number, precisionExponent: number) => string) {
+  return function (n: Decimal, precision: number, precisionExponent: number): string {
     const realBase = base ** steps;
     let exponent = Math.floor(n.log(realBase)) * steps;
     if (forcePositiveExponent) {
@@ -194,7 +194,10 @@ useLogIfExponentIsFormatted: boolean, separator: string = "e", forcePositiveExpo
     if (exponent === 0) {
       return m;
     }
-    const e = exponentFormatting(exponent, precision);
+    // Note that with typical exponentFormatting being this.formatExponent.bind(this),
+    // this will use at least precision 2 on the exponent if relevant, due to the default
+    // value of largeExponentPrecision: number = Math.max(2, precision) in formatExponent.
+    const e = exponentFormatting(exponent, precisionExponent);
     if (useLogIfExponentIsFormatted && !isExponentFullyShown(exponent)) {
       m = "";
     }

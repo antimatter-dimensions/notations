@@ -10,15 +10,12 @@ export class MixedScientificNotation extends Notation {
     return "Mixed scientific";
   }
 
-  public get canHandleNegativePlaces(): boolean {
-    return true;
-  }
-
-  public formatDecimal(value: Decimal, places: number): string {
+  public formatDecimal(value: Decimal, places: number, placesExponent: number): string {
     if (value.exponent < 33) {
       return standard.formatDecimal(value, places);
     }
     return formatMantissaWithExponent(formatMantissaBaseTen, this.formatExponent.bind(this),
-    10, 1, false)(value, places);
+      10, 1, false
+    )(value, places, placesExponent);
   }
 }

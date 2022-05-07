@@ -9,16 +9,12 @@ export class MixedLogarithmSciNotation extends Notation {
     return "Mixed Logarithm (Sci)";
   }
 
-  public get canHandleNegativePlaces(): boolean {
-    return true;
-  }
-
-  public formatDecimal(value: Decimal, places: number): string {
+  public formatDecimal(value: Decimal, places: number, placesExponent: number): string {
     if (value.exponent < 33) {
-      return scientific.formatDecimal(value, places);
+      return scientific.formatDecimal(value, places, placesExponent);
     }
     // This doesn't use a default precision of at least 1 on small numbers
     // (since for sufficiently small numbers it uses scientific).
-    return `e${this.formatExponent(value.log10(), places, (n, _) => n.toString(), 3)}`;
+    return `e${this.formatExponent(value.log10(), places, (n, _) => n.toString(), placesExponent)}`;
   }
 }
