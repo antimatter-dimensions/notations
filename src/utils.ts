@@ -194,6 +194,9 @@ useLogIfExponentIsFormatted: boolean, separator: string = "e", forcePositiveExpo
     if (exponent === 0) {
       return m;
     }
+    // Note that with typical exponentFormatting being this.formatExponent.bind(this),
+    // this will use at least precision 2 on the exponent if relevant, due to the default
+    // value of largeExponentPrecision: number = Math.max(2, precision) in formatExponent.
     const e = exponentFormatting(exponent, precisionExponent);
     if (useLogIfExponentIsFormatted && !isExponentFullyShown(exponent)) {
       m = "";

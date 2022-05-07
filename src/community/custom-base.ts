@@ -34,6 +34,6 @@ export class CustomBaseNotation extends Notation {
     return formatMantissaWithExponent(formatMantissa(this.formatBase, this.digits),
       (n, p) => this.formatExponent(n, p, (n2, _) => formatMantissa(this.formatBase, this.digits)(n2, 0)),
       this.exponentBase, 1, this.useLogIfExponentIsFormatted
-      )(value, places, placesExponent);
+    )(value, places, placesExponent);
   }
 }
