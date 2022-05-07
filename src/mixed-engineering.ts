@@ -10,15 +10,11 @@ export class MixedEngineeringNotation extends Notation {
     return "Mixed engineering";
   }
 
-  public get canHandleNegativePlaces(): boolean {
-    return true;
-  }
-
-  public formatDecimal(value: Decimal, places: number): string {
+  public formatDecimal(value: Decimal, places: number, placesExponent: number): string {
     if (value.exponent < 33) {
       return standard.formatDecimal(value, places);
     }
     return formatMantissaWithExponent(formatMantissaBaseTen, this.formatExponent.bind(this),
-    10, 3, false)(value, places);
+    10, 3, false)(value, places, placesExponent);
   }
 }
