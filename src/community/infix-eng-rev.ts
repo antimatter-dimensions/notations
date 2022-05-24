@@ -5,10 +5,11 @@ import { toSubscript } from "../utils";
 export class InfixEngineeringReverseNotation extends AbstractInfixNotation {
   public readonly name: string = "Reverse infix engineering";
 
-  public formatNegativeDecimal(value: Decimal, places: number): string {
+  public formatNegativeDecimal(value: Decimal, places: number, placesExponent: number): string {
     return `₋${this.formatDecimal(
       value,
-      places
+      places,
+      placesExponent
     )}`;
   }
 

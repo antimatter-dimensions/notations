@@ -11,7 +11,7 @@ export abstract class AbstractInfixNotation extends Notation {
 
   protected canHandleZeroExponent = true;
 
-  public formatDecimal(value: Decimal, places: number): string {
+  public formatDecimal(value: Decimal, places: number, _placesExponent: number): string {
     return this.formatInfix(
       value,
       places
@@ -19,7 +19,7 @@ export abstract class AbstractInfixNotation extends Notation {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public format(value: DecimalSource, places = 0, _placesUnder1000 = 0): string {
+  public format(value: DecimalSource, places = 0, _placesUnder1000 = 0, placesExponent = places): string {
     if (typeof value === "number" && !Number.isFinite(value)) {
       return this.infinite;
     }
@@ -34,11 +34,13 @@ export abstract class AbstractInfixNotation extends Notation {
     return decimal.sign() < 0
       ? this.formatNegativeDecimal(
         decimal.abs(),
-        places
+        places,
+        placesExponent
       )
       : this.formatDecimal(
         decimal,
-        places
+        places,
+        placesExponent
       );
   }
 

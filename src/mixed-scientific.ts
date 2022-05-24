@@ -12,7 +12,7 @@ export class MixedScientificNotation extends Notation {
 
   public formatDecimal(value: Decimal, places: number, placesExponent: number): string {
     if (value.exponent < 33) {
-      return standard.formatDecimal(value, places);
+      return standard.formatDecimal(value, places, placesExponent);
     }
     return formatMantissaWithExponent(formatMantissaBaseTen, this.formatExponent.bind(this),
       10, 1, false

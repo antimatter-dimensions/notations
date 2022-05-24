@@ -10,7 +10,7 @@ export class InfixLongScaleNotation extends AbstractInfixNotation {
 
   protected canHandleZeroExponent = false;
 
-  public formatDecimal(value: Decimal, places: number): string {
+  public formatDecimal(value: Decimal, places: number, _placesExponent: number): string {
     return this.formatInfix(
       value,
       places
@@ -20,10 +20,11 @@ export class InfixLongScaleNotation extends AbstractInfixNotation {
     );
   }
 
-  public formatNegativeDecimal(value: Decimal, places: number): string {
+  public formatNegativeDecimal(value: Decimal, places: number, placesExponent: number): string {
     return `₋${this.formatDecimal(
       value,
-      places
+      places,
+      placesExponent
     )}`;
   }
 

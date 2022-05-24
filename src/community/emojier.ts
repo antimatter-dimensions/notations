@@ -15,8 +15,8 @@ export class EmojierNotation extends Notation {
     return this.affect(scientific.formatUnder1000(value, places));
   }
 
-  public formatDecimal(value: Decimal, places: number): string {
-    return this.affect(scientific.formatDecimal(value, places));
+  public formatDecimal(value: Decimal, places: number, placesExponent: number): string {
+    return this.affect(scientific.formatDecimal(value, places, placesExponent));
   }
 
   public affect(formatted: string): string {
