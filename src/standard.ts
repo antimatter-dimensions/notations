@@ -5,10 +5,10 @@ import { formatMantissaWithExponent, formatMantissaBaseTen, abbreviateStandard }
 export class StandardNotation extends Notation {
   public readonly name = "Standard";
 
-  public formatDecimal(value: Decimal, places: number): string {
+  public formatDecimal(value: Decimal, places: number, placesExponent: number): string {
     // Since abbreviateStandard ignores places, there's no need for this notation
     // to either accept or not accept negative places values. It treats them as 0 either way.
     return formatMantissaWithExponent(formatMantissaBaseTen, abbreviateStandard,
-      1000, 1, false, " ", true)(value, places);
+      1000, 1, false, " ", true)(value, places, placesExponent);
   }
 }
