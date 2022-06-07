@@ -36,7 +36,7 @@ export class OmegaNotation extends Notation {
       for (let i = 0; i < omegaAmount.toNumber(); i++) {
         omegas.push("ω");
       }
-      return `${omegas.join("^")}^"${lastLetter}`;
+      return `${omegas.join("^")}^${lastLetter}`;
     } else if (omegaAmount.gt(3) && omegaAmount.lt(10)) {
       return `ω(${omegaAmount.toFixed(0)})^${lastLetter}`;
     } else if (omegaOrder < 3) {
