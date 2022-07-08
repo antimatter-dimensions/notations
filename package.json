@@ -1,6 +1,6 @@
 {
   "name": "@antimatter-dimensions/notations",
-  "version": "3.0.3",
+  "version": "3.0.4",
   "description": "Notations used in Antimatter Dimensions",
   "scripts": {
     "build": "npm run build:ad && npm run build:community",
@@ -45,10 +45,10 @@
     "typescript": "^4.0.3"
   },
   "dependencies": {
-    "break_infinity.js": "^1.2.0",
+    "break_infinity.js": "^2.0.0",
     "tslib": "^2.0.0"
   },
   "peerDependencies": {
-    "break_infinity.js": "^1.2.0"
+    "break_infinity.js": "^2.0.0"
   }
 }
