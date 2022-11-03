@@ -184,7 +184,23 @@ useLogIfExponentIsFormatted: boolean, separator: string = "e", forcePositiveExpo
     if (forcePositiveExponent) {
       exponent = Math.max(exponent, 0);
     }
-    const mantissa = n.div(Decimal.pow(base, exponent)).toNumber();
+    let mantissa = n.div(Decimal.pow(base, exponent)).toNumber();
+    // The conditional !(1 <= mantissa && mantissa < realBase)
+    // should be true only rarely, due to precision bugs
+    // e.g. 0.8e1e15 has log which rounds to 1e15, but exponent should be 1e15 - 1
+    // Edge cases are possible, of two types:
+    // mantissa ends up at 0.999..., it is formatted as 1 and it's OK.
+    // mantissa ends up at realBase + 0.000...1, it is formatted as base and then
+    // the thing checking for it being formatted in that way steps in.
+    // I think this always ends up pretty close to accurate though, with
+    // inaccurancy being something like (realBase^(1e-16 * Math.log10(mantissa))).
+    // mantissa should be at most roughly 10 so this is pretty small.
+    // IDK if using Math.log or Math.log10 is faster.
+    if (!(1 <= mantissa && mantissa < realBase)) {
+      const adjust = Math.floor(Math.log(mantissa) / Math.log(realBase));
+      mantissa /= Math.pow(realBase, adjust);
+      exponent += steps * adjust;
+    }
     let m = mantissaFormatting(mantissa, precision);
     if (m === mantissaFormatting(realBase, precision)) {
       m = mantissaFormatting(1, precision);
