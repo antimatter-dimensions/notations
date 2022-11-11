@@ -16,7 +16,7 @@ export class HexNotation extends Notation {
   }
 
   public get infinite(): string {
-    return "FFFFFFFF";
+    return "FD400000";
   }
 
   public formatVerySmallNegativeDecimal(value: Decimal): string {
