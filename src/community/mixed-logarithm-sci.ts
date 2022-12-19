@@ -13,8 +13,7 @@ export class MixedLogarithmSciNotation extends Notation {
     if (value.exponent < 33) {
       return scientific.formatDecimal(value, places, placesExponent);
     }
-    // This doesn't use a default precision of at least 1 on small numbers
-    // (since for sufficiently small numbers it uses scientific).
-    return `e${this.formatExponent(value.log10(), places, (n, _) => n.toString(), placesExponent)}`;
+    const log10 = value.log10();
+    return `e${this.formatExponent(log10, places, (n, p) => n.toFixed(p), placesExponent)}`;
   }
 }
