@@ -8,6 +8,7 @@ export * from "./standard";
 export * from "./mixed-scientific";
 export * from "./mixed-engineering";
 export * from "./logarithm";
+export * from "./mixed-logarithm-sci";
 export * from "./brackets";
 export * from "./infinity";
 export * from "./roman";

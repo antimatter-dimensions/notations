@@ -1,6 +1,6 @@
 import Decimal from "break_infinity.js";
-import { Notation } from "../notation";
-import { ScientificNotation } from "../scientific";
+import { Notation } from "./notation";
+import { ScientificNotation } from "./scientific";
 
 const scientific = new ScientificNotation();
 
