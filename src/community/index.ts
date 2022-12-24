@@ -5,7 +5,6 @@ export * from "./omega";
 export * from "./omega-short";
 export * from "./precise-prime";
 export * from "./japanese";
-export * from "./mixed-logarithm-sci";
 export * from "./tritetrated";
 export * from "./flags";
 export * from "./yes-no";
