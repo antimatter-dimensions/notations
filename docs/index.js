@@ -29,7 +29,7 @@ const pow = function(a, b) {
 }
 
 const parse = function(value) {
-  const stringParts = value.split("e");
+  const stringParts = value.toLowerCase().split("e");
   if (!stringParts[stringParts.length - 1].match(/\d/)) {
     return null;
   }
