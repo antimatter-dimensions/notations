@@ -176,7 +176,8 @@ export function isExponentFullyShown(exponent: number): boolean {
 // want to show the mantissa.
 export function formatMantissaWithExponent(mantissaFormatting: (n: number, precision: number) => string,
 exponentFormatting: (n: number, precision: number) => string, base: number, steps: number,
-useLogIfExponentIsFormatted: boolean, separator: string = "e", forcePositiveExponent: boolean = false):
+mantissaFormattingIfExponentIsFormatted?: (n: number, precision: number) => string,
+separator: string = "e", forcePositiveExponent: boolean = false):
 ((n: Decimal, precision: number, precisionExponent: number) => string) {
   return function (n: Decimal, precision: number, precisionExponent: number): string {
     const realBase = base ** steps;
@@ -214,8 +215,10 @@ useLogIfExponentIsFormatted: boolean, separator: string = "e", forcePositiveExpo
     // this will use at least precision 2 on the exponent if relevant, due to the default
     // value of largeExponentPrecision: number = Math.max(2, precision) in formatExponent.
     const e = exponentFormatting(exponent, precisionExponent);
-    if (useLogIfExponentIsFormatted && !isExponentFullyShown(exponent)) {
-      m = "";
+    console.log(mantissaFormattingIfExponentIsFormatted);
+    if (typeof mantissaFormattingIfExponentIsFormatted !== 'undefined' && !isExponentFullyShown(exponent)) {
+      // No need to do a second check for roll-over.
+      m = mantissaFormattingIfExponentIsFormatted(mantissa, precision);
     }
     return `${m}${separator}${e}`;
   };
