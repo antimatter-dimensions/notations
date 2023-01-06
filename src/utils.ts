@@ -215,7 +215,6 @@ separator: string = "e", forcePositiveExponent: boolean = false):
     // this will use at least precision 2 on the exponent if relevant, due to the default
     // value of largeExponentPrecision: number = Math.max(2, precision) in formatExponent.
     const e = exponentFormatting(exponent, precisionExponent);
-    console.log(mantissaFormattingIfExponentIsFormatted);
     if (typeof mantissaFormattingIfExponentIsFormatted !== 'undefined' && !isExponentFullyShown(exponent)) {
       // No need to do a second check for roll-over.
       m = mantissaFormattingIfExponentIsFormatted(mantissa, precision);
